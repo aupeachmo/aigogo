@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/aupeach/aigogo/pkg/lockfile"
+	"github.com/aupeachmo/aigogo/pkg/lockfile"
 )
 
 const (

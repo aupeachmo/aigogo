@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/aupeach/aigogo/pkg/manifest"
+	"github.com/aupeachmo/aigogo/pkg/manifest"
 )
 
 func initCmd() *Command {
@@ -16,7 +16,7 @@ func initCmd() *Command {
 
 			// Create default manifest
 			m := &manifest.Manifest{
-				Schema:      "https://aigg.sh/schema/v2.json",
+				Schema:      "https://github.com/aupeachmo/aigogo/blob/master/aigogo.schema.json",
 				Name:        getCurrentDirName(),
 				Version:     "0.1.0",
 				Description: "A code snippet package",

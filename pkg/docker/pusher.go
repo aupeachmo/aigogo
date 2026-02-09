@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/aupeach/aigogo/pkg/auth"
+	"github.com/aupeachmo/aigogo/pkg/auth"
 )
 
 type Pusher struct {

@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/aupeach/aigogo/pkg/depgen"
-	"github.com/aupeach/aigogo/pkg/manifest"
+	"github.com/aupeachmo/aigogo/pkg/depgen"
+	"github.com/aupeachmo/aigogo/pkg/manifest"
 )
 
 func validateCmd() *Command {

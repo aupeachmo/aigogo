@@ -9,11 +9,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/aupeach/aigogo/pkg/docker"
-	"github.com/aupeach/aigogo/pkg/lockfile"
-	"github.com/aupeach/aigogo/pkg/manifest"
-	"github.com/aupeach/aigogo/pkg/pyproject"
-	"github.com/aupeach/aigogo/pkg/store"
+	"github.com/aupeachmo/aigogo/pkg/docker"
+	"github.com/aupeachmo/aigogo/pkg/lockfile"
+	"github.com/aupeachmo/aigogo/pkg/manifest"
+	"github.com/aupeachmo/aigogo/pkg/pyproject"
+	"github.com/aupeachmo/aigogo/pkg/store"
 )
 
 func addCmd() *Command {

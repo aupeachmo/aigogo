@@ -22,7 +22,7 @@ This directory contains GitHub Actions workflows for aigogo.
 3. Creates tarballs (Unix) or zips (Windows) with SHA256 checksums
 4. Attests build provenance for each artifact (SLSA)
 5. Creates a GitHub Release with all artifacts
-6. Updates the Homebrew tap formula (`aupeach/homebrew-aigogo`) with new version and checksums via signed commit
+6. Updates the Homebrew tap formula (`aupeachmo/homebrew-aigogo`) with new version and checksums via signed commit
 
 **Usage**:
 ```bash
@@ -124,9 +124,9 @@ GOOS=windows GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o a
 Add these to your README.md:
 
 ```markdown
-[![Release](https://github.com/aupeach/aigogo/actions/workflows/release.yml/badge.svg)](https://github.com/aupeach/aigogo/actions/workflows/release.yml)
-[![Build](https://github.com/aupeach/aigogo/actions/workflows/build.yml/badge.svg)](https://github.com/aupeach/aigogo/actions/workflows/build.yml)
-[![Test](https://github.com/aupeach/aigogo/actions/workflows/test.yml/badge.svg)](https://github.com/aupeach/aigogo/actions/workflows/test.yml)
+[![Release](https://github.com/aupeachmo/aigogo/actions/workflows/release.yml/badge.svg)](https://github.com/aupeachmo/aigogo/actions/workflows/release.yml)
+[![Build](https://github.com/aupeachmo/aigogo/actions/workflows/build.yml/badge.svg)](https://github.com/aupeachmo/aigogo/actions/workflows/build.yml)
+[![Test](https://github.com/aupeachmo/aigogo/actions/workflows/test.yml/badge.svg)](https://github.com/aupeachmo/aigogo/actions/workflows/test.yml)
 ```
 
 ## Architecture Notes

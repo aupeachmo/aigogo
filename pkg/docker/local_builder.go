@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aupeach/aigogo/pkg/manifest"
+	"github.com/aupeachmo/aigogo/pkg/manifest"
 )
 
 // LocalBuilder builds packages to local cache without pushing

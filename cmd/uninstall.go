@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/aupeach/aigogo/pkg/imports"
+	"github.com/aupeachmo/aigogo/pkg/imports"
 )
 
 func uninstallCmd() *Command {

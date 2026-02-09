@@ -8,7 +8,7 @@ There are two approaches:
 
 | Approach | Install Command | Control | Approval Needed |
 |----------|----------------|---------|-----------------|
-| Personal Tap | `brew tap aupeach/aigogo && brew install aigogo` | Full | None |
+| Personal Tap | `brew tap aupeachmo/aigogo && brew install aigogo` | Full | None |
 | Homebrew Core | `brew install aigogo` | Limited | Yes |
 
 **Recommendation**: Start with a personal tap, consider homebrew-core later once the project has traction.
@@ -17,7 +17,7 @@ There are two approaches:
 
 ### Repository Structure
 
-The tap repository (`aupeach/homebrew-aigogo`) contains:
+The tap repository (`aupeachmo/homebrew-aigogo`) contains:
 
 ```
 homebrew-aigogo/
@@ -30,14 +30,14 @@ A template for the initial repository contents is in `.github/BREW_REPO/`.
 
 ### Setup
 
-1. Create a new repository: `aupeach/homebrew-aigogo`
+1. Create a new repository: `aupeachmo/homebrew-aigogo`
 2. Copy the contents of `.github/BREW_REPO/` into it (Formula/ and README.md)
 3. Set up the GitHub App for CI automation (see below)
 
 ### Users Install With
 
 ```bash
-brew tap aupeach/aigogo
+brew tap aupeachmo/aigogo
 brew install aigogo
 ```
 
@@ -61,7 +61,7 @@ The release workflow (`.github/workflows/release.yml`) includes an `update-homeb
 
 1. **Create a GitHub App** at https://github.com/settings/apps/new
    - **App name**: `aigogo-homebrew-updater` (or any name)
-   - **Homepage URL**: `https://github.com/aupeach/aigogo`
+   - **Homepage URL**: `https://github.com/aupeachmo/aigogo`
    - **Permissions** (Repository permissions only):
      - **Contents**: Read and write
    - **Where can this app be installed?**: Only on this account
@@ -83,7 +83,7 @@ The release workflow (`.github/workflows/release.yml`) includes an `update-homeb
    - Click **Install**
 
 5. **Add secrets to the aigogo repository**
-   - Go to https://github.com/aupeach/aigogo/settings/secrets/actions
+   - Go to https://github.com/aupeachmo/aigogo/settings/secrets/actions
    - Add `BREW_APP_ID` — the App ID from step 3
    - Add `BREW_APP_PRIVATE_KEY` — the entire contents of the `.pem` file from step 2
 
@@ -97,7 +97,7 @@ After the next release, check the `homebrew-aigogo` repository's commit history.
 
 - **"Resource not accessible by integration"**: The App isn't installed on `homebrew-aigogo`, or `Contents: Read and write` permission is missing.
 - **"Bad credentials"**: The private key or App ID is incorrect. Regenerate the private key and update the secret.
-- **Formula not updated**: Check the release workflow logs in `aupeach/aigogo` Actions tab. The `update-homebrew` job runs after the release is created.
+- **Formula not updated**: Check the release workflow logs in `aupeachmo/aigogo` Actions tab. The `update-homebrew` job runs after the release is created.
 
 ### Manual Formula Update
 
@@ -106,7 +106,7 @@ If the automation fails, you can update the formula manually:
 ```bash
 # Get checksums from the release
 VERSION=X.Y.Z
-BASE_URL="https://github.com/aupeach/aigogo/releases/download/v${VERSION}"
+BASE_URL="https://github.com/aupeachmo/aigogo/releases/download/v${VERSION}"
 curl -sL "${BASE_URL}/aigogo-darwin-amd64.tar.gz.sha256"
 curl -sL "${BASE_URL}/aigogo-darwin-arm64.tar.gz.sha256"
 curl -sL "${BASE_URL}/aigogo-linux-amd64.tar.gz.sha256"
@@ -139,8 +139,8 @@ The Homebrew team requires:
 ```ruby
 class Aigogo < Formula
   desc "Make packaging and distributing your AI agents a breeze"
-  homepage "https://github.com/aupeach/aigogo"
-  url "https://github.com/aupeach/aigogo/archive/refs/tags/v3.0.0.tar.gz"
+  homepage "https://github.com/aupeachmo/aigogo"
+  url "https://github.com/aupeachmo/aigogo/archive/refs/tags/v3.0.0.tar.gz"
   sha256 "SOURCE_TARBALL_SHA256"
   license "MPL-2.0"
 
@@ -186,12 +186,12 @@ brew uninstall aigogo
 
 ## Checklist for First Release
 
-- [ ] Create `aupeach/homebrew-aigogo` repository (use `.github/BREW_REPO/` as template)
+- [ ] Create `aupeachmo/homebrew-aigogo` repository (use `.github/BREW_REPO/` as template)
 - [ ] Create GitHub App (`aigogo-homebrew-updater`) with Contents: Read and write permission
 - [ ] Install the App on `homebrew-aigogo` repository
-- [ ] Add `BREW_APP_ID` secret to `aupeach/aigogo`
-- [ ] Add `BREW_APP_PRIVATE_KEY` secret to `aupeach/aigogo`
+- [ ] Add `BREW_APP_ID` secret to `aupeachmo/aigogo`
+- [ ] Add `BREW_APP_PRIVATE_KEY` secret to `aupeachmo/aigogo`
 - [ ] Tag a release and verify the `update-homebrew` job runs successfully
 - [ ] Verify the tap commit shows a "Verified" badge
-- [ ] Test: `brew tap aupeach/aigogo && brew install aigogo`
+- [ ] Test: `brew tap aupeachmo/aigogo && brew install aigogo`
 - [ ] Update main README with Homebrew install instructions

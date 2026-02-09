@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/aupeach/aigogo/pkg/auth"
+	"github.com/aupeachmo/aigogo/pkg/auth"
 	"golang.org/x/term"
 )
 

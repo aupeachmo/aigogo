@@ -6,10 +6,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/aupeach/aigogo/pkg/docker"
-	"github.com/aupeach/aigogo/pkg/imports"
-	"github.com/aupeach/aigogo/pkg/lockfile"
-	"github.com/aupeach/aigogo/pkg/store"
+	"github.com/aupeachmo/aigogo/pkg/docker"
+	"github.com/aupeachmo/aigogo/pkg/imports"
+	"github.com/aupeachmo/aigogo/pkg/lockfile"
+	"github.com/aupeachmo/aigogo/pkg/store"
 )
 
 func installCmd() *Command {

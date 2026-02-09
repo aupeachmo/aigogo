@@ -1,5 +1,5 @@
 {
-  "$schema": "https://aigg.sh/schema/v2.json",
+  "$schema": "https://github.com/aupeachmo/aigogo/blob/master/aigogo.schema.json",
   "name": "tool-use-decorator",
   "version": "1.0.0",
   "description": "Convert Python functions into LLM tool-calling schemas",

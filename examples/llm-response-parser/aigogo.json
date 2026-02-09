@@ -1,5 +1,5 @@
 {
-  "$schema": "https://aigg.sh/schema/v2.json",
+  "$schema": "https://github.com/aupeachmo/aigogo/blob/master/aigogo.schema.json",
   "name": "llm-response-parser",
   "version": "1.0.0",
   "description": "Parse and validate structured output from LLM responses",

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://aigg.sh/schema/v2.json",
+  "$schema": "https://github.com/aupeachmo/aigogo/blob/master/aigogo.schema.json",
   "name": "prompt-templates",
   "version": "1.0.0",
   "description": "Structured prompt templates with variable substitution and chaining",

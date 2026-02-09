@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/aupeach/aigogo/cmd"
+	"github.com/aupeachmo/aigogo/cmd"
 )
 
 // Version is set via ldflags at build time

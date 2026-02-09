@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/aupeach/aigogo/pkg/manifest"
+	"github.com/aupeachmo/aigogo/pkg/manifest"
 )
 
 // Generator generates dependency files for different languages

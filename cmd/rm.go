@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/aupeach/aigogo/pkg/manifest"
+	"github.com/aupeachmo/aigogo/pkg/manifest"
 )
 
 func rmCmd() *Command {

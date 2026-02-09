@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/aupeach/aigogo/pkg/auth"
+	"github.com/aupeachmo/aigogo/pkg/auth"
 )
 
 type Puller struct {

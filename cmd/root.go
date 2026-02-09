@@ -124,6 +124,6 @@ func printUsage(commands map[string]*Command) {
 	fmt.Println("  aigogo build utils:1.0.0                 # Build locally")
 	fmt.Println("  aigogo push docker.io/org/utils:1.0.0    # Push to registry")
 	fmt.Println()
-	// fmt.Println("For more information, visit: https://aigg.sh")
-	// fmt.Println("For more information, visit: https://github.com/aupeach/aigogo")
+	// fmt.Println("For more information, visit: https://github.com/aupeachmo/aigogo")
+	// fmt.Println("For more information, visit: https://github.com/aupeachmo/aigogo")
 }

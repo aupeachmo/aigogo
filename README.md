@@ -38,7 +38,7 @@
 
 ```bash
 # From source
-git clone https://github.com/aupeach/aigogo.git
+git clone https://github.com/aupeachmo/aigogo.git
 cd aigogo
 make build
 sudo make install  # Installs to /usr/local/bin
@@ -105,22 +105,22 @@ aigogo push ghcr.io/yourusername/api-utils:1.0.0 --from api-utils:1.0.0
 ```bash
 # Download latest release for your platform
 # Linux (AMD64)
-wget https://github.com/aupeach/aigogo/releases/latest/download/aigogo-linux-amd64.tar.gz
+wget https://github.com/aupeachmo/aigogo/releases/latest/download/aigogo-linux-amd64.tar.gz
 tar -xzf aigogo-linux-amd64.tar.gz
 sudo mv aigogo-linux-amd64 /usr/local/bin/aigogo
 
 # Linux (ARM64)
-wget https://github.com/aupeach/aigogo/releases/latest/download/aigogo-linux-arm64.tar.gz
+wget https://github.com/aupeachmo/aigogo/releases/latest/download/aigogo-linux-arm64.tar.gz
 tar -xzf aigogo-linux-arm64.tar.gz
 sudo mv aigogo-linux-arm64 /usr/local/bin/aigogo
 
 # macOS (Intel)
-wget https://github.com/aupeach/aigogo/releases/latest/download/aigogo-darwin-amd64.tar.gz
+wget https://github.com/aupeachmo/aigogo/releases/latest/download/aigogo-darwin-amd64.tar.gz
 tar -xzf aigogo-darwin-amd64.tar.gz
 sudo mv aigogo-darwin-amd64 /usr/local/bin/aigogo
 
 # macOS (Apple Silicon)
-wget https://github.com/aupeach/aigogo/releases/latest/download/aigogo-darwin-arm64.tar.gz
+wget https://github.com/aupeachmo/aigogo/releases/latest/download/aigogo-darwin-arm64.tar.gz
 tar -xzf aigogo-darwin-arm64.tar.gz
 sudo mv aigogo-darwin-arm64 /usr/local/bin/aigogo
 
@@ -131,7 +131,7 @@ aigogo version
 ### From Source
 
 ```bash
-git clone https://github.com/aupeach/aigogo.git
+git clone https://github.com/aupeachmo/aigogo.git
 cd aigogo
 make build
 sudo make install  # Installs to /usr/local/bin + shell completion
@@ -441,7 +441,7 @@ my-project/
 
 ```json
 {
-  "$schema": "https://aigg.sh/schema/v2.json",
+  "$schema": "https://github.com/aupeachmo/aigogo/blob/master/aigogo.schema.json",
   "name": "my-snippet",
   "version": "1.0.0",
   "description": "Description of your package",
@@ -572,7 +572,7 @@ node your_script.js
 ### Setup
 
 ```bash
-git clone https://github.com/aupeach/aigogo.git
+git clone https://github.com/aupeachmo/aigogo.git
 cd aigogo
 go mod download
 make build
@@ -628,6 +628,6 @@ See [MACHINES.md](MACHINES.md) for full documentation.
 
 ## Links
 
-- **GitHub**: https://github.com/aupeach/aigogo
-- **Issues**: https://github.com/aupeach/aigogo/issues
-- **Releases**: https://github.com/aupeach/aigogo/releases
+- **GitHub**: https://github.com/aupeachmo/aigogo
+- **Issues**: https://github.com/aupeachmo/aigogo/issues
+- **Releases**: https://github.com/aupeachmo/aigogo/releases

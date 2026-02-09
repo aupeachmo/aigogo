@@ -74,11 +74,11 @@ The release workflow will automatically:
 - Generate build provenance attestations for each artifact
 - Create a GitHub Release
 - Upload all artifacts
-- Update the Homebrew tap formula (`aupeach/homebrew-aigogo`) with new version and checksums
+- Update the Homebrew tap formula (`aupeachmo/homebrew-aigogo`) with new version and checksums
 
 ### 4. Verify Release
 
-Check https://github.com/aupeach/aigogo/releases
+Check https://github.com/aupeachmo/aigogo/releases
 
 ## Release Checklist
 
@@ -89,8 +89,8 @@ Check https://github.com/aupeach/aigogo/releases
 - [ ] Release appears on GitHub with "Verified" tag badge
 - [ ] Binaries downloadable and working
 - [ ] `./aigogo version` shows correct version
-- [ ] `gh attestation verify <artifact> --repo aupeach/aigogo` passes
-- [ ] Homebrew tap formula updated (check `aupeach/homebrew-aigogo` for verified commit)
+- [ ] `gh attestation verify <artifact> --repo aupeachmo/aigogo` passes
+- [ ] Homebrew tap formula updated (check `aupeachmo/homebrew-aigogo` for verified commit)
 
 ## Manual Release (if needed)
 
@@ -137,23 +137,23 @@ Then create release manually on GitHub and upload all archives.
 
 ```bash
 # Download and test Linux binary
-wget https://github.com/aupeach/aigogo/releases/download/v3.0.0/aigogo-linux-amd64.tar.gz
+wget https://github.com/aupeachmo/aigogo/releases/download/v3.0.0/aigogo-linux-amd64.tar.gz
 tar -xzf aigogo-linux-amd64.tar.gz
 ./aigogo-linux-amd64 version
 ./aigogo-linux-amd64 --help
 
 # Download and test macOS Intel binary
-wget https://github.com/aupeach/aigogo/releases/download/v3.0.0/aigogo-darwin-amd64.tar.gz
+wget https://github.com/aupeachmo/aigogo/releases/download/v3.0.0/aigogo-darwin-amd64.tar.gz
 tar -xzf aigogo-darwin-amd64.tar.gz
 ./aigogo-darwin-amd64 version
 
 # Download and test macOS Apple Silicon binary
-wget https://github.com/aupeach/aigogo/releases/download/v3.0.0/aigogo-darwin-arm64.tar.gz
+wget https://github.com/aupeachmo/aigogo/releases/download/v3.0.0/aigogo-darwin-arm64.tar.gz
 tar -xzf aigogo-darwin-arm64.tar.gz
 ./aigogo-darwin-arm64 version
 
 # Download and test Windows binary (PowerShell)
-Invoke-WebRequest -Uri "https://github.com/aupeach/aigogo/releases/download/v3.0.0/aigogo-windows-amd64.zip" -OutFile aigogo.zip
+Invoke-WebRequest -Uri "https://github.com/aupeachmo/aigogo/releases/download/v3.0.0/aigogo-windows-amd64.zip" -OutFile aigogo.zip
 Expand-Archive aigogo.zip -DestinationPath .
 .\aigogo-windows-amd64.exe version
 ```
@@ -213,12 +213,12 @@ Every release artifact (`.tar.gz` and `.zip`) is attested using `actions/attest-
 **Verifying an artifact:**
 ```bash
 # Download an artifact, then verify it
-gh attestation verify aigogo-linux-amd64.tar.gz --repo aupeach/aigogo
+gh attestation verify aigogo-linux-amd64.tar.gz --repo aupeachmo/aigogo
 ```
 
 This confirms:
 - The artifact was built by a GitHub Actions workflow
-- The workflow ran in the `aupeach/aigogo` repository
+- The workflow ran in the `aupeachmo/aigogo` repository
 - The artifact has not been tampered with since it was built
 
 ### Future Option: Sigstore cosign
@@ -238,7 +238,7 @@ For vendor-neutral signing that doesn't depend on GitHub infrastructure, [Sigsto
 cosign verify-blob aigogo-linux-amd64.tar.gz \
   --signature aigogo-linux-amd64.tar.gz.sig \
   --certificate aigogo-linux-amd64.tar.gz.cert \
-  --certificate-identity-regexp "github.com/aupeach/aigogo" \
+  --certificate-identity-regexp "github.com/aupeachmo/aigogo" \
   --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
 ```
 

@@ -30,7 +30,7 @@ func versionCmd() *Command {
 			fmt.Printf("  Go version: %s\n", runtime.Version())
 			fmt.Println()
 			fmt.Println("Code snippet package manager using Docker as transport")
-			fmt.Println("https://github.com/aupeach/aigogo")
+			fmt.Println("https://github.com/aupeachmo/aigogo")
 			return nil
 		},
 	}

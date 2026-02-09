@@ -15,7 +15,7 @@ git push origin v3.0.0
 ```
 
 **Check status:**
-- Visit: https://github.com/aupeach/aigogo/actions
-- Check releases: https://github.com/aupeach/aigogo/releases
+- Visit: https://github.com/aupeachmo/aigogo/actions
+- Check releases: https://github.com/aupeachmo/aigogo/releases
 
 See [RELEASE.md](../RELEASE.md) for detailed instructions.

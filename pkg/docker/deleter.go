@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/aupeach/aigogo/pkg/auth"
+	"github.com/aupeachmo/aigogo/pkg/auth"
 )
 
 // Deleter handles deleting images from registries

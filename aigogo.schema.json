@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://aigg.sh/schema/v2.json",
+  "$id": "https://github.com/aupeachmo/aigogo/blob/master/aigogo.schema.json",
   "title": "aigogo Manifest",
   "description": "Configuration file for aigogo code snippet packages",
   "type": "object",

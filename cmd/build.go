@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/aupeach/aigogo/pkg/docker"
-	"github.com/aupeach/aigogo/pkg/manifest"
+	"github.com/aupeachmo/aigogo/pkg/docker"
+	"github.com/aupeachmo/aigogo/pkg/manifest"
 )
 
 func buildCmd() *Command {

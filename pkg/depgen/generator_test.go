@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/aupeach/aigogo/pkg/manifest"
+	"github.com/aupeachmo/aigogo/pkg/manifest"
 )
 
 func TestNewGenerator(t *testing.T) {

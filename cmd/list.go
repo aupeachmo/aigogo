@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/aupeach/aigogo/pkg/docker"
+	"github.com/aupeachmo/aigogo/pkg/docker"
 )
 
 func listCmd() *Command {

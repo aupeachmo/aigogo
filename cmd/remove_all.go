@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/aupeach/aigogo/pkg/docker"
+	"github.com/aupeachmo/aigogo/pkg/docker"
 )
 
 func removeAllCmd() *Command {
