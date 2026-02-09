@@ -1,0 +1,38 @@
+# Binaries
+aigogo
+aigogo.exe
+aigogo-*
+*.exe
+*.dll
+*.so
+*.dylib
+dist/
+bin/
+
+# Test binaries
+*.test
+
+# Coverage
+*.out
+*.coverprofile
+
+# Go workspace file
+go.work
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local testing
+test-output/
+examples/.aigogo/
+
+# Vim
+.sw*
