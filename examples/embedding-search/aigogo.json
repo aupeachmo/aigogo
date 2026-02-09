@@ -1,0 +1,38 @@
+{
+  "$schema": "https://aigg.sh/schema/v2.json",
+  "name": "embedding-search",
+  "version": "1.0.0",
+  "description": "Minimal vector similarity search for embeddings",
+  "language": {
+    "name": "python",
+    "version": ">=3.8,<4.0"
+  },
+  "dependencies": {
+    "runtime": [
+      {"package": "numpy", "version": ">=1.24.0,<2.0.0"}
+    ],
+    "dev": [
+      {"package": "pytest", "version": ">=7.0.0"}
+    ]
+  },
+  "files": {
+    "include": ["embeddings.py"],
+    "exclude": []
+  },
+  "metadata": {
+    "license": "MIT",
+    "tags": ["embeddings", "vectors", "similarity", "search", "rag"]
+  },
+  "ai": {
+    "summary": "Search and compare embedding vectors with cosine similarity, top-k retrieval, batch queries, and deduplication.",
+    "capabilities": [
+      "Compute cosine similarity between two embedding vectors",
+      "Find the k most similar items to a query embedding",
+      "Run batch similarity search across multiple queries",
+      "Deduplicate items by embedding similarity threshold"
+    ],
+    "usage": "from aigogo.embedding_search import cosine_similarity, top_k, deduplicate\nscore = cosine_similarity(vec_a, vec_b)\nresults = top_k(query_vec, [(id, emb), ...], k=5)\nunique = deduplicate(items, threshold=0.95)",
+    "inputs": "Embedding vectors as lists of floats, corpus as list of (id, embedding) tuples",
+    "outputs": "Similarity scores (float), ranked result lists of (id, score) tuples"
+  }
+}

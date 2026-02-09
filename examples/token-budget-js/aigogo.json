@@ -1,0 +1,36 @@
+{
+  "$schema": "https://aigg.sh/schema/v2.json",
+  "name": "token-budget-js",
+  "version": "1.0.0",
+  "description": "Token counting, budget checking, and text chunking for LLM APIs",
+  "language": {
+    "name": "javascript",
+    "version": ">=16.0.0"
+  },
+  "dependencies": {
+    "runtime": [],
+    "dev": [
+      {"package": "jest", "version": ">=29.0.0"}
+    ]
+  },
+  "files": {
+    "include": ["tokens.js"],
+    "exclude": []
+  },
+  "metadata": {
+    "license": "MIT",
+    "tags": ["llm", "tokens", "tokenizer", "chunking", "gpt", "context-window"]
+  },
+  "ai": {
+    "summary": "Estimate token counts, check context-window budgets, chunk text to fit token limits, and trim conversations to a budget.",
+    "capabilities": [
+      "Estimate token count in a string (no external dependencies)",
+      "Check whether a message list fits within a token budget",
+      "Split text into chunks that each fit within a token limit",
+      "Trim a conversation to fit a budget by removing oldest messages"
+    ],
+    "usage": "const { countTokens, checkBudget, chunkText, trimConversation } = require('@aigogo/token-budget-js');\n\nconst count = countTokens('Hello, world!');\nconst { fits, remaining } = checkBudget(messages, 4096);\nconst chunks = chunkText(longText, 512);\nconst trimmed = trimConversation(messages, 4096);",
+    "inputs": "Strings, arrays of {role, content} message objects, token budget numbers",
+    "outputs": "Token counts (number), budget check results ({fits, total, remaining}), text chunks (string[]), trimmed message arrays"
+  }
+}

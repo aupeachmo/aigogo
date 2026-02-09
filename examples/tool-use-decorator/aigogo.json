@@ -1,0 +1,36 @@
+{
+  "$schema": "https://aigg.sh/schema/v2.json",
+  "name": "tool-use-decorator",
+  "version": "1.0.0",
+  "description": "Convert Python functions into LLM tool-calling schemas",
+  "language": {
+    "name": "python",
+    "version": ">=3.8,<4.0"
+  },
+  "dependencies": {
+    "runtime": [],
+    "dev": [
+      {"package": "pytest", "version": ">=7.0.0"}
+    ]
+  },
+  "files": {
+    "include": ["tools.py"],
+    "exclude": []
+  },
+  "metadata": {
+    "license": "MIT",
+    "tags": ["llm", "tools", "function-calling", "openai", "schema"]
+  },
+  "ai": {
+    "summary": "Decorate Python functions to auto-generate OpenAI-compatible tool-calling schemas from type hints and docstrings.",
+    "capabilities": [
+      "Convert a decorated function into a tool-calling JSON schema",
+      "Maintain a registry of all decorated tools",
+      "Dispatch tool calls by name with argument parsing",
+      "Extract parameter descriptions from Google-style docstrings"
+    ],
+    "usage": "from aigogo.tool_use_decorator import tool, get_tools, call_tool\n\n@tool\ndef get_weather(city: str, units: str = 'celsius') -> str:\n    '''Get weather for a city.'''\n    ...\n\ntools = get_tools()  # Pass to OpenAI API\nresult = call_tool('get_weather', '{\"city\": \"London\"}')",
+    "inputs": "Python functions with type hints and docstrings",
+    "outputs": "OpenAI-compatible tool schema dicts, tool call dispatch"
+  }
+}

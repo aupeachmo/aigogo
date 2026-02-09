@@ -1,0 +1,35 @@
+{
+  "$schema": "https://aigg.sh/schema/v2.json",
+  "name": "prompt-templates",
+  "version": "1.0.0",
+  "description": "Structured prompt templates with variable substitution and chaining",
+  "language": {
+    "name": "python",
+    "version": ">=3.8,<4.0"
+  },
+  "dependencies": {
+    "runtime": [],
+    "dev": [
+      {"package": "pytest", "version": ">=7.0.0"}
+    ]
+  },
+  "files": {
+    "include": ["prompts.py"],
+    "exclude": []
+  },
+  "metadata": {
+    "license": "MIT",
+    "tags": ["llm", "prompts", "templates", "chain-of-thought"]
+  },
+  "ai": {
+    "summary": "Reusable prompt templates with variable substitution and chaining for LLM workflows.",
+    "capabilities": [
+      "Render system/user message pairs with named placeholders",
+      "Chain prompts so one response feeds into the next",
+      "Built-in templates for code review, summarization, structured extraction, and chain-of-thought"
+    ],
+    "usage": "from aigogo.prompt_templates import CODE_REVIEW, CHAIN_OF_THOUGHT\nmessages = CODE_REVIEW.render(language='python', code='def foo(): pass')\nmessages = CHAIN_OF_THOUGHT.render(question='Why is the sky blue?')",
+    "inputs": "Keyword arguments matching template placeholders (strings)",
+    "outputs": "List of message dicts with 'role' and 'content' keys, ready for LLM API calls"
+  }
+}

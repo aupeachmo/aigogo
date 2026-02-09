@@ -1,0 +1,9 @@
+{
+  "name": "token-budget-js",
+  "version": "1.0.0",
+  "description": "Token counting, budget checking, and text chunking for LLM APIs",
+  "main": "tokens.js",
+  "devDependencies": {
+    "jest": ">=29.0.0"
+  }
+}

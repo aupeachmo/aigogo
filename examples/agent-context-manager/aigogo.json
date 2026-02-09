@@ -1,0 +1,39 @@
+{
+  "$schema": "https://aigg.sh/schema/v2.json",
+  "name": "agent-context-manager",
+  "version": "1.0.0",
+  "description": "Sliding-window context manager for LLM conversations",
+  "language": {
+    "name": "python",
+    "version": ">=3.8,<4.0"
+  },
+  "dependencies": {
+    "runtime": [
+      {"package": "tiktoken", "version": ">=0.5.0,<1.0.0"}
+    ],
+    "dev": [
+      {"package": "pytest", "version": ">=7.0.0"}
+    ]
+  },
+  "files": {
+    "include": ["context.py"],
+    "exclude": []
+  },
+  "metadata": {
+    "license": "MIT",
+    "tags": ["llm", "context", "tokens", "conversation", "agent"]
+  },
+  "ai": {
+    "summary": "Manage LLM conversation history within a token budget, auto-trimming oldest messages while pinning the system prompt.",
+    "capabilities": [
+      "Track conversation messages with a token budget",
+      "Auto-trim oldest messages when budget is exceeded",
+      "Pin system message so it is never trimmed",
+      "Estimate available tokens for the next response",
+      "Pluggable token counter (defaults to ~4 chars/token estimate, supports tiktoken)"
+    ],
+    "usage": "from aigogo.agent_context_manager import ContextWindow\nctx = ContextWindow(max_tokens=4096, reserve_tokens=512)\nctx.set_system('You are a helpful assistant.')\nctx.add_user('Hello')\nctx.add_assistant('Hi there!')\nmessages = ctx.render()  # Trimmed to fit budget",
+    "inputs": "Message strings with roles (system/user/assistant), token budget config",
+    "outputs": "List of message dicts trimmed to token budget, token count estimates"
+  }
+}

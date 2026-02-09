@@ -1,0 +1,100 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.24'
+
+      - name: Run tests
+        run: go test -v ./...
+
+      - name: Build
+        run: go build -v -o aigogo .
+
+      - name: Verify binary
+        run: ./aigogo version
+
+  build-matrix:
+    name: Build (${{ matrix.goos }}-${{ matrix.goarch }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        include:
+          - runner: ubuntu-latest
+            goos: linux
+            goarch: amd64
+          - runner: ubuntu-latest
+            goos: linux
+            goarch: arm64
+          - runner: macos-15
+            goos: darwin
+            goarch: amd64
+          - runner: macos-latest
+            goos: darwin
+            goarch: arm64
+          - runner: windows-latest
+            goos: windows
+            goarch: amd64
+          - runner: windows-latest
+            goos: windows
+            goarch: arm64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0  # Needed for git describe
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.24'
+
+      - name: Get version
+        id: get_version
+        shell: bash
+        run: echo "VERSION=$(git describe --tags --always --dirty 2>/dev/null || echo 0.0.1)" >> $GITHUB_OUTPUT
+
+      - name: Build (Unix)
+        if: matrix.goos != 'windows'
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+        run: |
+          go build -trimpath -ldflags="-s -w -X main.Version=${{ steps.get_version.outputs.VERSION }}" \
+            -v -o aigogo .
+
+      - name: Build (Windows)
+        if: matrix.goos == 'windows'
+        shell: bash
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+        run: |
+          go build -trimpath -ldflags="-s -w -X main.Version=${{ steps.get_version.outputs.VERSION }}" \
+            -v -o aigogo.exe .
+
+      - name: Verify binary (Unix)
+        if: matrix.goos != 'windows' && !(matrix.goos == 'linux' && matrix.goarch == 'arm64')
+        run: ./aigogo version
+
+      - name: Verify binary (Windows)
+        if: matrix.goos == 'windows' && matrix.goarch == 'amd64'
+        run: .\aigogo.exe version

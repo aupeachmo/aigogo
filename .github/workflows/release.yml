@@ -1,0 +1,367 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on version tags like v3.0.0, v3.1.0, etc.
+
+permissions:
+  contents: write      # Required for creating releases
+  id-token: write      # Required for artifact attestations
+  attestations: write  # Required for artifact attestations
+
+jobs:
+  build:
+    name: Build Release Binaries
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        include:
+          - runner: ubuntu-latest
+            goos: linux
+            goarch: amd64
+            output: aigogo-linux-amd64
+            extension: ""
+          - runner: ubuntu-latest
+            goos: linux
+            goarch: arm64
+            output: aigogo-linux-arm64
+            extension: ""
+          - runner: macos-15
+            goos: darwin
+            goarch: amd64
+            output: aigogo-darwin-amd64
+            extension: ""
+          - runner: macos-latest
+            goos: darwin
+            goarch: arm64
+            output: aigogo-darwin-arm64
+            extension: ""
+          - runner: windows-latest
+            goos: windows
+            goarch: amd64
+            output: aigogo-windows-amd64
+            extension: ".exe"
+          - runner: windows-latest
+            goos: windows
+            goarch: arm64
+            output: aigogo-windows-arm64
+            extension: ".exe"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.24'
+
+      - name: Get version from tag
+        id: get_version
+        shell: bash
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Build binary
+        shell: bash
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+        run: |
+          go build -trimpath -ldflags="-s -w -X main.Version=${{ steps.get_version.outputs.VERSION }}" \
+            -o ${{ matrix.output }}${{ matrix.extension }} .
+
+      - name: Strip binary (Unix)
+        if: matrix.goos != 'windows' && !(matrix.goos == 'linux' && matrix.goarch == 'arm64')
+        run: |
+          strip ${{ matrix.output }}
+          ls -lh ${{ matrix.output }}
+
+      - name: Strip binary (Linux ARM64 cross-compiled)
+        if: matrix.goos == 'linux' && matrix.goarch == 'arm64'
+        run: |
+          which aarch64-linux-gnu-strip && aarch64-linux-gnu-strip ${{ matrix.output }} || true
+          ls -lh ${{ matrix.output }}
+
+      - name: Show binary size
+        shell: bash
+        run: ls -lh ${{ matrix.output }}${{ matrix.extension }}
+
+      - name: Create tarball (Linux)
+        if: matrix.goos == 'linux'
+        run: |
+          tar -czf ${{ matrix.output }}.tar.gz ${{ matrix.output }}
+          sha256sum ${{ matrix.output }}.tar.gz > ${{ matrix.output }}.tar.gz.sha256
+
+      - name: Create tarball (macOS)
+        if: matrix.goos == 'darwin'
+        run: |
+          tar -czf ${{ matrix.output }}.tar.gz ${{ matrix.output }}
+          shasum -a 256 ${{ matrix.output }}.tar.gz > ${{ matrix.output }}.tar.gz.sha256
+
+      - name: Create zip (Windows)
+        if: matrix.goos == 'windows'
+        shell: pwsh
+        run: |
+          Compress-Archive -Path ${{ matrix.output }}${{ matrix.extension }} -DestinationPath ${{ matrix.output }}.zip
+          (Get-FileHash -Algorithm SHA256 ${{ matrix.output }}.zip).Hash.ToLower() + "  ${{ matrix.output }}.zip" | Out-File -Encoding ascii ${{ matrix.output }}.zip.sha256
+
+      - name: Attest artifact (Linux/macOS)
+        if: matrix.goos == 'linux' || matrix.goos == 'darwin'
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ${{ matrix.output }}.tar.gz
+
+      - name: Attest artifact (Windows)
+        if: matrix.goos == 'windows'
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ${{ matrix.output }}.zip
+
+      - name: Upload artifacts (Linux/macOS)
+        if: matrix.goos == 'linux' || matrix.goos == 'darwin'
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ matrix.output }}
+          path: |
+            ${{ matrix.output }}.tar.gz
+            ${{ matrix.output }}.tar.gz.sha256
+
+      - name: Upload artifacts (Windows)
+        if: matrix.goos == 'windows'
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ matrix.output }}
+          path: |
+            ${{ matrix.output }}.zip
+            ${{ matrix.output }}.zip.sha256
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v7
+        with:
+          path: artifacts
+
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Prepare release assets
+        run: |
+          mkdir -p release-assets
+          find artifacts -name "*.tar.gz*" -exec cp {} release-assets/ \;
+          find artifacts -name "*.zip*" -exec cp {} release-assets/ \;
+          ls -lh release-assets/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: aigogo ${{ steps.get_version.outputs.VERSION }}
+          body: |
+            ## aigogo ${{ steps.get_version.outputs.VERSION }}
+
+            Code snippet package manager with content-addressable storage and lock file support.
+
+            ### Downloads
+
+            | Platform | Architecture | File |
+            |----------|--------------|------|
+            | Linux | AMD64 | `aigogo-linux-amd64.tar.gz` |
+            | Linux | ARM64 | `aigogo-linux-arm64.tar.gz` |
+            | macOS | AMD64 (Intel) | `aigogo-darwin-amd64.tar.gz` |
+            | macOS | ARM64 (M1/M2/M3) | `aigogo-darwin-arm64.tar.gz` |
+            | Windows | AMD64 | `aigogo-windows-amd64.zip` |
+            | Windows | ARM64 | `aigogo-windows-arm64.zip` |
+
+            ### Installation
+
+            ```bash
+            # Linux (AMD64)
+            wget https://github.com/${{ github.repository }}/releases/download/${{ steps.get_version.outputs.VERSION }}/aigogo-linux-amd64.tar.gz
+            tar -xzf aigogo-linux-amd64.tar.gz
+            sudo mv aigogo-linux-amd64 /usr/local/bin/aigogo
+
+            # Linux (ARM64)
+            wget https://github.com/${{ github.repository }}/releases/download/${{ steps.get_version.outputs.VERSION }}/aigogo-linux-arm64.tar.gz
+            tar -xzf aigogo-linux-arm64.tar.gz
+            sudo mv aigogo-linux-arm64 /usr/local/bin/aigogo
+
+            # macOS (Intel)
+            wget https://github.com/${{ github.repository }}/releases/download/${{ steps.get_version.outputs.VERSION }}/aigogo-darwin-amd64.tar.gz
+            tar -xzf aigogo-darwin-amd64.tar.gz
+            sudo mv aigogo-darwin-amd64 /usr/local/bin/aigogo
+
+            # macOS (Apple Silicon)
+            wget https://github.com/${{ github.repository }}/releases/download/${{ steps.get_version.outputs.VERSION }}/aigogo-darwin-arm64.tar.gz
+            tar -xzf aigogo-darwin-arm64.tar.gz
+            sudo mv aigogo-darwin-arm64 /usr/local/bin/aigogo
+
+            # Windows (PowerShell)
+            Invoke-WebRequest -Uri "https://github.com/${{ github.repository }}/releases/download/${{ steps.get_version.outputs.VERSION }}/aigogo-windows-amd64.zip" -OutFile aigogo.zip
+            Expand-Archive aigogo.zip -DestinationPath .
+            Move-Item aigogo-windows-amd64.exe C:\Windows\aigogo.exe
+            ```
+
+            ### Verify checksums
+
+            ```bash
+            # Linux/macOS
+            sha256sum -c aigogo-*.sha256
+
+            # Windows (PowerShell)
+            Get-FileHash aigogo-windows-amd64.zip | Format-List
+            ```
+
+            ### Verify build provenance
+
+            All release artifacts include GitHub build attestations. Verify with:
+
+            ```bash
+            gh attestation verify aigogo-linux-amd64.tar.gz --repo ${{ github.repository }}
+            ```
+
+            ### What's Changed
+
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ steps.get_version.outputs.VERSION }}/CHANGELOG.md) for details.
+          files: |
+            release-assets/*
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  update-homebrew:
+    name: Update Homebrew Formula
+    needs: release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Download checksums
+        run: |
+          VERSION=${{ steps.get_version.outputs.VERSION }}
+          BASE_URL="https://github.com/aupeach/aigogo/releases/download/v${VERSION}"
+
+          for target in darwin-amd64 darwin-arm64 linux-amd64 linux-arm64; do
+            echo "Downloading checksum for ${target}..."
+            curl -sL --fail "${BASE_URL}/aigogo-${target}.tar.gz.sha256" \
+              | cut -d' ' -f1 > "${target}.sha"
+          done
+
+          echo "Checksums:"
+          cat *.sha
+
+      - name: Generate formula
+        run: |
+          VERSION=${{ steps.get_version.outputs.VERSION }}
+          DARWIN_AMD64_SHA=$(cat darwin-amd64.sha)
+          DARWIN_ARM64_SHA=$(cat darwin-arm64.sha)
+          LINUX_AMD64_SHA=$(cat linux-amd64.sha)
+          LINUX_ARM64_SHA=$(cat linux-arm64.sha)
+
+          cat > aigogo.rb << EOF
+          class Aigogo < Formula
+            desc "Make packaging and distributing your AI agents a breeze"
+            homepage "https://github.com/aupeach/aigogo"
+            version "${VERSION}"
+            license "MPL-2.0"
+
+            on_macos do
+              on_intel do
+                url "https://github.com/aupeach/aigogo/releases/download/v${VERSION}/aigogo-darwin-amd64.tar.gz"
+                sha256 "${DARWIN_AMD64_SHA}"
+              end
+              on_arm do
+                url "https://github.com/aupeach/aigogo/releases/download/v${VERSION}/aigogo-darwin-arm64.tar.gz"
+                sha256 "${DARWIN_ARM64_SHA}"
+              end
+            end
+
+            on_linux do
+              on_intel do
+                url "https://github.com/aupeach/aigogo/releases/download/v${VERSION}/aigogo-linux-amd64.tar.gz"
+                sha256 "${LINUX_AMD64_SHA}"
+              end
+              on_arm do
+                url "https://github.com/aupeach/aigogo/releases/download/v${VERSION}/aigogo-linux-arm64.tar.gz"
+                sha256 "${LINUX_ARM64_SHA}"
+              end
+            end
+
+            def install
+              if OS.mac? && Hardware::CPU.arm?
+                bin.install "aigogo-darwin-arm64" => "aigogo"
+              elsif OS.mac? && Hardware::CPU.intel?
+                bin.install "aigogo-darwin-amd64" => "aigogo"
+              elsif OS.linux? && Hardware::CPU.arm?
+                bin.install "aigogo-linux-arm64" => "aigogo"
+              elsif OS.linux?
+                bin.install "aigogo-linux-amd64" => "aigogo"
+              end
+            end
+
+            test do
+              assert_match version.to_s, shell_output("#{bin}/aigogo version")
+            end
+          end
+          EOF
+
+          # Remove leading whitespace from heredoc
+          sed -i 's/^          //' aigogo.rb
+
+          echo "Generated formula:"
+          cat aigogo.rb
+
+      - name: Generate GitHub App token
+        id: app_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BREW_APP_ID }}
+          private-key: ${{ secrets.BREW_APP_PRIVATE_KEY }}
+          repositories: homebrew-aigogo
+          owner: aupeach
+
+      - name: Push formula via GitHub API (signed commit)
+        env:
+          GH_TOKEN: ${{ steps.app_token.outputs.token }}
+        run: |
+          VERSION=${{ steps.get_version.outputs.VERSION }}
+
+          # Get the current file SHA (needed for updates, absent for first commit)
+          CURRENT_SHA=$(gh api repos/aupeach/homebrew-aigogo/contents/Formula/aigogo.rb \
+            --jq '.sha' 2>/dev/null || echo "")
+
+          # Base64-encode the formula
+          CONTENT=$(base64 -w 0 aigogo.rb)
+
+          # Build the JSON payload
+          if [ -n "$CURRENT_SHA" ]; then
+            PAYLOAD=$(jq -n \
+              --arg message "Update aigogo to v${VERSION}" \
+              --arg content "$CONTENT" \
+              --arg sha "$CURRENT_SHA" \
+              '{message: $message, content: $content, sha: $sha}')
+          else
+            PAYLOAD=$(jq -n \
+              --arg message "Update aigogo to v${VERSION}" \
+              --arg content "$CONTENT" \
+              '{message: $message, content: $content}')
+          fi
+
+          # Create/update the file via the GitHub API (produces a verified signed commit)
+          gh api -X PUT repos/aupeach/homebrew-aigogo/contents/Formula/aigogo.rb \
+            --input - <<< "$PAYLOAD"
+
+          echo "Homebrew formula updated to v${VERSION}"

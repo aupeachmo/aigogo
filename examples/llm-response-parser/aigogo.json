@@ -1,0 +1,36 @@
+{
+  "$schema": "https://aigg.sh/schema/v2.json",
+  "name": "llm-response-parser",
+  "version": "1.0.0",
+  "description": "Parse and validate structured output from LLM responses",
+  "language": {
+    "name": "python",
+    "version": ">=3.8,<4.0"
+  },
+  "dependencies": {
+    "runtime": [],
+    "dev": [
+      {"package": "pytest", "version": ">=7.0.0"}
+    ]
+  },
+  "files": {
+    "include": ["parser.py"],
+    "exclude": []
+  },
+  "metadata": {
+    "license": "MIT",
+    "tags": ["llm", "parsing", "json", "validation"]
+  },
+  "ai": {
+    "summary": "Extract and validate JSON and lists from raw LLM text output, handling markdown code blocks, trailing commas, and single quotes.",
+    "capabilities": [
+      "Extract JSON from markdown code blocks or raw text",
+      "Fix common LLM JSON mistakes (trailing commas, single quotes)",
+      "Extract numbered or bulleted lists from text",
+      "Validate parsed dicts against required/optional key schemas"
+    ],
+    "usage": "from aigogo.llm_response_parser import extract_json, extract_list, validate_keys\ndata = extract_json(llm_response_text)\nitems = extract_list(llm_response_text)\nvalidated = validate_keys(data, required=['name', 'age'])",
+    "inputs": "Raw LLM response text (string), optional key lists for validation",
+    "outputs": "Parsed Python dicts/lists, or raises ValueError on failure"
+  }
+}

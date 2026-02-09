@@ -1,0 +1,180 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://aigg.sh/schema/v2.json",
+  "title": "aigogo Manifest",
+  "description": "Configuration file for aigogo code snippet packages",
+  "type": "object",
+  "required": ["name", "version", "language", "files"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference"
+    },
+    "name": {
+      "type": "string",
+      "description": "Package name",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "version": {
+      "type": "string",
+      "description": "Package version (semver)",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Package description"
+    },
+    "author": {
+      "type": "string",
+      "description": "Package author"
+    },
+    "language": {
+      "type": "object",
+      "description": "Programming language specification",
+      "required": ["name", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "enum": ["python", "javascript", "go", "rust"],
+          "description": "Programming language"
+        },
+        "runtime": {
+          "type": "string",
+          "description": "Runtime environment (e.g., node, deno, cpython)"
+        },
+        "version": {
+          "type": "string",
+          "description": "Language version constraint"
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "Package dependencies",
+      "properties": {
+        "runtime": {
+          "type": "array",
+          "description": "Runtime dependencies",
+          "items": {
+            "$ref": "#/definitions/dependency"
+          }
+        },
+        "dev": {
+          "type": "array",
+          "description": "Development dependencies",
+          "items": {
+            "$ref": "#/definitions/dependency"
+          }
+        }
+      }
+    },
+    "files": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": ["auto"],
+          "description": "Auto-discover files based on language"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "File patterns to include"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "include": {
+              "oneOf": [
+                {"type": "string", "enum": ["auto"]},
+                {"type": "array", "items": {"type": "string"}}
+              ]
+            },
+            "exclude": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata",
+      "properties": {
+        "license": {
+          "type": "string"
+        },
+        "homepage": {
+          "type": "string",
+          "format": "uri"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "extra": {
+          "type": "object",
+          "description": "Arbitrary key-value metadata",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ai": {
+      "type": "object",
+      "description": "AI agent discovery metadata (see MACHINES.md)",
+      "required": ["summary", "capabilities"],
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "One sentence describing what this snippet does and when to use it"
+        },
+        "capabilities": {
+          "type": "array",
+          "description": "List of actions the code can perform, as short verb phrases",
+          "items": {
+            "type": "string"
+          }
+        },
+        "usage": {
+          "type": "string",
+          "description": "Minimal import and function call example"
+        },
+        "inputs": {
+          "type": "string",
+          "description": "Description of expected inputs and their types"
+        },
+        "outputs": {
+          "type": "string",
+          "description": "Description of return values and their types"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "dependency": {
+      "type": "object",
+      "required": ["package", "version"],
+      "properties": {
+        "package": {
+          "type": "string",
+          "description": "Package name"
+        },
+        "version": {
+          "type": "string",
+          "description": "Version constraint"
+        },
+        "optional": {
+          "type": "boolean",
+          "description": "Whether this dependency is optional"
+        }
+      }
+    }
+  }
+}
+
