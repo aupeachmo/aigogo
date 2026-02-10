@@ -9,13 +9,13 @@ Structured prompt templates with variable substitution and chaining. Includes bu
 ```bash
 # Author workflow
 cd examples/prompt-templates
-aigogo init                        # Already has aigogo.json
-aigogo build prompt-templates:1.0.0
+aigg init                        # Already has aigogo.json
+aigg build prompt-templates:1.0.0
 
 # Consumer workflow
 cd ~/my-project
-aigogo add prompt-templates:1.0.0
-aigogo install
+aigg add prompt-templates:1.0.0
+aigg install
 ```
 
 ```python
@@ -43,7 +43,7 @@ Extract and validate structured data from raw LLM output. Handles markdown code 
 
 ```bash
 cd examples/llm-response-parser
-aigogo build llm-response-parser:1.0.0
+aigg build llm-response-parser:1.0.0
 ```
 
 ```python
@@ -70,10 +70,10 @@ Vector similarity search for RAG pipelines and semantic search. Depends on `nump
 cd examples/embedding-search
 
 # Import dependencies from pyproject.toml
-aigogo add dep --from-pyproject
+aigg add dep --from-pyproject
 
 # Build
-aigogo build embedding-search:1.0.0
+aigg build embedding-search:1.0.0
 ```
 
 ```python
@@ -96,7 +96,7 @@ Decorate Python functions to auto-generate OpenAI-compatible tool-calling schema
 
 ```bash
 cd examples/tool-use-decorator
-aigogo build tool-use-decorator:1.0.0
+aigg build tool-use-decorator:1.0.0
 ```
 
 ```python
@@ -131,10 +131,10 @@ Sliding-window conversation manager that auto-trims to a token budget. Depends o
 cd examples/agent-context-manager
 
 # Import dependencies from pyproject.toml
-aigogo add dep --from-pyproject
+aigg add dep --from-pyproject
 
 # Build
-aigogo build agent-context-manager:1.0.0
+aigg build agent-context-manager:1.0.0
 ```
 
 ```python
@@ -166,7 +166,7 @@ Token estimation, budget checking, and text chunking for LLM APIs. Zero runtime 
 cd examples/token-budget-js
 
 # Build
-aigogo build token-budget-js:1.0.0
+aigg build token-budget-js:1.0.0
 ```
 
 ```javascript
@@ -191,21 +191,21 @@ const trimmed = trimConversation(messages, 4096);
 
 ## pyproject.toml Workflow
 
-Three of the Python examples (`embedding-search`, `agent-context-manager`, `prompt-templates`) include a `pyproject.toml`. This demonstrates how aigogo imports dependencies from existing Python project files:
+Three of the Python examples (`embedding-search`, `agent-context-manager`, `prompt-templates`) include a `pyproject.toml`. This demonstrates how aigg imports dependencies from existing Python project files:
 
 ```bash
 # Instead of manually adding each dependency:
-aigogo add dep numpy ">=1.24.0,<2.0.0"
+aigg add dep numpy ">=1.24.0,<2.0.0"
 
 # Import them all at once from pyproject.toml:
-aigogo add dep --from-pyproject
+aigg add dep --from-pyproject
 ```
 
-This is useful when packaging existing code that already has a `pyproject.toml` -- aigogo reads the dependency list and adds them to `aigogo.json` automatically.
+This is useful when packaging existing code that already has a `pyproject.toml` -- aigg reads the dependency list and adds them to `aigogo.json` automatically.
 
 ## Dependencies
 
-aigogo manages **snippet files**, not environments. `aigogo install` pulls the source files and creates import symlinks, but it does not run `pip install` or `npm install`. Dependencies declared in `aigogo.json` are metadata that tells the consumer what their environment needs.
+aigg manages **snippet files**, not environments. `aigg install` pulls the source files and creates import symlinks, but it does not run `pip install` or `npm install`. Dependencies declared in `aigogo.json` are metadata that tells the consumer what their environment needs.
 
 For packages with dependencies, the consumer installs them separately using their preferred package manager. The `show-deps` command outputs dependencies in various formats to make this easy.
 
@@ -213,64 +213,64 @@ For packages with dependencies, the consumer installs them separately using thei
 
 ```bash
 # Install the snippet
-aigogo add embedding-search:1.0.0
-aigogo install
+aigg add embedding-search:1.0.0
+aigg install
 ```
 
 **pip:**
 ```bash
-aigogo show-deps .aigogo/imports/aigogo/embedding_search --format requirements | pip install -r /dev/stdin
+aigg show-deps .aigogo/imports/aigogo/embedding_search --format requirements | pip install -r /dev/stdin
 ```
 
 **uv:**
 ```bash
 # uv is a fast Python package manager (drop-in pip replacement)
-aigogo show-deps .aigogo/imports/aigogo/embedding_search --format requirements | uv pip install -r /dev/stdin
+aigg show-deps .aigogo/imports/aigogo/embedding_search --format requirements | uv pip install -r /dev/stdin
 
 # Or add to an existing uv project
-aigogo show-deps .aigogo/imports/aigogo/embedding_search --format requirements | xargs uv add
+aigg show-deps .aigogo/imports/aigogo/embedding_search --format requirements | xargs uv add
 ```
 
 **poetry:**
 ```bash
 # Output in Poetry's pyproject.toml format (copy into your pyproject.toml)
-aigogo show-deps .aigogo/imports/aigogo/embedding_search --format poetry
+aigg show-deps .aigogo/imports/aigogo/embedding_search --format poetry
 
 # Or pipe requirements into poetry add
-aigogo show-deps .aigogo/imports/aigogo/embedding_search --format requirements | xargs poetry add
+aigg show-deps .aigogo/imports/aigogo/embedding_search --format requirements | xargs poetry add
 ```
 
 **pyproject.toml (PEP 621):**
 ```bash
 # Output in PEP 621 format (copy into your pyproject.toml)
-aigogo show-deps .aigogo/imports/aigogo/embedding_search --format pyproject
+aigg show-deps .aigogo/imports/aigogo/embedding_search --format pyproject
 ```
 
 ### JavaScript Dependencies
 
 ```bash
 # Install the snippet
-aigogo add token-budget-js:1.0.0
-aigogo install
+aigg add token-budget-js:1.0.0
+aigg install
 ```
 
 **npm:**
 ```bash
 # Output as package.json fragment (merge into your package.json)
-aigogo show-deps .aigogo/imports/@aigogo/token-budget-js --format npm
+aigg show-deps .aigogo/imports/@aigogo/token-budget-js --format npm
 
 # Or install directly
-aigogo show-deps .aigogo/imports/@aigogo/token-budget-js --format npm > /tmp/deps.json
+aigg show-deps .aigogo/imports/@aigogo/token-budget-js --format npm > /tmp/deps.json
 npm install $(node -e "const d=require('/tmp/deps.json'); Object.entries(d.dependencies||{}).forEach(([k,v])=>process.stdout.write(k+'@\"'+v+'\" '))")
 ```
 
 **yarn:**
 ```bash
 # Output as a ready-to-run yarn add command
-aigogo show-deps .aigogo/imports/@aigogo/token-budget-js --format yarn
+aigg show-deps .aigogo/imports/@aigogo/token-budget-js --format yarn
 
 # Or run it directly
-eval "$(aigogo show-deps .aigogo/imports/@aigogo/token-budget-js --format yarn)"
+eval "$(aigg show-deps .aigogo/imports/@aigogo/token-budget-js --format yarn)"
 ```
 
 ### show-deps Format Reference
@@ -284,7 +284,7 @@ eval "$(aigogo show-deps .aigogo/imports/@aigogo/token-budget-js --format yarn)"
 | `npm` | `package-json` | JavaScript | `{"dependencies": {...}}` JSON |
 | `yarn` | | JavaScript | `yarn add "pkg@version"` commands |
 
-This is a deliberate design choice -- aigogo distributes reusable code, not full packages with dependency trees.
+This is a deliberate design choice -- aigg distributes reusable code, not full packages with dependency trees.
 
 ## AI Metadata
 

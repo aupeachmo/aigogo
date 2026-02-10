@@ -49,7 +49,7 @@ func (p *Pusher) Push(imageRef string) error {
 	authManager := auth.NewManager()
 	token, err := authManager.GetToken(registry, repository)
 	if err != nil {
-		return fmt.Errorf("authentication required, run 'aigogo login %s': %w", registry, err)
+		return fmt.Errorf("authentication required, run 'aigg login %s': %w", registry, err)
 	}
 
 	// Upload config blob first (required by Docker Registry API)

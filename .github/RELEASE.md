@@ -24,17 +24,17 @@ Build: -X main.Version=v3.0.0
     ↓
 main.go: Version = "v3.0.0"
     ↓
-User runs: ./aigogo version
+User runs: ./aigg version
     ↓
-Output: "aigogo version v3.0.0"
+Output: "aigg version v3.0.0"
 ```
 
 ### Local Development Builds
 
 ```bash
 $ make build
-$ ./aigogo version
-aigogo version v3.0.0-5-g4f8a2c1-dirty
+$ ./aigg version
+aigg version v3.0.0-5-g4f8a2c1-dirty
 ```
 
 The version shows:
@@ -48,8 +48,8 @@ The version shows:
 If no git tags exist or building without Makefile:
 ```bash
 $ go build .
-$ ./aigogo version
-aigogo version 0.0.1  # Fallback default
+$ ./aigg version
+aigg version 0.0.1  # Fallback default
 ```
 
 ## Creating a New Release
@@ -88,7 +88,7 @@ Check https://github.com/aupeachmo/aigogo/releases
 - [ ] GitHub Actions workflow succeeded
 - [ ] Release appears on GitHub with "Verified" tag badge
 - [ ] Binaries downloadable and working
-- [ ] `./aigogo version` shows correct version
+- [ ] `./aigg version` shows correct version
 - [ ] `gh attestation verify <artifact> --repo aupeachmo/aigogo` passes
 - [ ] Homebrew tap formula updated (check `aupeachmo/homebrew-aigogo` for verified commit)
 
@@ -98,37 +98,37 @@ If GitHub Actions fails, build manually. Note: binaries should be built and stri
 
 ```bash
 # Linux AMD64 (build on Linux)
-GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigogo-linux-amd64
-strip aigogo-linux-amd64
-tar -czf aigogo-linux-amd64.tar.gz aigogo-linux-amd64
-sha256sum aigogo-linux-amd64.tar.gz > aigogo-linux-amd64.tar.gz.sha256
+GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigg-linux-amd64
+strip aigg-linux-amd64
+tar -czf aigg-linux-amd64.tar.gz aigg-linux-amd64
+sha256sum aigg-linux-amd64.tar.gz > aigg-linux-amd64.tar.gz.sha256
 
 # Linux ARM64 (cross-compile on Linux)
-GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigogo-linux-arm64
-tar -czf aigogo-linux-arm64.tar.gz aigogo-linux-arm64
-sha256sum aigogo-linux-arm64.tar.gz > aigogo-linux-arm64.tar.gz.sha256
+GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigg-linux-arm64
+tar -czf aigg-linux-arm64.tar.gz aigg-linux-arm64
+sha256sum aigg-linux-arm64.tar.gz > aigg-linux-arm64.tar.gz.sha256
 
 # macOS AMD64 (build on macOS Intel or with Rosetta)
-GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigogo-darwin-amd64
-strip aigogo-darwin-amd64
-tar -czf aigogo-darwin-amd64.tar.gz aigogo-darwin-amd64
-shasum -a 256 aigogo-darwin-amd64.tar.gz > aigogo-darwin-amd64.tar.gz.sha256
+GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigg-darwin-amd64
+strip aigg-darwin-amd64
+tar -czf aigg-darwin-amd64.tar.gz aigg-darwin-amd64
+shasum -a 256 aigg-darwin-amd64.tar.gz > aigg-darwin-amd64.tar.gz.sha256
 
 # macOS ARM64 (build on Apple Silicon)
-GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigogo-darwin-arm64
-strip aigogo-darwin-arm64
-tar -czf aigogo-darwin-arm64.tar.gz aigogo-darwin-arm64
-shasum -a 256 aigogo-darwin-arm64.tar.gz > aigogo-darwin-arm64.tar.gz.sha256
+GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigg-darwin-arm64
+strip aigg-darwin-arm64
+tar -czf aigg-darwin-arm64.tar.gz aigg-darwin-arm64
+shasum -a 256 aigg-darwin-arm64.tar.gz > aigg-darwin-arm64.tar.gz.sha256
 
 # Windows AMD64
-GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigogo-windows-amd64.exe
-zip aigogo-windows-amd64.zip aigogo-windows-amd64.exe
-sha256sum aigogo-windows-amd64.zip > aigogo-windows-amd64.zip.sha256
+GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigg-windows-amd64.exe
+zip aigg-windows-amd64.zip aigg-windows-amd64.exe
+sha256sum aigg-windows-amd64.zip > aigg-windows-amd64.zip.sha256
 
 # Windows ARM64
-GOOS=windows GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigogo-windows-arm64.exe
-zip aigogo-windows-arm64.zip aigogo-windows-arm64.exe
-sha256sum aigogo-windows-arm64.zip > aigogo-windows-arm64.zip.sha256
+GOOS=windows GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigg-windows-arm64.exe
+zip aigg-windows-arm64.zip aigg-windows-arm64.exe
+sha256sum aigg-windows-arm64.zip > aigg-windows-arm64.zip.sha256
 ```
 
 Then create release manually on GitHub and upload all archives.
@@ -137,25 +137,25 @@ Then create release manually on GitHub and upload all archives.
 
 ```bash
 # Download and test Linux binary
-wget https://github.com/aupeachmo/aigogo/releases/download/v3.0.0/aigogo-linux-amd64.tar.gz
-tar -xzf aigogo-linux-amd64.tar.gz
-./aigogo-linux-amd64 version
-./aigogo-linux-amd64 --help
+wget https://github.com/aupeachmo/aigogo/releases/download/v3.0.0/aigg-linux-amd64.tar.gz
+tar -xzf aigg-linux-amd64.tar.gz
+./aigg-linux-amd64 version
+./aigg-linux-amd64 --help
 
 # Download and test macOS Intel binary
-wget https://github.com/aupeachmo/aigogo/releases/download/v3.0.0/aigogo-darwin-amd64.tar.gz
-tar -xzf aigogo-darwin-amd64.tar.gz
-./aigogo-darwin-amd64 version
+wget https://github.com/aupeachmo/aigogo/releases/download/v3.0.0/aigg-darwin-amd64.tar.gz
+tar -xzf aigg-darwin-amd64.tar.gz
+./aigg-darwin-amd64 version
 
 # Download and test macOS Apple Silicon binary
-wget https://github.com/aupeachmo/aigogo/releases/download/v3.0.0/aigogo-darwin-arm64.tar.gz
-tar -xzf aigogo-darwin-arm64.tar.gz
-./aigogo-darwin-arm64 version
+wget https://github.com/aupeachmo/aigogo/releases/download/v3.0.0/aigg-darwin-arm64.tar.gz
+tar -xzf aigg-darwin-arm64.tar.gz
+./aigg-darwin-arm64 version
 
 # Download and test Windows binary (PowerShell)
-Invoke-WebRequest -Uri "https://github.com/aupeachmo/aigogo/releases/download/v3.0.0/aigogo-windows-amd64.zip" -OutFile aigogo.zip
-Expand-Archive aigogo.zip -DestinationPath .
-.\aigogo-windows-amd64.exe version
+Invoke-WebRequest -Uri "https://github.com/aupeachmo/aigogo/releases/download/v3.0.0/aigg-windows-amd64.zip" -OutFile aigg.zip
+Expand-Archive aigg.zip -DestinationPath .
+.\aigg-windows-amd64.exe version
 ```
 
 ## Version Numbering
@@ -213,7 +213,7 @@ Every release artifact (`.tar.gz` and `.zip`) is attested using `actions/attest-
 **Verifying an artifact:**
 ```bash
 # Download an artifact, then verify it
-gh attestation verify aigogo-linux-amd64.tar.gz --repo aupeachmo/aigogo
+gh attestation verify aigg-linux-amd64.tar.gz --repo aupeachmo/aigogo
 ```
 
 This confirms:
@@ -235,9 +235,9 @@ For vendor-neutral signing that doesn't depend on GitHub infrastructure, [Sigsto
 
 **How users would verify:**
 ```bash
-cosign verify-blob aigogo-linux-amd64.tar.gz \
-  --signature aigogo-linux-amd64.tar.gz.sig \
-  --certificate aigogo-linux-amd64.tar.gz.cert \
+cosign verify-blob aigg-linux-amd64.tar.gz \
+  --signature aigg-linux-amd64.tar.gz.sig \
+  --certificate aigg-linux-amd64.tar.gz.cert \
   --certificate-identity-regexp "github.com/aupeachmo/aigogo" \
   --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
 ```
@@ -306,9 +306,9 @@ git push origin v3.0.0
 
 ```bash
 # Check binary
-./aigogo version
+./aigg version
 
 # Check binary metadata
-go version -m ./aigogo | grep main.Version
+go version -m ./aigg | grep main.Version
 ```
 

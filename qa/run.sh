@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# qa/run.sh — Automated QA test harness for aigogo
+# qa/run.sh — Automated QA test harness for aigg
 #
 # Exercises every command, flag, and error path listed in qa/QA.md.
 # Registry tests are skipped when credentials are not provided.
@@ -12,15 +12,15 @@
 set -euo pipefail
 
 ###############################################################################
-# Resolve aigogo binary
+# Resolve aigg binary
 ###############################################################################
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-AIGOGO="${AIGOGO:-$REPO_ROOT/bin/aigogo}"
+AIGOGO="${AIGOGO:-$REPO_ROOT/bin/aigg}"
 if [[ ! -x "$AIGOGO" ]]; then
-    echo "aigogo binary not found at $AIGOGO"
-    echo "Run 'make build' first, or set AIGOGO=/path/to/aigogo"
+    echo "aigg binary not found at $AIGOGO"
+    echo "Run 'make build' first, or set AIGOGO=/path/to/aigg"
     exit 1
 fi
 
@@ -42,13 +42,13 @@ TOTAL=0; PASSED=0; FAILED=0; SKIPPED=0
 ###############################################################################
 # Log file — all command output goes here
 ###############################################################################
-LOGFILE="$(mktemp /tmp/aigogo-qa-log.XXXXXX)"
+LOGFILE="$(mktemp /tmp/aigg-qa-log.XXXXXX)"
 echo "Log file: $LOGFILE"
 
 ###############################################################################
 # Temp workspace — cleaned up on exit
 ###############################################################################
-WORK="$(mktemp -d /tmp/aigogo-qa-work.XXXXXX)"
+WORK="$(mktemp -d /tmp/aigg-qa-work.XXXXXX)"
 cleanup() { rm -rf "$WORK"; }
 trap cleanup EXIT
 echo "Workspace: $WORK"
@@ -258,16 +258,16 @@ deactivate_venv() {
 ###############################################################################
 echo "${BOLD}=== Utilities ===${RESET}"
 
-run_test_grep "aigogo version" "aigogo version" \
+run_test_grep "aigg version" "aigg version" \
     "$AIGOGO" version
 
-run_test_grep "aigogo completion bash" "_aigogo_completions" \
+run_test_grep "aigg completion bash" "_aigg_completions" \
     "$AIGOGO" completion bash
 
-run_test_grep "aigogo completion zsh" "#compdef aigogo" \
+run_test_grep "aigg completion zsh" "#compdef aigg" \
     "$AIGOGO" completion zsh
 
-run_test_grep "aigogo completion fish" "complete -c aigogo" \
+run_test_grep "aigg completion fish" "complete -c aigg" \
     "$AIGOGO" completion fish
 
 echo ""
@@ -282,10 +282,10 @@ INIT_DIR="$WORK/init-test"
 mkdir -p "$INIT_DIR"
 pushd "$INIT_DIR" >/dev/null
 
-run_test_grep "aigogo init — creates aigogo.json" "Initialized aigogo package" \
+run_test_grep "aigg init — creates aigogo.json" "Initialized aigogo package" \
     "$AIGOGO" init
 
-run_test "aigogo init — aigogo.json exists" test -f aigogo.json
+run_test "aigg init — aigogo.json exists" test -f aigogo.json
 
 popd >/dev/null
 
@@ -295,17 +295,17 @@ create_python_project "$PY_DIR"
 pushd "$PY_DIR" >/dev/null
 "$AIGOGO" init >>"$LOGFILE" 2>&1
 
-run_test_grep "aigogo add file <path>" "Added 1 file" \
+run_test_grep "aigg add file <path>" "Added 1 file" \
     "$AIGOGO" add file utils.py
 
-run_test_grep "aigogo add file <path> (second file)" "Added 1 file" \
+run_test_grep "aigg add file <path> (second file)" "Added 1 file" \
     "$AIGOGO" add file helpers.py
 
 # add file with --force  (add a file that would normally be fine, just test flag)
 cat > "$PY_DIR/extra.py" <<'EOF'
 # extra
 EOF
-run_test_grep "aigogo add file <path> --force (flag after path)" "Added 1 file" \
+run_test_grep "aigg add file <path> --force (flag after path)" "Added 1 file" \
     "$AIGOGO" add file extra.py --force
 
 # add file with glob
@@ -315,7 +315,7 @@ EOF
 cat > "$PY_DIR/glob2.py" << 'EOF'
 pass
 EOF
-run_test_grep "aigogo add file <glob>" "Added 1 file" \
+run_test_grep "aigg add file <glob>" "Added 1 file" \
     "$AIGOGO" add file "glob*.py"
 
 popd >/dev/null
@@ -326,10 +326,10 @@ create_python_project "$DEP_DIR"
 pushd "$DEP_DIR" >/dev/null
 "$AIGOGO" init >>"$LOGFILE" 2>&1
 
-run_test_grep "aigogo add dep <pkg> <ver>" "Added requests" \
+run_test_grep "aigg add dep <pkg> <ver>" "Added requests" \
     "$AIGOGO" add dep requests ">=2.28.0"
 
-run_test_grep "aigogo add dev <pkg> <ver>" "Added pytest" \
+run_test_grep "aigg add dev <pkg> <ver>" "Added pytest" \
     "$AIGOGO" add dev pytest ">=7.0.0"
 
 popd >/dev/null
@@ -344,13 +344,13 @@ pushd "$RM_DIR" >/dev/null
 "$AIGOGO" add dep requests ">=2.0" >>"$LOGFILE" 2>&1
 "$AIGOGO" add dev pytest ">=7.0" >>"$LOGFILE" 2>&1
 
-run_test_grep "aigogo rm file <path>" "Removed 1 file" \
+run_test_grep "aigg rm file <path>" "Removed 1 file" \
     "$AIGOGO" rm file helpers.py
 
-run_test_grep "aigogo rm dep <pkg>" "Removed requests" \
+run_test_grep "aigg rm dep <pkg>" "Removed requests" \
     "$AIGOGO" rm dep requests
 
-run_test_grep "aigogo rm dev <pkg>" "Removed pytest" \
+run_test_grep "aigg rm dev <pkg>" "Removed pytest" \
     "$AIGOGO" rm dev pytest
 
 popd >/dev/null
@@ -362,7 +362,7 @@ pushd "$SCAN_DIR" >/dev/null
 "$AIGOGO" init >>"$LOGFILE" 2>&1
 "$AIGOGO" add file utils.py >>"$LOGFILE" 2>&1
 
-run_test_grep "aigogo scan" "Scanning source files" \
+run_test_grep "aigg scan" "Scanning source files" \
     "$AIGOGO" scan
 
 popd >/dev/null
@@ -374,7 +374,7 @@ pushd "$VAL_DIR" >/dev/null
 "$AIGOGO" init >>"$LOGFILE" 2>&1
 "$AIGOGO" add file utils.py >>"$LOGFILE" 2>&1
 
-run_test_grep "aigogo validate" "Validating manifest" \
+run_test_grep "aigg validate" "Validating manifest" \
     "$AIGOGO" validate
 
 popd >/dev/null
@@ -387,16 +387,16 @@ pushd "$BUILD_DIR" >/dev/null
 "$AIGOGO" add file utils.py >>"$LOGFILE" 2>&1
 
 # Use --force on first build to handle leftover cache from prior runs
-run_test_grep "aigogo build <name>:<tag>" "Successfully built" \
+run_test_grep "aigg build <name>:<tag>" "Successfully built" \
     "$AIGOGO" build qa-test:1.0.0 --force
 
-run_test_grep "aigogo build (auto-increment)" "Auto-incrementing version" \
+run_test_grep "aigg build (auto-increment)" "Auto-incrementing version" \
     "$AIGOGO" build
 
-run_test_grep "aigogo build --force" "Successfully built" \
+run_test_grep "aigg build --force" "Successfully built" \
     "$AIGOGO" build qa-test:1.0.0 --force
 
-run_test_grep "aigogo build --no-validate" "Successfully built" \
+run_test_grep "aigg build --no-validate" "Successfully built" \
     "$AIGOGO" build qa-test:1.0.1 --force --no-validate
 
 popd >/dev/null
@@ -408,7 +408,7 @@ echo ""
 ###############################################################################
 echo "${BOLD}=== Consumer Commands ===${RESET}"
 
-# Build a local package, then use "aigogo add <name>:<tag>" which resolves
+# Build a local package, then use "aigg add <name>:<tag>" which resolves
 # from the local cache (no registry required).
 
 BUILD_CONSUMER="$WORK/consumer-build"
@@ -428,17 +428,17 @@ if create_venv "$WORK/consumer-venv"; then
     activate_venv "$VENV_PATH"
 fi
 
-run_test_grep "aigogo add <name>:<tag> (local cache)" "Added|local cache" \
+run_test_grep "aigg add <name>:<tag> (local cache)" "Added|local cache" \
     "$AIGOGO" add consumer-pkg:1.0.0
 
-run_test "aigogo add — aigogo.lock created" test -f aigogo.lock
+run_test "aigg add — aigogo.lock created" test -f aigogo.lock
 
-run_test_grep "aigogo install" "Installed" \
+run_test_grep "aigg install" "Installed" \
     "$AIGOGO" install
 
 # --- .pth file verification ---
 # Check that .pth-location tracking file was created
-run_test "aigogo install — .pth-location tracking file created" \
+run_test "aigg install — .pth-location tracking file created" \
     test -f "$CONSUMER_DIR/.aigogo/.pth-location"
 
 # Check that the .pth file referenced by the tracking file exists
@@ -463,7 +463,7 @@ pth_file_check() {
     return 0
 }
 
-run_test "aigogo install — .pth file written to site-packages" \
+run_test "aigg install — .pth file written to site-packages" \
     pth_file_check
 
 # Check that Python can import without manual PYTHONPATH
@@ -483,7 +483,7 @@ for name, pkg in lock['packages'].items():
     (cd /tmp && PYTHONPATH="" python3 -c "import aigogo.${normalized_name}" 2>>"$LOGFILE")
 }
 
-run_test "aigogo install — Python import works without PYTHONPATH" \
+run_test "aigg install — Python import works without PYTHONPATH" \
     pth_import_check
 
 # Deactivate the virtualenv
@@ -541,7 +541,7 @@ js_real_dir_check() {
     return 0
 }
 
-run_test "aigogo install — JS package is real directory (not symlink)" \
+run_test "aigg install — JS package is real directory (not symlink)" \
     js_real_dir_check
 
 # Check that generated package.json exists with main field
@@ -570,11 +570,11 @@ js_package_json_check() {
     return 0
 }
 
-run_test "aigogo install — JS package has generated package.json with main" \
+run_test "aigg install — JS package has generated package.json with main" \
     js_package_json_check
 
 # Check that register.js was generated
-run_test "aigogo install — register.js generated" \
+run_test "aigg install — register.js generated" \
     test -f "$JS_CONSUMER_DIR/.aigogo/register.js"
 
 # Check register.js contains the expected content
@@ -590,7 +590,7 @@ js_register_content_check() {
     return 0
 }
 
-run_test "aigogo install — register.js has correct content" \
+run_test "aigg install — register.js has correct content" \
     js_register_content_check
 
 # Check that require('@aigogo/...') works via register script
@@ -602,7 +602,7 @@ js_require_check() {
     (cd "$JS_CONSUMER_DIR" && node --require ./.aigogo/register.js -e "require('@aigogo/js-consumer-pkg')" 2>>"$LOGFILE")
 }
 
-run_test "aigogo install — JS require works via register script" \
+run_test "aigg install — JS require works via register script" \
     js_require_check
 
 popd >/dev/null
@@ -641,7 +641,7 @@ fi
 run_test "uninstall — .aigogo/ exists before uninstall" \
     test -d "$UNINSTALL_DIR/.aigogo"
 
-run_test_grep "aigogo uninstall" "Uninstall complete" \
+run_test_grep "aigg uninstall" "Uninstall complete" \
     "$AIGOGO" uninstall
 
 # Verify .aigogo/ is removed
@@ -653,11 +653,11 @@ uninstall_aigogo_dir_check() {
     return 0
 }
 
-run_test "aigogo uninstall — .aigogo/ removed" \
+run_test "aigg uninstall — .aigogo/ removed" \
     uninstall_aigogo_dir_check
 
 # Verify aigogo.lock is preserved
-run_test "aigogo uninstall — aigogo.lock preserved" \
+run_test "aigg uninstall — aigogo.lock preserved" \
     test -f "$UNINSTALL_DIR/aigogo.lock"
 
 # Verify .pth file was cleaned from site-packages
@@ -673,7 +673,7 @@ uninstall_pth_check() {
     return 0
 }
 
-run_test "aigogo uninstall — .pth file cleaned from site-packages" \
+run_test "aigg uninstall — .pth file cleaned from site-packages" \
     uninstall_pth_check
 
 # Deactivate the virtualenv
@@ -690,7 +690,7 @@ mkdir -p "$UNINSTALL_EMPTY"
 echo '{"version":1,"packages":{}}' > "$UNINSTALL_EMPTY/aigogo.lock"
 pushd "$UNINSTALL_EMPTY" >/dev/null
 
-run_test_grep "aigogo uninstall — nothing to uninstall" "Nothing to uninstall" \
+run_test_grep "aigg uninstall — nothing to uninstall" "Nothing to uninstall" \
     "$AIGOGO" uninstall
 
 popd >/dev/null
@@ -700,7 +700,7 @@ UNINSTALL_ERR="$WORK/uninstall-no-project"
 mkdir -p "$UNINSTALL_ERR"
 pushd "$UNINSTALL_ERR" >/dev/null
 
-run_test_fail_grep "aigogo uninstall outside project -> error" "not an aigogo project" \
+run_test_fail_grep "aigg uninstall outside project -> error" "not an aigogo project" \
     "$AIGOGO" uninstall
 
 popd >/dev/null
@@ -851,16 +851,16 @@ run_test "CAS: symlink exists at .aigogo/imports/aigogo/<pkg>" \
 
 echo ""
 
-# Also test "aigogo add <registry>/<name>:<tag>" if registry is available
+# Also test "aigg add <registry>/<name>:<tag>" if registry is available
 if $HAS_REGISTRY; then
     CONSUMER_REG_DIR="$WORK/consumer-reg"
     mkdir -p "$CONSUMER_REG_DIR"
     pushd "$CONSUMER_REG_DIR" >/dev/null
-    run_test_grep "aigogo add <registry>/<name>:<tag>" "Added" \
+    run_test_grep "aigg add <registry>/<name>:<tag>" "Added" \
         "$AIGOGO" add "$REGISTRY/$REG_REPO:1.0.0"
     popd >/dev/null
 else
-    skip_test "aigogo add <registry>/<name>:<tag> (needs registry)"
+    skip_test "aigg add <registry>/<name>:<tag> (needs registry)"
 fi
 
 echo ""
@@ -946,7 +946,7 @@ echo ""
 ###############################################################################
 echo "${BOLD}=== Cache Management ===${RESET}"
 
-run_test_grep "aigogo list" "Cached snippet packages|No cached" \
+run_test_grep "aigg list" "Cached snippet packages|No cached" \
     "$AIGOGO" list
 
 # Build something so we can remove it
@@ -958,7 +958,7 @@ pushd "$CACHE_DIR" >/dev/null
 "$AIGOGO" build cache-remove-me:1.0.0 --force >>"$LOGFILE" 2>&1
 popd >/dev/null
 
-run_test_grep "aigogo remove <name>:<tag>" "Successfully removed|removed" \
+run_test_grep "aigg remove <name>:<tag>" "Successfully removed|removed" \
     "$AIGOGO" remove cache-remove-me:1.0.0
 
 # Build two more to test remove-all
@@ -967,7 +967,7 @@ pushd "$CACHE_DIR" >/dev/null
 "$AIGOGO" build cache-rm-all-b:1.0.0 --force >>"$LOGFILE" 2>&1
 popd >/dev/null
 
-run_test_grep "aigogo remove-all --force" "Successfully removed|No cached" \
+run_test_grep "aigg remove-all --force" "Successfully removed|No cached" \
     "$AIGOGO" remove-all --force
 
 echo ""
@@ -979,7 +979,7 @@ echo "${BOLD}=== Registry Commands ===${RESET}"
 
 if $HAS_REGISTRY; then
     # login with -u -p (pipe password via stdin)
-    run_test_grep "aigogo login <registry> -u <user> -p" "Successfully logged in" \
+    run_test_grep "aigg login <registry> -u <user> -p" "Successfully logged in" \
         bash -c "echo '$REG_PASS' | $AIGOGO login $REGISTRY -u $REG_USER -p"
 
     # build a package to push
@@ -993,25 +993,25 @@ if $HAS_REGISTRY; then
 
     REG_IMAGE="$REGISTRY/$REG_REPO:1.0.0"
 
-    run_test_grep "aigogo push --from" "Successfully pushed|Pushing" \
+    run_test_grep "aigg push --from" "Successfully pushed|Pushing" \
         "$AIGOGO" push "$REG_IMAGE" --from reg-push-test:1.0.0
 
-    run_test_grep "aigogo pull" "Successfully pulled|Pulling" \
+    run_test_grep "aigg pull" "Successfully pulled|Pulling" \
         "$AIGOGO" pull "$REG_IMAGE"
 
     # delete (pipe "yes" for confirmation)
-    run_test_grep "aigogo delete" "Successfully deleted|Delete" \
+    run_test_grep "aigg delete" "Successfully deleted|Delete" \
         bash -c "echo yes | $AIGOGO delete $REG_IMAGE"
 
     # logout
-    run_test_grep "aigogo logout" "Successfully logged out" \
+    run_test_grep "aigg logout" "Successfully logged out" \
         "$AIGOGO" logout "$REGISTRY"
 else
-    skip_test "aigogo login <registry> -u <user> -p"
-    skip_test "aigogo push --from"
-    skip_test "aigogo pull"
-    skip_test "aigogo delete"
-    skip_test "aigogo logout"
+    skip_test "aigg login <registry> -u <user> -p"
+    skip_test "aigg push --from"
+    skip_test "aigg pull"
+    skip_test "aigg delete"
+    skip_test "aigg logout"
 fi
 
 echo ""

@@ -34,7 +34,7 @@
 
 ## Quick Start
 
-### 1. Install aigogo
+### 1. Install aigg
 
 ```bash
 # From source
@@ -50,13 +50,13 @@ sudo make install  # Installs to /usr/local/bin
 cd ~/my-project
 
 # Add a package from Docker Hub
-aigogo add docker.io/org/my-utils:1.0.0
+aigg add docker.io/org/my-utils:1.0.0
 
 # Or from GitHub Container Registry
-aigogo add ghcr.io/org/my-utils:1.0.0
+aigg add ghcr.io/org/my-utils:1.0.0
 
 # Install packages (creates import symlinks)
-aigogo install
+aigg install
 
 # Use in Python
 python -c "from aigogo.my_utils import helper; print(helper())"
@@ -82,18 +82,18 @@ def fetch_json(url):
 EOF
 
 # Initialize, add files, build
-aigogo init
-aigogo add file api_client.py
-aigogo add dep requests ">=2.31.0,<3.0.0"
-aigogo build
+aigg init
+aigg add file api_client.py
+aigg add dep requests ">=2.31.0,<3.0.0"
+aigg build
 
 # Push to Docker Hub (optional)
-aigogo login docker.io
-aigogo push docker.io/yourusername/api-utils:1.0.0 --from api-utils:1.0.0
+aigg login docker.io
+aigg push docker.io/yourusername/api-utils:1.0.0 --from api-utils:1.0.0
 
 # Or push to GitHub Container Registry
-aigogo login ghcr.io
-aigogo push ghcr.io/yourusername/api-utils:1.0.0 --from api-utils:1.0.0
+aigg login ghcr.io
+aigg push ghcr.io/yourusername/api-utils:1.0.0 --from api-utils:1.0.0
 ```
 
 ---
@@ -105,27 +105,27 @@ aigogo push ghcr.io/yourusername/api-utils:1.0.0 --from api-utils:1.0.0
 ```bash
 # Download latest release for your platform
 # Linux (AMD64)
-wget https://github.com/aupeachmo/aigogo/releases/latest/download/aigogo-linux-amd64.tar.gz
-tar -xzf aigogo-linux-amd64.tar.gz
-sudo mv aigogo-linux-amd64 /usr/local/bin/aigogo
+wget https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-linux-amd64.tar.gz
+tar -xzf aigg-linux-amd64.tar.gz
+sudo mv aigg-linux-amd64 /usr/local/bin/aigg
 
 # Linux (ARM64)
-wget https://github.com/aupeachmo/aigogo/releases/latest/download/aigogo-linux-arm64.tar.gz
-tar -xzf aigogo-linux-arm64.tar.gz
-sudo mv aigogo-linux-arm64 /usr/local/bin/aigogo
+wget https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-linux-arm64.tar.gz
+tar -xzf aigg-linux-arm64.tar.gz
+sudo mv aigg-linux-arm64 /usr/local/bin/aigg
 
 # macOS (Intel)
-wget https://github.com/aupeachmo/aigogo/releases/latest/download/aigogo-darwin-amd64.tar.gz
-tar -xzf aigogo-darwin-amd64.tar.gz
-sudo mv aigogo-darwin-amd64 /usr/local/bin/aigogo
+wget https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-darwin-amd64.tar.gz
+tar -xzf aigg-darwin-amd64.tar.gz
+sudo mv aigg-darwin-amd64 /usr/local/bin/aigg
 
 # macOS (Apple Silicon)
-wget https://github.com/aupeachmo/aigogo/releases/latest/download/aigogo-darwin-arm64.tar.gz
-tar -xzf aigogo-darwin-arm64.tar.gz
-sudo mv aigogo-darwin-arm64 /usr/local/bin/aigogo
+wget https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-darwin-arm64.tar.gz
+tar -xzf aigg-darwin-arm64.tar.gz
+sudo mv aigg-darwin-arm64 /usr/local/bin/aigg
 
 # Verify
-aigogo version
+aigg version
 ```
 
 ### From Source
@@ -161,11 +161,11 @@ The recommended workflow for using aigogo packages in your project:
 cd ~/my-project
 
 # Step 1: Add packages to your project (Docker Hub or ghcr.io)
-aigogo add docker.io/org/string-utils:1.0.0
-aigogo add ghcr.io/org/api-client:2.0.0
+aigg add docker.io/org/string-utils:1.0.0
+aigg add ghcr.io/org/api-client:2.0.0
 
 # Step 2: Install packages (creates symlinks in .aigogo/)
-aigogo install
+aigg install
 
 # Step 3: Commit the lock file to version control
 git add aigogo.lock
@@ -176,7 +176,7 @@ git commit -m "Add aigogo packages"
 
 **Python usage:**
 ```python
-# aigogo install auto-configures your Python path via .pth file
+# aigg install auto-configures your Python path via .pth file
 from aigogo.string_utils import titlecase, reverse
 from aigogo.api_client import fetch_json
 
@@ -199,7 +199,7 @@ console.log(stringUtils.titlecase("hello world"));
 # When a teammate clones the project
 git clone <repo>
 cd <project>
-aigogo install  # Recreates .aigogo/ from aigogo.lock
+aigg install  # Recreates .aigogo/ from aigogo.lock
 ```
 
 ### Creating Packages (Author)
@@ -207,25 +207,25 @@ aigogo install  # Recreates .aigogo/ from aigogo.lock
 ```bash
 # Step 1: Create and initialize
 mkdir my-utils && cd my-utils
-aigogo init
+aigg init
 
 # Step 2: Add your code
-aigogo add file "*.py"              # Add Python files
-aigogo add dep requests ">=2.31.0"  # Add dependencies
+aigg add file "*.py"              # Add Python files
+aigg add dep requests ">=2.31.0"  # Add dependencies
 
 # Step 3: Validate and build
-aigogo validate                     # Check dependencies match code
-aigogo build                        # Build locally (auto-versions)
+aigg validate                     # Check dependencies match code
+aigg build                        # Build locally (auto-versions)
 
 # Step 4: Test locally
 cd ~/test-project
-aigogo add ../my-utils/my-utils:0.1.1  # Add from local cache
-aigogo install
+aigg add ../my-utils/my-utils:0.1.1  # Add from local cache
+aigg install
 python -c "from aigogo.my_utils import ..."
 
 # Step 5: Share (optional - Docker Hub or ghcr.io)
-aigogo login docker.io          # or: aigogo login ghcr.io
-aigogo push docker.io/you/my-utils:0.1.1 --from my-utils:0.1.1
+aigg login docker.io          # or: aigg login ghcr.io
+aigg push docker.io/you/my-utils:0.1.1 --from my-utils:0.1.1
 ```
 
 ### Local-Only Usage
@@ -244,14 +244,14 @@ def reverse(text):
     return text[::-1]
 EOF
 
-aigogo init
-aigogo add file string_helpers.py
-aigogo build string-utils:1.0.0
+aigg init
+aigg add file string_helpers.py
+aigg build string-utils:1.0.0
 
 # Machine 1: Use in another project
 cd ~/my-project
-aigogo add string-utils:1.0.0  # Local reference (no registry)
-aigogo install
+aigg add string-utils:1.0.0  # Local reference (no registry)
+aigg install
 
 python -c "from aigogo.string_utils import titlecase; print(titlecase('hello'))"
 ```
@@ -271,32 +271,32 @@ tar -xzf ~/string-utils-1.0.0.tar.gz
 
 # Machine 2: Use it
 cd ~/my-project
-aigogo add string-utils:1.0.0
-aigogo install
+aigg add string-utils:1.0.0
+aigg install
 ```
 
 ---
 
 ## Tab Completion
 
-`aigogo` supports tab completion for bash, zsh, and fish shells.
+`aigg` supports tab completion for bash, zsh, and fish shells.
 
 ### Bash
 
 ```bash
 # Persistent (recommended)
-aigogo completion bash | sudo tee /etc/bash_completion.d/aigogo > /dev/null
+aigg completion bash | sudo tee /etc/bash_completion.d/aigg > /dev/null
 source ~/.bashrc
 
 # Or add to ~/.bashrc
-echo 'source <(aigogo completion bash)' >> ~/.bashrc
+echo 'source <(aigg completion bash)' >> ~/.bashrc
 ```
 
 ### Zsh
 
 ```bash
 mkdir -p ~/.zsh/completions
-aigogo completion zsh > ~/.zsh/completions/_aigogo
+aigg completion zsh > ~/.zsh/completions/_aigg
 echo 'fpath=(~/.zsh/completions $fpath)' >> ~/.zshrc
 echo 'autoload -Uz compinit && compinit' >> ~/.zshrc
 exec zsh
@@ -306,7 +306,7 @@ exec zsh
 
 ```bash
 mkdir -p ~/.config/fish/completions
-aigogo completion fish > ~/.config/fish/completions/aigogo.fish
+aigg completion fish > ~/.config/fish/completions/aigg.fish
 ```
 
 ---
@@ -317,53 +317,53 @@ aigogo completion fish > ~/.config/fish/completions/aigogo.fish
 
 ```bash
 # Add packages to aigogo.lock
-aigogo add <registry/repo:tag>     # Add from registry
-aigogo add <name:tag>              # Add from local cache
+aigg add <registry/repo:tag>     # Add from registry
+aigg add <name:tag>              # Add from local cache
 
 # Install packages from lock file
-aigogo install                     # Creates .aigogo/imports/ with symlinks
+aigg install                     # Creates .aigogo/imports/ with symlinks
 
 # Remove installed packages and import configuration
-aigogo uninstall                   # Removes .aigogo/, .pth file, register.js
+aigg uninstall                   # Removes .aigogo/, .pth file, register.js
 ```
 
 ### Author Commands
 
 ```bash
 # Initialize and manage manifest
-aigogo init                        # Create aigogo.json
-aigogo add file <path>...          # Add files to package
-aigogo add dep <pkg> <ver>         # Add runtime dependency
-aigogo add dep --from-pyproject    # Import deps from pyproject.toml
-aigogo add dev <pkg> <ver>         # Add dev dependency
-aigogo rm file <path>...           # Remove files
-aigogo rm dep <pkg>                # Remove dependency
-aigogo scan                        # Auto-detect dependencies
-aigogo validate                    # Verify dependencies match code
+aigg init                        # Create aigogo.json
+aigg add file <path>...          # Add files to package
+aigg add dep <pkg> <ver>         # Add runtime dependency
+aigg add dep --from-pyproject    # Import deps from pyproject.toml
+aigg add dev <pkg> <ver>         # Add dev dependency
+aigg rm file <path>...           # Remove files
+aigg rm dep <pkg>                # Remove dependency
+aigg scan                        # Auto-detect dependencies
+aigg validate                    # Verify dependencies match code
 
 # Build and share
-aigogo build                       # Build locally (auto-increments version)
-aigogo build <name>:<tag>          # Build with explicit version
-aigogo push <registry>/<name>:<tag> --from <local-name>:<tag>
+aigg build                       # Build locally (auto-increments version)
+aigg build <name>:<tag>          # Build with explicit version
+aigg push <registry>/<name>:<tag> --from <local-name>:<tag>
 ```
 
 ### Cache Management
 
 ```bash
-aigogo list                        # Show cached packages
-aigogo remove <name>:<tag>         # Delete from local cache
-aigogo remove-all                  # Delete all cached packages
+aigg list                        # Show cached packages
+aigg remove <name>:<tag>         # Delete from local cache
+aigg remove-all                  # Delete all cached packages
 ```
 
 ### Registry Commands
 
 ```bash
-aigogo login <registry>            # Authenticate (interactive)
-aigogo login --dockerhub           # Login to Docker Hub
-aigogo login ghcr.io               # Login to GitHub Container Registry
-aigogo pull <registry/repo:tag>    # Pull without installing
-aigogo delete <registry/repo:tag>  # Delete from registry
-aigogo search <query>              # Search registry
+aigg login <registry>            # Authenticate (interactive)
+aigg login --dockerhub           # Login to Docker Hub
+aigg login ghcr.io               # Login to GitHub Container Registry
+aigg pull <registry/repo:tag>    # Pull without installing
+aigg delete <registry/repo:tag>  # Delete from registry
+aigg search <query>              # Search registry
 ```
 
 **Supported registries:** Docker Hub (`docker.io`), GitHub Container Registry (`ghcr.io`), and any Docker V2-compatible registry.
@@ -373,36 +373,36 @@ aigogo search <query>              # Search registry
 ### Utilities
 
 ```bash
-aigogo show-deps <path>            # Show dependencies from aigogo.json
-aigogo show-deps <path> --format pyproject  # Output in pyproject.toml format
-aigogo show-deps <path> --format poetry     # Output in Poetry format
-aigogo show-deps <path> --format requirements  # Output as requirements.txt
-aigogo show-deps <path> --format npm        # Output as package.json fragment
-aigogo show-deps <path> --format yarn       # Output as yarn add commands
-aigogo version                     # Show version
-aigogo completion <bash|zsh|fish>  # Generate shell completion
+aigg show-deps <path>            # Show dependencies from aigogo.json
+aigg show-deps <path> --format pyproject  # Output in pyproject.toml format
+aigg show-deps <path> --format poetry     # Output in Poetry format
+aigg show-deps <path> --format requirements  # Output as requirements.txt
+aigg show-deps <path> --format npm        # Output as package.json fragment
+aigg show-deps <path> --format yarn       # Output as yarn add commands
+aigg version                     # Show version
+aigg completion <bash|zsh|fish>  # Generate shell completion
 ```
 
 ### Command Summary
 
 | Command | Purpose | Example |
 |---------|---------|---------|
-| `add` | Add package or file/dep | `aigogo add docker.io/org/utils:1.0.0` |
-| `install` | Install from lock file | `aigogo install` |
-| `uninstall` | Remove imports & config | `aigogo uninstall` |
-| `init` | Create aigogo.json | `aigogo init` |
-| `build` | Package locally | `aigogo build` |
-| `push` | Upload to registry | `aigogo push ghcr.io/me/utils:1.0.0 --from utils:1.0.0` |
-| `list` | Show cached packages | `aigogo list` |
-| `remove` | Delete from cache | `aigogo remove utils:1.0.0` |
-| `validate` | Check dependencies | `aigogo validate` |
-| `scan` | Find dependencies | `aigogo scan` |
+| `add` | Add package or file/dep | `aigg add docker.io/org/utils:1.0.0` |
+| `install` | Install from lock file | `aigg install` |
+| `uninstall` | Remove imports & config | `aigg uninstall` |
+| `init` | Create aigogo.json | `aigg init` |
+| `build` | Package locally | `aigg build` |
+| `push` | Upload to registry | `aigg push ghcr.io/me/utils:1.0.0 --from utils:1.0.0` |
+| `list` | Show cached packages | `aigg list` |
+| `remove` | Delete from cache | `aigg remove utils:1.0.0` |
+| `validate` | Check dependencies | `aigg validate` |
+| `scan` | Find dependencies | `aigg scan` |
 
 ---
 
 ## Project Structure
 
-After running `aigogo install`, your project will have:
+After running `aigg install`, your project will have:
 
 ```
 my-project/
@@ -522,10 +522,10 @@ tests/
 
 ## Python Setup
 
-`aigogo install` automatically configures your Python environment by writing an `aigogo.pth` file to your active Python's `site-packages` directory. This works with system Python, venv, Poetry, and uv virtualenvs — no manual setup required.
+`aigg install` automatically configures your Python environment by writing an `aigogo.pth` file to your active Python's `site-packages` directory. This works with system Python, venv, Poetry, and uv virtualenvs — no manual setup required.
 
 ```python
-# Just works after aigogo install
+# Just works after aigg install
 from aigogo.my_utils import helper
 ```
 
@@ -537,7 +537,7 @@ python your_script.py
 
 ## JavaScript Setup
 
-`aigogo install` generates a register script at `.aigogo/register.js` that configures Node.js module resolution automatically.
+`aigg install` generates a register script at `.aigogo/register.js` that configures Node.js module resolution automatically.
 
 **Option 1: Require in your entry point (CommonJS)**
 ```javascript
@@ -551,7 +551,7 @@ const { countTokens } = require('@aigogo/token-budget-js');
 node --require ./.aigogo/register.js app.js
 ```
 
-**Entry point resolution:** aigogo generates a `package.json` with a `main` field so that `require('@aigogo/pkg')` works. The entry point is resolved from top-level files only (priority: `index.js` > `index.mjs` > `index.cjs` > single file > first file alphabetically). Packages with JS files only in subdirectories will need explicit paths, e.g. `require('@aigogo/pkg/sub/file')`.
+**Entry point resolution:** aigg generates a `package.json` with a `main` field so that `require('@aigogo/pkg')` works. The entry point is resolved from top-level files only (priority: `index.js` > `index.mjs` > `index.cjs` > single file > first file alphabetically). Packages with JS files only in subdirectories will need explicit paths, e.g. `require('@aigogo/pkg/sub/file')`.
 
 **Manual fallback** (if the register script approach doesn't fit your setup):
 ```bash
@@ -576,7 +576,7 @@ git clone https://github.com/aupeachmo/aigogo.git
 cd aigogo
 go mod download
 make build
-./bin/aigogo version
+./bin/aigg version
 ```
 
 ### Project Structure

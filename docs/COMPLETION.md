@@ -1,10 +1,10 @@
-# Shell Completion for aigogo
+# Shell Completion for aigg
 
-This document explains how to set up and use shell tab completion for the `aigogo` CLI.
+This document explains how to set up and use shell tab completion for the `aigg` CLI.
 
 ## Overview
 
-The `aigogo completion` command generates shell completion scripts that enable:
+The `aigg completion` command generates shell completion scripts that enable:
 - Auto-completion of commands (e.g., `init`, `build`, `push`)
 - Auto-completion of subcommands (e.g., `add file`, `rm dep`)
 - Auto-completion of flags (e.g., `--force`, `--output`)
@@ -19,7 +19,7 @@ The `aigogo completion` command generates shell completion scripts that enable:
 
 ```bash
 # Requires sudo
-aigogo completion bash | sudo tee /etc/bash_completion.d/aigogo > /dev/null
+aigg completion bash | sudo tee /etc/bash_completion.d/aigg > /dev/null
 
 # Reload shell
 exec bash
@@ -32,7 +32,7 @@ exec bash
 mkdir -p ~/.local/share/bash-completion/completions
 
 # Install completion
-aigogo completion bash > ~/.local/share/bash-completion/completions/aigogo
+aigg completion bash > ~/.local/share/bash-completion/completions/aigg
 
 # Reload shell
 exec bash
@@ -42,10 +42,10 @@ exec bash
 
 ```bash
 # Load completion temporarily
-source <(aigogo completion bash)
+source <(aigg completion bash)
 
 # Or add to ~/.bashrc for automatic loading
-echo 'source <(aigogo completion bash)' >> ~/.bashrc
+echo 'source <(aigg completion bash)' >> ~/.bashrc
 ```
 
 ### Zsh
@@ -57,7 +57,7 @@ echo 'source <(aigogo completion bash)' >> ~/.bashrc
 mkdir -p ~/.zsh/completions
 
 # Generate completion script
-aigogo completion zsh > ~/.zsh/completions/_aigogo
+aigg completion zsh > ~/.zsh/completions/_aigg
 
 # Add to ~/.zshrc if not already present
 echo 'fpath=(~/.zsh/completions $fpath)' >> ~/.zshrc
@@ -71,13 +71,13 @@ exec zsh
 
 ```bash
 # Create custom plugins directory if needed
-mkdir -p ~/.oh-my-zsh/custom/plugins/aigogo
+mkdir -p ~/.oh-my-zsh/custom/plugins/aigg
 
 # Generate completion
-aigogo completion zsh > ~/.oh-my-zsh/custom/plugins/aigogo/_aigogo
+aigg completion zsh > ~/.oh-my-zsh/custom/plugins/aigg/_aigg
 
-# Add 'aigogo' to plugins in ~/.zshrc
-# plugins=(git ... aigogo)
+# Add 'aigg' to plugins in ~/.zshrc
+# plugins=(git ... aigg)
 
 # Reload
 exec zsh
@@ -90,7 +90,7 @@ exec zsh
 mkdir -p ~/.config/fish/completions
 
 # Generate completion script
-aigogo completion fish > ~/.config/fish/completions/aigogo.fish
+aigg completion fish > ~/.config/fish/completions/aigg.fish
 
 # Reload (or restart shell)
 source ~/.config/fish/config.fish
@@ -100,7 +100,7 @@ source ~/.config/fish/config.fish
 
 ### Commands
 
-When you type `aigogo <TAB>`, you'll see:
+When you type `aigg <TAB>`, you'll see:
 ```
 init       add        install    rm         validate   scan
 build      push       pull       login      logout     list
@@ -110,17 +110,17 @@ version    completion
 
 ### Subcommands
 
-#### For `aigogo add <TAB>`:
+#### For `aigg add <TAB>`:
 - `file` - Add files to package
 - `dep` - Add runtime dependency
 - `dev` - Add development dependency
 
-#### For `aigogo rm <TAB>`:
+#### For `aigg rm <TAB>`:
 - `file` - Remove files from package
 - `dep` - Remove runtime dependency
 - `dev` - Remove development dependency
 
-#### For `aigogo completion <TAB>`:
+#### For `aigg completion <TAB>`:
 - `bash`
 - `zsh`
 - `fish`
@@ -130,13 +130,13 @@ version    completion
 Commands that work with local packages will auto-complete from your cache:
 
 ```bash
-aigogo remove <TAB>           # Shows all cached packages
-aigogo push --from <TAB>      # Shows all cached packages
+aigg remove <TAB>           # Shows all cached packages
+aigg push --from <TAB>      # Shows all cached packages
 ```
 
 Example:
 ```
-aigogo remove <TAB>
+aigg remove <TAB>
 # Shows: api-utils:1.0.0  helpers:2.0.0  test-utils:1.0.0
 ```
 
@@ -145,9 +145,9 @@ aigogo remove <TAB>
 Different commands have different flag completions:
 
 ```bash
-aigogo build <TAB>            # --force, --no-validate
-aigogo push <TAB>             # --from
-aigogo delete <TAB>           # --all
+aigg build <TAB>            # --force, --no-validate
+aigg push <TAB>             # --from
+aigg delete <TAB>           # --all
 ```
 
 ### File Paths
@@ -155,46 +155,46 @@ aigogo delete <TAB>           # --all
 File-related commands complete file paths:
 
 ```bash
-aigogo add file <TAB>         # Completes file paths
-aigogo rm file <TAB>          # Completes file paths
+aigg add file <TAB>         # Completes file paths
+aigg rm file <TAB>          # Completes file paths
 ```
 
 ## Usage Examples
 
 ### Complete Commands
 ```bash
-$ aigogo <TAB>
+$ aigg <TAB>
 init       add        install    rm         validate   scan
 build      push       pull       login      logout     ...
 ```
 
 ### Complete Subcommands
 ```bash
-$ aigogo add <TAB>
+$ aigg add <TAB>
 file  dep  dev
 
-$ aigogo add d<TAB>
+$ aigg add d<TAB>
 dep  dev
 ```
 
 ### Complete Package Names
 ```bash
-$ aigogo remove <TAB>
+$ aigg remove <TAB>
 api-utils:1.0.0  test-utils:1.0.0  helpers:2.0.0
 
-$ aigogo remove api<TAB>
+$ aigg remove api<TAB>
 api-utils:1.0.0
 ```
 
 ### Complete Flags
 ```bash
-$ aigogo build --<TAB>
+$ aigg build --<TAB>
 --force  --no-validate
 ```
 
 ### Complete Flags with Values
 ```bash
-$ aigogo push --from <TAB>
+$ aigg push --from <TAB>
 api-utils:1.0.0  test-utils:1.0.0  helpers:2.0.0
 ```
 
@@ -246,43 +246,43 @@ api-utils:1.0.0  test-utils:1.0.0  helpers:2.0.0
 
 1. Check if the completion file exists:
    ```bash
-   ls ~/.config/fish/completions/aigogo.fish
+   ls ~/.config/fish/completions/aigg.fish
    ```
 
 2. Reload completions:
    ```fish
-   source ~/.config/fish/completions/aigogo.fish
+   source ~/.config/fish/completions/aigg.fish
    ```
 
 ### Package Names Not Completing
 
 This can happen if:
-- You have no cached packages (run `aigogo list` to check)
-- The `aigogo` binary is not in your PATH
-- Shell completion is parsing `aigogo list` output incorrectly
+- You have no cached packages (run `aigg list` to check)
+- The `aigg` binary is not in your PATH
+- Shell completion is parsing `aigg list` output incorrectly
 
 To test:
 ```bash
 # Should show your cached packages
-aigogo list | grep -E '^[🔨📦]' | awk '{print $2}'
+aigg list | grep -E '^[🔨📦]' | awk '{print $2}'
 ```
 
 ## Updating Completion
 
-If you update `aigogo` or add new commands, regenerate the completion script:
+If you update `aigg` or add new commands, regenerate the completion script:
 
 ```bash
 # Bash
-aigogo completion bash | sudo tee /etc/bash_completion.d/aigogo > /dev/null
+aigg completion bash | sudo tee /etc/bash_completion.d/aigg > /dev/null
 exec bash
 
 # Zsh
-aigogo completion zsh > ~/.zsh/completions/_aigogo
+aigg completion zsh > ~/.zsh/completions/_aigg
 rm -f ~/.zcompdump
 exec zsh
 
 # Fish
-aigogo completion fish > ~/.config/fish/completions/aigogo.fish
+aigg completion fish > ~/.config/fish/completions/aigg.fish
 source ~/.config/fish/config.fish
 ```
 
@@ -299,7 +299,7 @@ The completion scripts use shell-specific completion APIs:
 
 When completing package names, the scripts:
 1. Check if `~/.aigogo/cache` directory exists
-2. Run `aigogo list` to get all packages
+2. Run `aigg list` to get all packages
 3. Parse the output using grep and awk
 4. Filter results based on what you've typed so far
 

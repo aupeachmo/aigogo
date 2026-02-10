@@ -26,7 +26,7 @@ func runInstall() error {
 	// Find lock file
 	lockPath, lock, err := lockfile.FindLockFile()
 	if err != nil {
-		return fmt.Errorf("failed to find aigogo.lock: %w\nRun 'aigogo add <package>' first to add packages", err)
+		return fmt.Errorf("failed to find aigogo.lock: %w\nRun 'aigg add <package>' first to add packages", err)
 	}
 
 	projectDir := filepath.Dir(lockPath)

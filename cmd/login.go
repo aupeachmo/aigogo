@@ -26,7 +26,7 @@ func loginCmd() *Command {
 			if *dockerhub {
 				registry = "docker.io"
 			} else if len(args) < 1 {
-				return fmt.Errorf("usage: aigogo login <registry> [-u username] [-p] [--dockerhub]")
+				return fmt.Errorf("usage: aigg login <registry> [-u username] [-p] [--dockerhub]")
 			} else {
 				registry = args[0]
 			}
@@ -78,7 +78,7 @@ func logoutCmd() *Command {
 		Description: "Logout from a container registry",
 		Run: func(args []string) error {
 			if len(args) < 1 {
-				return fmt.Errorf("usage: aigogo logout <registry>")
+				return fmt.Errorf("usage: aigg logout <registry>")
 			}
 
 			registry := args[0]

@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Build
-make build              # Build for current platform (output: bin/aigogo)
+make build              # Build for current platform (output: bin/aigg)
 make build-all          # Build for Linux (AMD64/ARM64), macOS (Intel/ARM), Windows
 
 # Test
@@ -110,7 +110,7 @@ This matches the CI lint job (`.github/workflows/test.yml` — `golangci/golangc
 4. **Local-First Workflow**: Build locally first, then push with explicit `--from` flag
 5. **No Docker Daemon**: Local builds don't require Docker running
 6. **Subdirectory Support**: All commands work from any subdirectory (finds aigogo.json upward)
-7. **Auto-Versioning**: `aigogo build` without args increments patch version
+7. **Auto-Versioning**: `aigg build` without args increments patch version
 8. **`.aigogoignore` Support**: Gitignore-compatible file exclusion
 9. **AI Metadata**: Optional `ai` field in aigogo.json for agent discovery (see MACHINES.md)
 

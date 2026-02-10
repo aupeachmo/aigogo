@@ -78,12 +78,12 @@ git push origin v3.0.0
 ## Artifacts
 
 Release artifacts include:
-- `aigogo-linux-amd64.tar.gz` - Linux AMD64 binary (stripped)
-- `aigogo-linux-arm64.tar.gz` - Linux ARM64 binary
-- `aigogo-darwin-amd64.tar.gz` - macOS Intel binary (stripped)
-- `aigogo-darwin-arm64.tar.gz` - macOS ARM64 binary (stripped)
-- `aigogo-windows-amd64.zip` - Windows AMD64 binary
-- `aigogo-windows-arm64.zip` - Windows ARM64 binary
+- `aigg-linux-amd64.tar.gz` - Linux AMD64 binary (stripped)
+- `aigg-linux-arm64.tar.gz` - Linux ARM64 binary
+- `aigg-darwin-amd64.tar.gz` - macOS Intel binary (stripped)
+- `aigg-darwin-arm64.tar.gz` - macOS ARM64 binary (stripped)
+- `aigg-windows-amd64.zip` - Windows AMD64 binary
+- `aigg-windows-arm64.zip` - Windows ARM64 binary
 - `*.sha256` - Checksums for verification
 
 ## Requirements
@@ -98,25 +98,25 @@ Build for all platforms locally:
 
 ```bash
 # Linux AMD64
-GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigogo-linux-amd64
-strip aigogo-linux-amd64
+GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigg-linux-amd64
+strip aigg-linux-amd64
 
 # Linux ARM64
-GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigogo-linux-arm64
+GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigg-linux-arm64
 
 # macOS AMD64 (Intel)
-GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigogo-darwin-amd64
-strip aigogo-darwin-amd64  # Only works on macOS
+GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigg-darwin-amd64
+strip aigg-darwin-amd64  # Only works on macOS
 
 # macOS ARM64 (Apple Silicon)
-GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigogo-darwin-arm64
-strip aigogo-darwin-arm64  # Only works on macOS
+GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigg-darwin-arm64
+strip aigg-darwin-arm64  # Only works on macOS
 
 # Windows AMD64
-GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigogo-windows-amd64.exe
+GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigg-windows-amd64.exe
 
 # Windows ARM64
-GOOS=windows GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigogo-windows-arm64.exe
+GOOS=windows GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o aigg-windows-arm64.exe
 ```
 
 ## Badges
@@ -137,7 +137,7 @@ aigogo v3.0+ uses:
 - **Namespace Imports**: `from aigogo.package_name` (Python), `@aigogo/package-name` (JS)
 
 Key commands:
-- `aigogo add <package>` - Add package to lock file
-- `aigogo install` - Install packages from lock file
-- `aigogo build` - Build package locally
-- `aigogo push` - Push to registry
+- `aigg add <package>` - Add package to lock file
+- `aigg install` - Install packages from lock file
+- `aigg build` - Build package locally
+- `aigg push` - Push to registry

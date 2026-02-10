@@ -1,6 +1,6 @@
 # Language Support
 
-aigogo fully supports Python and JavaScript/TypeScript for both authoring and consuming packages. Go and Rust have partial authoring support (manifest creation, file discovery, dependency scanning) but no consumer import infrastructure.
+aigg fully supports Python and JavaScript/TypeScript for both authoring and consuming packages. Go and Rust have partial authoring support (manifest creation, file discovery, dependency scanning) but no consumer import infrastructure.
 
 This document covers the two fully supported languages.
 
@@ -14,7 +14,7 @@ This document covers the two fully supported languages.
 
 **Import scanning**: Detects `import x` and `from x import y`. Filters out relative imports and standard library modules (os, sys, re, json, time, datetime, collections, itertools, functools, pathlib, typing, abc, io, math, random, string, subprocess, threading, multiprocessing, logging, argparse, configparser, unittest, sqlite3, csv, xml, html, urllib, http, email, base64, hashlib).
 
-**Dependency import**: `aigogo add dep --from-pyproject` reads dependencies from an existing `pyproject.toml` and adds them to `aigogo.json`.
+**Dependency import**: `aigg add dep --from-pyproject` reads dependencies from an existing `pyproject.toml` and adds them to `aigogo.json`.
 
 **Version constraints**: `==1.0.0` (exact), `>=1.0.0,<2.0.0` (range), `~=1.0.0` (compatible).
 
@@ -29,13 +29,13 @@ This document covers the two fully supported languages.
 from aigogo.my_utils import some_function
 ```
 
-**Path configuration**: `aigogo install` writes an `aigogo.pth` file into the active Python environment's `site-packages` directory. This is the same mechanism `pip install -e` uses and works with system Python, venv, Poetry, and uv virtualenvs. The `.pth` file contains the absolute path to `.aigogo/imports/`, which Python adds to `sys.path` at startup.
+**Path configuration**: `aigg install` writes an `aigogo.pth` file into the active Python environment's `site-packages` directory. This is the same mechanism `pip install -e` uses and works with system Python, venv, Poetry, and uv virtualenvs. The `.pth` file contains the absolute path to `.aigogo/imports/`, which Python adds to `sys.path` at startup.
 
 Detection order:
 1. `$VIRTUAL_ENV` environment variable (if set, finds `lib/pythonX.Y/site-packages/` within it)
 2. `python3 -c "import sysconfig; print(sysconfig.get_path('purelib'))"` fallback
 
-The `.pth` file location is tracked in `.aigogo/.pth-location` for cleanup by `aigogo uninstall`.
+The `.pth` file location is tracked in `.aigogo/.pth-location` for cleanup by `aigg uninstall`.
 
 **show-deps formats**:
 
@@ -69,7 +69,7 @@ const { fn } = require('@aigogo/my-utils');
 import { fn } from '@aigogo/my-utils';
 ```
 
-**Entry point resolution**: When creating the package directory, aigogo resolves the main entry point from top-level files only:
+**Entry point resolution**: When creating the package directory, aigg resolves the main entry point from top-level files only:
 
 1. `index.js` (highest priority)
 2. `index.mjs`
@@ -77,9 +77,9 @@ import { fn } from '@aigogo/my-utils';
 4. Single JS file (if only one exists)
 5. First JS file alphabetically
 
-If a package has no top-level `.js`/`.mjs`/`.cjs` files but has JS files in subdirectories, aigogo prints a warning. Consumers can still use explicit paths (e.g. `require('@aigogo/pkg/sub/file')`).
+If a package has no top-level `.js`/`.mjs`/`.cjs` files but has JS files in subdirectories, aigg prints a warning. Consumers can still use explicit paths (e.g. `require('@aigogo/pkg/sub/file')`).
 
-**Path configuration**: `aigogo install` creates `.aigogo/register.js`, which adds `.aigogo/imports/` to Node.js `NODE_PATH` and forces a path reload. Use it one of two ways:
+**Path configuration**: `aigg install` creates `.aigogo/register.js`, which adds `.aigogo/imports/` to Node.js `NODE_PATH` and forces a path reload. Use it one of two ways:
 
 ```javascript
 // At the top of your entry point
@@ -91,7 +91,7 @@ require('./.aigogo/register');
 node --require ./.aigogo/register.js app.js
 ```
 
-The register script is removed by `aigogo uninstall`.
+The register script is removed by `aigg uninstall`.
 
 **show-deps formats**:
 

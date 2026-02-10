@@ -21,7 +21,7 @@ func deleteCmd() *Command {
 		Flags:       flags,
 		Run: func(args []string) error {
 			if len(args) < 1 {
-				return fmt.Errorf("usage: aigogo delete <registry>/<name>:<tag> [--all]")
+				return fmt.Errorf("usage: aigg delete <registry>/<name>:<tag> [--all]")
 			}
 
 			imageRef := args[0]
@@ -89,7 +89,7 @@ func deleteCmd() *Command {
 				fmt.Printf("✓ Successfully deleted %s from registry\n", imageRef)
 				fmt.Println()
 				fmt.Println("Note: The local cache is not affected. To remove from cache, run:")
-				fmt.Printf("  aigogo remove %s\n", imageRef)
+				fmt.Printf("  aigg remove %s\n", imageRef)
 			}
 
 			return nil

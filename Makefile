@@ -1,7 +1,7 @@
 .PHONY: build install clean test qa fmt vet lint help build-all build-linux build-linux-arm build-darwin build-darwin-arm build-windows deps
 
 # Binary name
-BINARY=aigogo
+BINARY=aigg
 
 # Output directory
 BIN_DIR=bin
@@ -36,21 +36,21 @@ install: build
 	@echo "Installing shell completion..."
 	@if echo "$$SHELL" | grep -q bash; then \
 		echo "  Detected bash shell"; \
-		sudo $(BIN_DIR)/$(BINARY) completion bash > /tmp/aigogo-completion-bash; \
-		sudo mv /tmp/aigogo-completion-bash /etc/bash_completion.d/aigogo; \
-		sudo chmod 644 /etc/bash_completion.d/aigogo; \
-		echo "  ✓ Bash completion installed to /etc/bash_completion.d/aigogo"; \
+		sudo $(BIN_DIR)/$(BINARY) completion bash > /tmp/aigg-completion-bash; \
+		sudo mv /tmp/aigg-completion-bash /etc/bash_completion.d/aigg; \
+		sudo chmod 644 /etc/bash_completion.d/aigg; \
+		echo "  ✓ Bash completion installed to /etc/bash_completion.d/aigg"; \
 		echo "  ✓ Permissions set to 644 (world readable)"; \
 		echo ""; \
-		echo "  Reload your shell or run: source /etc/bash_completion.d/aigogo"; \
+		echo "  Reload your shell or run: source /etc/bash_completion.d/aigg"; \
 	elif echo "$$SHELL" | grep -q zsh; then \
 		echo "  Detected zsh shell"; \
 		mkdir -p ~/.zsh/completions; \
-		$(BIN_DIR)/$(BINARY) completion zsh > ~/.zsh/completions/_aigogo; \
-		echo "  ✓ Zsh completion installed to ~/.zsh/completions/_aigogo"; \
+		$(BIN_DIR)/$(BINARY) completion zsh > ~/.zsh/completions/_aigg; \
+		echo "  ✓ Zsh completion installed to ~/.zsh/completions/_aigg"; \
 		if ! grep -q "fpath=(~/.zsh/completions" ~/.zshrc 2>/dev/null; then \
 			echo "" >> ~/.zshrc; \
-			echo "# aigogo completion" >> ~/.zshrc; \
+			echo "# aigg completion" >> ~/.zshrc; \
 			echo "fpath=(~/.zsh/completions \$$fpath)" >> ~/.zshrc; \
 			echo "autoload -Uz compinit && compinit" >> ~/.zshrc; \
 			echo "  ✓ Updated ~/.zshrc"; \
@@ -59,7 +59,7 @@ install: build
 		echo "  Reload your shell or run: exec zsh"; \
 	else \
 		echo "  Shell not detected or not supported (bash/zsh)"; \
-		echo "  Run manually: aigogo completion bash|zsh"; \
+		echo "  Run manually: aigg completion bash|zsh"; \
 	fi
 	@echo ""
 	@echo "Installation complete. Run '$(BINARY) version' to verify."
@@ -75,19 +75,19 @@ install-user: build
 	@if echo "$$SHELL" | grep -q bash; then \
 		echo "  Detected bash shell"; \
 		mkdir -p ~/.local/share/bash-completion/completions; \
-		$(BIN_DIR)/$(BINARY) completion bash > ~/.local/share/bash-completion/completions/aigogo; \
-		chmod 644 ~/.local/share/bash-completion/completions/aigogo; \
-		echo "  ✓ Bash completion installed to ~/.local/share/bash-completion/completions/aigogo"; \
+		$(BIN_DIR)/$(BINARY) completion bash > ~/.local/share/bash-completion/completions/aigg; \
+		chmod 644 ~/.local/share/bash-completion/completions/aigg; \
+		echo "  ✓ Bash completion installed to ~/.local/share/bash-completion/completions/aigg"; \
 		echo ""; \
-		echo "  Reload your shell or run: source ~/.local/share/bash-completion/completions/aigogo"; \
+		echo "  Reload your shell or run: source ~/.local/share/bash-completion/completions/aigg"; \
 	elif echo "$$SHELL" | grep -q zsh; then \
 		echo "  Detected zsh shell"; \
 		mkdir -p ~/.zsh/completions; \
-		$(BIN_DIR)/$(BINARY) completion zsh > ~/.zsh/completions/_aigogo; \
-		echo "  ✓ Zsh completion installed to ~/.zsh/completions/_aigogo"; \
+		$(BIN_DIR)/$(BINARY) completion zsh > ~/.zsh/completions/_aigg; \
+		echo "  ✓ Zsh completion installed to ~/.zsh/completions/_aigg"; \
 		if ! grep -q "fpath=(~/.zsh/completions" ~/.zshrc 2>/dev/null; then \
 			echo "" >> ~/.zshrc; \
-			echo "# aigogo completion" >> ~/.zshrc; \
+			echo "# aigg completion" >> ~/.zshrc; \
 			echo "fpath=(~/.zsh/completions \$$fpath)" >> ~/.zshrc; \
 			echo "autoload -Uz compinit && compinit" >> ~/.zshrc; \
 			echo "  ✓ Updated ~/.zshrc"; \
@@ -96,7 +96,7 @@ install-user: build
 		echo "  Reload your shell or run: exec zsh"; \
 	else \
 		echo "  Shell not detected or not supported (bash/zsh)"; \
-		echo "  Run manually: aigogo completion bash|zsh"; \
+		echo "  Run manually: aigg completion bash|zsh"; \
 	fi
 	@echo ""
 	@echo "Installation complete. Make sure ~/bin is in your PATH."
@@ -107,7 +107,7 @@ install-user: build
 clean:
 	@echo "Cleaning..."
 	@rm -rf $(BIN_DIR)
-	@rm -f $(BINARY) $(BINARY)-* $(BINARY).exe aigogo-before
+	@rm -f $(BINARY) $(BINARY)-* $(BINARY).exe aigg-before
 	@rm -rf dist/
 	@go clean
 	@echo "Clean complete."
@@ -207,7 +207,7 @@ build-all: clean
 
 # Show help
 help:
-	@echo "aigogo v2.0 - Code Snippet Package Manager"
+	@echo "aigg v2.0 - Code Snippet Package Manager"
 	@echo ""
 	@echo "Usage: make [target]"
 	@echo ""

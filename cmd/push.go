@@ -18,14 +18,14 @@ func pushCmd() *Command {
 		Flags:       flags,
 		Run: func(args []string) error {
 			if len(args) < 1 {
-				return fmt.Errorf("usage: aigogo push <registry>/<name>:<tag> --from <local-build>")
+				return fmt.Errorf("usage: aigg push <registry>/<name>:<tag> --from <local-build>")
 			}
 
 			imageRef := args[0]
 
 			// Require --from flag
 			if *from == "" {
-				return fmt.Errorf("--from flag is required\n\nWorkflow:\n  1. aigogo build <name>:<tag>\n  2. aigogo push %s --from <name>:<tag>\n\nExample:\n  aigogo build utils:1.0.0\n  aigogo push %s --from utils:1.0.0", imageRef, imageRef)
+				return fmt.Errorf("--from flag is required\n\nWorkflow:\n  1. aigg build <name>:<tag>\n  2. aigg push %s --from <name>:<tag>\n\nExample:\n  aigg build utils:1.0.0\n  aigg push %s --from utils:1.0.0", imageRef, imageRef)
 			}
 
 			// Push from the specified local build
@@ -38,7 +38,7 @@ func pushCmd() *Command {
 func pushFromLocalBuild(registryRef, localRef string) error {
 	// Check if local build exists
 	if !docker.ImageExistsInCache(localRef) {
-		return fmt.Errorf("local build not found: %s\nBuild it first with: aigogo build %s", localRef, localRef)
+		return fmt.Errorf("local build not found: %s\nBuild it first with: aigg build %s", localRef, localRef)
 	}
 
 	fmt.Printf("Pushing local build %s to %s...\n", localRef, registryRef)

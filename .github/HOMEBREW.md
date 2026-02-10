@@ -8,8 +8,8 @@ There are two approaches:
 
 | Approach | Install Command | Control | Approval Needed |
 |----------|----------------|---------|-----------------|
-| Personal Tap | `brew tap aupeachmo/aigogo && brew install aigogo` | Full | None |
-| Homebrew Core | `brew install aigogo` | Limited | Yes |
+| Personal Tap | `brew tap aupeachmo/aigogo && brew install aigg` | Full | None |
+| Homebrew Core | `brew install aigg` | Limited | Yes |
 
 **Recommendation**: Start with a personal tap, consider homebrew-core later once the project has traction.
 
@@ -22,7 +22,7 @@ The tap repository (`aupeachmo/homebrew-aigogo`) contains:
 ```
 homebrew-aigogo/
 ├── Formula/
-│   └── aigogo.rb    # Homebrew formula (auto-updated by CI)
+│   └── aigg.rb      # Homebrew formula (auto-updated by CI)
 └── README.md        # Install instructions and setup docs
 ```
 
@@ -38,7 +38,7 @@ A template for the initial repository contents is in `.github/BREW_REPO/`.
 
 ```bash
 brew tap aupeachmo/aigogo
-brew install aigogo
+brew install aigg
 ```
 
 ### CI Automation (GitHub App)
@@ -53,7 +53,7 @@ The release workflow (`.github/workflows/release.yml`) includes an `update-homeb
 
 1. The `update-homebrew` job runs after the `release` job completes
 2. It downloads SHA256 checksums from the new release
-3. Generates an updated `Formula/aigogo.rb` with the new version and hashes
+3. Generates an updated `Formula/aigg.rb` with the new version and hashes
 4. Uses `actions/create-github-app-token@v1` to mint a short-lived token
 5. Pushes the formula via the GitHub Contents API, producing a verified signed commit
 
@@ -107,12 +107,12 @@ If the automation fails, you can update the formula manually:
 # Get checksums from the release
 VERSION=X.Y.Z
 BASE_URL="https://github.com/aupeachmo/aigogo/releases/download/v${VERSION}"
-curl -sL "${BASE_URL}/aigogo-darwin-amd64.tar.gz.sha256"
-curl -sL "${BASE_URL}/aigogo-darwin-arm64.tar.gz.sha256"
-curl -sL "${BASE_URL}/aigogo-linux-amd64.tar.gz.sha256"
-curl -sL "${BASE_URL}/aigogo-linux-arm64.tar.gz.sha256"
+curl -sL "${BASE_URL}/aigg-darwin-amd64.tar.gz.sha256"
+curl -sL "${BASE_URL}/aigg-darwin-arm64.tar.gz.sha256"
+curl -sL "${BASE_URL}/aigg-linux-amd64.tar.gz.sha256"
+curl -sL "${BASE_URL}/aigg-linux-arm64.tar.gz.sha256"
 
-# Edit Formula/aigogo.rb with the new version and SHA256 hashes
+# Edit Formula/aigg.rb with the new version and SHA256 hashes
 # Commit and push
 ```
 
@@ -137,7 +137,7 @@ The Homebrew team requires:
 2. Create a formula (they prefer source builds):
 
 ```ruby
-class Aigogo < Formula
+class Aigg < Formula
   desc "Make packaging and distributing your AI agents a breeze"
   homepage "https://github.com/aupeachmo/aigogo"
   url "https://github.com/aupeachmo/aigogo/archive/refs/tags/v3.0.0.tar.gz"
@@ -151,7 +151,7 @@ class Aigogo < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/aigogo version")
+    assert_match version.to_s, shell_output("#{bin}/aigg version")
   end
 end
 ```
@@ -172,16 +172,16 @@ end
 
 ```bash
 # Test a local formula file
-brew install --build-from-source ./aigogo.rb
+brew install --build-from-source ./aigg.rb
 
 # Audit the formula
-brew audit --strict aigogo
+brew audit --strict aigg
 
 # Test the formula
-brew test aigogo
+brew test aigg
 
 # Uninstall
-brew uninstall aigogo
+brew uninstall aigg
 ```
 
 ## Checklist for First Release
@@ -193,5 +193,5 @@ brew uninstall aigogo
 - [ ] Add `BREW_APP_PRIVATE_KEY` secret to `aupeachmo/aigogo`
 - [ ] Tag a release and verify the `update-homebrew` job runs successfully
 - [ ] Verify the tap commit shows a "Verified" badge
-- [ ] Test: `brew tap aupeachmo/aigogo && brew install aigogo`
+- [ ] Test: `brew tap aupeachmo/aigogo && brew install aigg`
 - [ ] Update main README with Homebrew install instructions

@@ -2,12 +2,12 @@
 
 ## Stripping Strategy
 
-aigogo binaries are optimized for size using multiple techniques:
+aigg binaries are optimized for size using multiple techniques:
 
 ### 1. Go Build Flags
 
 ```bash
-go build -ldflags="-s -w" -o aigogo
+go build -ldflags="-s -w" -o aigg
 ```
 
 - **`-s`**: Omit the symbol table and debug information
@@ -19,9 +19,9 @@ go build -ldflags="-s -w" -o aigogo
 For Linux and macOS binaries, we run `strip` after building:
 
 ```bash
-strip aigogo-linux-amd64
-strip aigogo-darwin-amd64
-strip aigogo-darwin-arm64
+strip aigg-linux-amd64
+strip aigg-darwin-amd64
+strip aigg-darwin-arm64
 ```
 
 - **Result**: Additional 5-10% size reduction
@@ -52,12 +52,12 @@ Verify stripped binaries work correctly:
 
 ```bash
 # Check if binary is stripped
-file aigogo-linux-amd64
+file aigg-linux-amd64
 # Should show: "stripped"
 
 # Verify it still works
-./aigogo-linux-amd64 version
-./aigogo-linux-amd64 init
+./aigg-linux-amd64 version
+./aigg-linux-amd64 init
 ```
 
 ## Further Optimization
@@ -66,7 +66,7 @@ For even smaller binaries, consider:
 
 1. **UPX Compression** (optional, may trigger antivirus):
    ```bash
-   upx --best --lzma aigogo-linux-amd64
+   upx --best --lzma aigg-linux-amd64
    ```
    - Can reduce size by 50-70%
    - Increases startup time slightly
@@ -90,9 +90,9 @@ Our release workflow:
 5. ✅ Creates compressed tarballs/zips (additional ~60% size reduction)
 
 Final distribution sizes:
-- `aigogo-linux-amd64.tar.gz`: ~3.2 MB
-- `aigogo-linux-arm64.tar.gz`: ~3.1 MB
-- `aigogo-darwin-amd64.tar.gz`: ~3.0 MB
-- `aigogo-darwin-arm64.tar.gz`: ~2.9 MB
-- `aigogo-windows-amd64.zip`: ~3.2 MB
-- `aigogo-windows-arm64.zip`: ~3.1 MB
+- `aigg-linux-amd64.tar.gz`: ~3.2 MB
+- `aigg-linux-arm64.tar.gz`: ~3.1 MB
+- `aigg-darwin-amd64.tar.gz`: ~3.0 MB
+- `aigg-darwin-arm64.tar.gz`: ~2.9 MB
+- `aigg-windows-amd64.zip`: ~3.2 MB
+- `aigg-windows-arm64.zip`: ~3.1 MB

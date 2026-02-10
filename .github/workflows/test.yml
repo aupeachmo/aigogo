@@ -27,13 +27,13 @@ jobs:
         run: go test -v -race -coverprofile=coverage.out ./...
 
       - name: Build
-        run: go build -v -o aigogo .
+        run: go build -v -o aigg .
 
       - name: Enumerate directory
         run: ls -la
 
       - name: Verify binary
-        run: ./aigogo version
+        run: ./aigg version
 
       - name: QA integration tests
         run: |
@@ -41,7 +41,7 @@ jobs:
           ./qa/run.sh --local
         shell: bash
         env:
-          AIGOGO: ${{ github.workspace }}/aigogo
+          AIGOGO: ${{ github.workspace }}/aigg
 
   lint:
     name: Lint

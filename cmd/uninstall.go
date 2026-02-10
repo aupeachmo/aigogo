@@ -60,7 +60,7 @@ func runUninstall() error {
 	fmt.Println("✓ Removed .aigogo/ directory")
 
 	fmt.Println("\nUninstall complete. The aigogo.lock file has been preserved.")
-	fmt.Println("Run 'aigogo install' to reinstall packages.")
+	fmt.Println("Run 'aigg install' to reinstall packages.")
 
 	return nil
 }

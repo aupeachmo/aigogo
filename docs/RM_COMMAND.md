@@ -1,4 +1,4 @@
-# aigogo rm Command
+# aigg rm Command
 
 ## Overview
 
@@ -14,7 +14,7 @@ Removes files or patterns from the `files.include` array.
 
 **Usage:**
 ```bash
-aigogo rm file <path>...
+aigg rm file <path>...
 ```
 
 **Features:**
@@ -26,18 +26,18 @@ aigogo rm file <path>...
 **Examples:**
 ```bash
 # Remove single file
-aigogo rm file old_utils.py
+aigg rm file old_utils.py
 
 # Remove multiple files
-aigogo rm file test.py helper.py config.json
+aigg rm file test.py helper.py config.json
 
 # Remove glob pattern
-aigogo rm file "*.pyc"
+aigg rm file "*.pyc"
 ```
 
 **Interactive Mode:**
 ```bash
-$ aigogo rm file
+$ aigg rm file
 Current files in include list:
   1. api_client.py
   2. utils.py
@@ -55,16 +55,16 @@ Remaining files (1):
 **Error Handling:**
 ```bash
 # File not in include list
-$ aigogo rm file nonexistent.py
+$ aigg rm file nonexistent.py
 Error: no matching files found in include list
 
 # files.include is set to "auto"
-$ aigogo rm file test.py
+$ aigg rm file test.py
 Error: files.include is set to 'auto'
 Cannot remove individual files when using auto-discovery
 
 # No files in include list
-$ aigogo rm file test.py
+$ aigg rm file test.py
 Error: no files in include list
 ```
 
@@ -76,27 +76,27 @@ Removes a runtime dependency from `dependencies.runtime`.
 
 **Usage:**
 ```bash
-aigogo rm dep <package>
+aigg rm dep <package>
 ```
 
 **Examples:**
 ```bash
 # Python
-aigogo rm dep requests
+aigg rm dep requests
 
 # JavaScript
-aigogo rm dep axios
+aigg rm dep axios
 
 # Go
-aigogo rm dep github.com/pkg/errors
+aigg rm dep github.com/pkg/errors
 
 # Rust
-aigogo rm dep serde
+aigg rm dep serde
 ```
 
 **Interactive Mode:**
 ```bash
-$ aigogo rm dep
+$ aigg rm dep
 Current runtime dependencies:
   1. requests (>=2.31.0,<3.0.0)
   2. click (>=8.0.0,<9.0.0)
@@ -118,25 +118,25 @@ Removes a development dependency from `dependencies.dev`.
 
 **Usage:**
 ```bash
-aigogo rm dev <package>
+aigg rm dev <package>
 ```
 
 **Examples:**
 ```bash
 # Python testing
-aigogo rm dev pytest
-aigogo rm dev black
+aigg rm dev pytest
+aigg rm dev black
 
 # JavaScript testing
-aigogo rm dev jest
+aigg rm dev jest
 
 # Go testing
-aigogo rm dev github.com/stretchr/testify
+aigg rm dev github.com/stretchr/testify
 ```
 
 **Interactive Mode:**
 ```bash
-$ aigogo rm dev
+$ aigg rm dev
 Current development dependencies:
   1. pytest (^7.0.0)
   2. black (>=23.0.0)
@@ -159,33 +159,33 @@ Remaining development dependencies (1):
 cat aigogo.json
 
 # Remove old files
-aigogo rm file old_api.py deprecated.py
+aigg rm file old_api.py deprecated.py
 
 # Verify changes
-aigogo validate
+aigg validate
 ```
 
 ### Cleaning Up Dependencies
 
 ```bash
 # Remove unused runtime dependency
-aigogo rm dep requests
+aigg rm dep requests
 
 # Remove unused dev dependency
-aigogo rm dev pytest
+aigg rm dev pytest
 
 # Validate
-aigogo validate
+aigg validate
 ```
 
 ### Interactive Cleanup
 
 ```bash
 # See all dependencies and remove interactively
-aigogo rm dep
+aigg rm dep
 # Shows list, prompts for package name
 
-aigogo rm dev
+aigg rm dev
 # Shows dev deps, prompts for package name
 ```
 
@@ -204,7 +204,7 @@ Before:
 }
 ```
 
-After `aigogo rm file utils.py`:
+After `aigg rm file utils.py`:
 ```json
 {
   "files": {
@@ -217,7 +217,7 @@ After `aigogo rm file utils.py`:
 
 If all files are removed:
 ```bash
-$ aigogo rm file api.py config.json
+$ aigg rm file api.py config.json
 ✓ Removed 2 file(s) from include list:
   - api.py
   - config.json
@@ -240,7 +240,7 @@ If both `runtime` and `dev` dependencies are empty, the entire `dependencies` se
 
 ```bash
 # Last runtime dep
-$ aigogo rm dep requests
+$ aigg rm dep requests
 ✓ Removed requests (>=2.31.0) from runtime dependencies
 
 No runtime dependencies remaining
@@ -261,18 +261,18 @@ If `dependencies.dev` is also empty:
 ### No aigogo.json
 
 ```bash
-$ aigogo rm file test.py
+$ aigg rm file test.py
 Error: failed to load aigogo.json: no such file
-Run 'aigogo init' first
+Run 'aigg init' first
 ```
 
 ### Invalid Subcommand
 
 ```bash
-$ aigogo rm
-Error: usage: aigogo rm <file|dep|dev> [args...]
+$ aigg rm
+Error: usage: aigg rm <file|dep|dev> [args...]
 
-$ aigogo rm invalid test.py
+$ aigg rm invalid test.py
 Error: unknown subcommand 'invalid'
 Valid subcommands: file, dep, dev
 ```
@@ -280,34 +280,34 @@ Valid subcommands: file, dep, dev
 ### File Not Found
 
 ```bash
-$ aigogo rm file nonexistent.py
+$ aigg rm file nonexistent.py
 Error: no matching files found in include list
 ```
 
 ### Dependency Not Found
 
 ```bash
-$ aigogo rm dep nonexistent
+$ aigg rm dep nonexistent
 Error: package 'nonexistent' not found in runtime dependencies
 
-$ aigogo rm dev pytest
+$ aigg rm dev pytest
 Error: package 'pytest' not found in development dependencies
 ```
 
 ### No Dependencies
 
 ```bash
-$ aigogo rm dep requests
+$ aigg rm dep requests
 Error: no runtime dependencies found in aigogo.json
 
-$ aigogo rm dev pytest
+$ aigg rm dev pytest
 Error: no development dependencies found in aigogo.json
 ```
 
 ### Auto Mode Issue
 
 ```bash
-$ aigogo rm file test.py
+$ aigg rm file test.py
 Error: files.include is set to 'auto'
 Cannot remove individual files when using auto-discovery
 ```
@@ -322,32 +322,32 @@ Cannot remove individual files when using auto-discovery
 
 ```bash
 # Add then remove
-aigogo add file test.py
-aigogo rm file test.py
+aigg add file test.py
+aigg rm file test.py
 
 # Update a dependency (remove + add)
-aigogo rm dep requests
-aigogo add dep requests ">=3.0.0"
+aigg rm dep requests
+aigg add dep requests ">=3.0.0"
 ```
 
 ### With validate
 
 ```bash
 # Remove file
-aigogo rm file old_api.py
+aigg rm file old_api.py
 
 # Validate remaining files exist
-aigogo validate
+aigg validate
 ```
 
 ### With build
 
 ```bash
 # Remove unused files
-aigogo rm file test_*.py
+aigg rm file test_*.py
 
 # Build without test files
-aigogo build utils:1.0.0
+aigg build utils:1.0.0
 ```
 
 ---
@@ -358,10 +358,10 @@ aigogo build utils:1.0.0
 
 ```bash
 # Don't remember what deps you have?
-aigogo rm dep
+aigg rm dep
 # Shows full list, then prompts
 
-aigogo rm file
+aigg rm file
 # Shows files, then prompts
 ```
 
@@ -369,25 +369,25 @@ aigogo rm file
 
 To update a dependency version:
 ```bash
-aigogo rm dep requests
-aigogo add dep requests ">=3.0.0"
+aigg rm dep requests
+aigg add dep requests ">=3.0.0"
 ```
 
 ### Clean Up Unused Dev Dependencies
 
 ```bash
 # Remove old test framework
-aigogo rm dev unittest
+aigg rm dev unittest
 
 # Add new one
-aigogo add dev pytest "^7.0.0"
+aigg add dev pytest "^7.0.0"
 ```
 
 ### Validate After Removal
 
 ```bash
-aigogo rm dep requests
-aigogo validate
+aigg rm dep requests
+aigg validate
 # Checks if any code still imports requests
 ```
 
@@ -409,20 +409,20 @@ aigogo validate
 
 **File Management:**
 ```bash
-aigogo rm file <path>...          # Remove files
-aigogo rm file old.py test.py     # Multiple files
+aigg rm file <path>...          # Remove files
+aigg rm file old.py test.py     # Multiple files
 ```
 
 **Runtime Dependencies:**
 ```bash
-aigogo rm dep <pkg>               # Remove runtime dep
-aigogo rm dep requests
+aigg rm dep <pkg>               # Remove runtime dep
+aigg rm dep requests
 ```
 
 **Dev Dependencies:**
 ```bash
-aigogo rm dev <pkg>               # Remove dev dep
-aigogo rm dev pytest
+aigg rm dev <pkg>               # Remove dev dep
+aigg rm dev pytest
 ```
 
 ✅ **Features:**
@@ -438,8 +438,8 @@ aigogo rm dev pytest
 
 **Quick reference:**
 ```bash
-aigogo rm file <path>...    # Remove files
-aigogo rm dep <package>     # Remove runtime dep
-aigogo rm dev <package>     # Remove dev dep
-aigogo rm <subcommand>      # Interactive mode
+aigg rm file <path>...    # Remove files
+aigg rm dep <package>     # Remove runtime dep
+aigg rm dev <package>     # Remove dev dep
+aigg rm <subcommand>      # Interactive mode
 ```

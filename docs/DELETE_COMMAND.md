@@ -1,4 +1,4 @@
-# aigogo delete Command
+# aigg delete Command
 
 ## Overview
 
@@ -10,10 +10,10 @@ The `delete` command removes a snippet package from a remote Docker registry per
 
 ```bash
 # Delete a specific tag
-aigogo delete <registry>/<name>:<tag>
+aigg delete <registry>/<name>:<tag>
 
 # Delete all tags in a repository
-aigogo delete <registry>/<name> --all
+aigg delete <registry>/<name> --all
 ```
 
 ## Options
@@ -23,10 +23,10 @@ aigogo delete <registry>/<name> --all
 **Note**: Flags must come before the image reference:
 ```bash
 # Correct
-aigogo delete --all docker.io/myorg/utils
+aigg delete --all docker.io/myorg/utils
 
 # Incorrect
-aigogo delete docker.io/myorg/utils --all
+aigg delete docker.io/myorg/utils --all
 ```
 
 ### With Confirmation
@@ -34,14 +34,14 @@ aigogo delete docker.io/myorg/utils --all
 The command requires explicit confirmation:
 
 ```bash
-$ aigogo delete docker.io/myorg/utils:1.0.0
+$ aigg delete docker.io/myorg/utils:1.0.0
 ⚠️  WARNING: This will permanently delete docker.io/myorg/utils:1.0.0 from the registry
 Are you sure? Type 'yes' to confirm: yes
 Deleting docker.io/myorg/utils:1.0.0 from registry...
 ✓ Successfully deleted docker.io/myorg/utils:1.0.0 from registry
 
 Note: The local cache is not affected. To remove from cache, run:
-  aigogo remove docker.io/myorg/utils:1.0.0
+  aigg remove docker.io/myorg/utils:1.0.0
 ```
 
 ### Cancellation
@@ -49,7 +49,7 @@ Note: The local cache is not affected. To remove from cache, run:
 Type anything other than "yes" to cancel:
 
 ```bash
-$ aigogo delete docker.io/myorg/utils:1.0.0
+$ aigg delete docker.io/myorg/utils:1.0.0
 ⚠️  WARNING: This will permanently delete docker.io/myorg/utils:1.0.0 from the registry
 Are you sure? Type 'yes' to confirm: no
 Delete cancelled
@@ -59,9 +59,9 @@ Delete cancelled
 
 | Command | Scope | Reversible | Affects |
 |---------|-------|------------|---------|
-| `aigogo rm` | Local manifest | ✅ Yes | `aigogo.json` file |
-| `aigogo remove` | Local cache | ✅ Yes | `~/.aigogo/cache/` |
-| `aigogo delete` | ⚠️ Remote registry | ❌ **NO** | Docker registry |
+| `aigg rm` | Local manifest | ✅ Yes | `aigogo.json` file |
+| `aigg remove` | Local cache | ✅ Yes | `~/.aigogo/cache/` |
+| `aigg delete` | ⚠️ Remote registry | ❌ **NO** | Docker registry |
 
 **Key Points**:
 - `rm` - edits your local manifest
@@ -93,8 +93,8 @@ The delete command uses the Docker Registry HTTP API v2:
 You must be logged in with sufficient permissions:
 
 ```bash
-aigogo login docker.io
-aigogo delete docker.io/myorg/utils:1.0.0
+aigg login docker.io
+aigg delete docker.io/myorg/utils:1.0.0
 ```
 
 ### Registry Support
@@ -116,7 +116,7 @@ Not all registries support deletion:
 ### Delete Specific Tag
 
 ```bash
-$ aigogo delete docker.io/myorg/utils:1.0.0
+$ aigg delete docker.io/myorg/utils:1.0.0
 ⚠️  WARNING: This will permanently delete docker.io/myorg/utils:1.0.0 from the registry
 Are you sure? Type 'yes' to confirm: yes
 ✓ Successfully deleted docker.io/myorg/utils:1.0.0 from registry
@@ -125,7 +125,7 @@ Are you sure? Type 'yes' to confirm: yes
 ### Delete All Tags (Entire Repository)
 
 ```bash
-$ aigogo delete docker.io/myorg/utils --all
+$ aigg delete docker.io/myorg/utils --all
 
 ⚠️  WARNING: This will permanently delete ALL tags in docker.io/myorg/utils
 
@@ -150,7 +150,7 @@ Deleting latest... ✓ Deleted
 If some tags fail to delete (e.g., due to permissions), the command continues and reports failures:
 
 ```bash
-$ aigogo delete docker.io/myorg/utils --all
+$ aigg delete docker.io/myorg/utils --all
 
 Found 5 tag(s):
   - 0.9.0
@@ -172,7 +172,7 @@ Successfully deleted 4 out of 5 tags
 ### Delete from GitHub Container Registry
 
 ```bash
-$ aigogo delete ghcr.io/myorg/utils:1.0.0
+$ aigg delete ghcr.io/myorg/utils:1.0.0
 ⚠️  WARNING: This will permanently delete ghcr.io/myorg/utils:1.0.0 from the registry
 Are you sure? Type 'yes' to confirm: yes
 ✓ Successfully deleted ghcr.io/myorg/utils:1.0.0 from registry
@@ -182,10 +182,10 @@ Are you sure? Type 'yes' to confirm: yes
 
 ```bash
 # Delete from registry
-aigogo delete docker.io/myorg/utils:1.0.0
+aigg delete docker.io/myorg/utils:1.0.0
 
 # Remove from local cache
-aigogo remove docker.io/myorg/utils:1.0.0
+aigg remove docker.io/myorg/utils:1.0.0
 ```
 
 ## Error Cases
@@ -193,20 +193,20 @@ aigogo remove docker.io/myorg/utils:1.0.0
 ### Not Logged In
 
 ```bash
-$ aigogo delete docker.io/myorg/utils:1.0.0
+$ aigg delete docker.io/myorg/utils:1.0.0
 Error: not logged in to docker.io
-Run 'aigogo login docker.io' first
+Run 'aigg login docker.io' first
 ```
 
 **Solution**: Login first:
 ```bash
-aigogo login docker.io
+aigg login docker.io
 ```
 
 ### Insufficient Permissions
 
 ```bash
-$ aigogo delete docker.io/myorg/utils:1.0.0
+$ aigg delete docker.io/myorg/utils:1.0.0
 Error: authentication failed (insufficient permissions)
 ```
 
@@ -218,7 +218,7 @@ Error: authentication failed (insufficient permissions)
 ### Registry Doesn't Support Deletion
 
 ```bash
-$ aigogo delete my-registry.example.com/utils:1.0.0
+$ aigg delete my-registry.example.com/utils:1.0.0
 Error: registry does not support deletion (check registry configuration)
 ```
 
@@ -233,7 +233,7 @@ storage:
 ### Image Not Found
 
 ```bash
-$ aigogo delete docker.io/myorg/utils:1.0.0
+$ aigg delete docker.io/myorg/utils:1.0.0
 Error: image not found: docker.io/myorg/utils:1.0.0
 ```
 
@@ -245,7 +245,7 @@ Error: image not found: docker.io/myorg/utils:1.0.0
 ### Already Deleted
 
 ```bash
-$ aigogo delete docker.io/myorg/utils:1.0.0
+$ aigg delete docker.io/myorg/utils:1.0.0
 Error: manifest not found (may have been already deleted)
 ```
 
@@ -255,31 +255,31 @@ Error: manifest not found (may have been already deleted)
 
 ```bash
 # Delete old versions individually
-aigogo delete docker.io/myorg/utils:0.9.0
-aigogo delete docker.io/myorg/utils:0.9.1
-aigogo delete docker.io/myorg/utils:0.9.2
+aigg delete docker.io/myorg/utils:0.9.0
+aigg delete docker.io/myorg/utils:0.9.1
+aigg delete docker.io/myorg/utils:0.9.2
 
 # Or delete entire repository at once
-aigogo delete docker.io/myorg/old-utils --all
+aigg delete docker.io/myorg/old-utils --all
 ```
 
 ### 2. Remove Test/Development Tags
 
 ```bash
 # Clean up test releases
-aigogo delete docker.io/myorg/utils:test
-aigogo delete docker.io/myorg/utils:dev
-aigogo delete docker.io/myorg/utils:experiment
+aigg delete docker.io/myorg/utils:test
+aigg delete docker.io/myorg/utils:dev
+aigg delete docker.io/myorg/utils:experiment
 ```
 
 ### 3. Fix Mistaken Push
 
 ```bash
 # Oops, pushed wrong content
-aigogo delete docker.io/myorg/utils:1.0.0
+aigg delete docker.io/myorg/utils:1.0.0
 
 # Push correct version
-aigogo push docker.io/myorg/utils:1.0.0
+aigg push docker.io/myorg/utils:1.0.0
 ```
 
 ### 4. Cleanup After Organization Change
@@ -287,10 +287,10 @@ aigogo push docker.io/myorg/utils:1.0.0
 ```bash
 # Moving from old org to new org
 # Delete from old location
-aigogo delete docker.io/old-org/utils:1.0.0
+aigg delete docker.io/old-org/utils:1.0.0
 
 # Push to new location
-aigogo push docker.io/new-org/utils:1.0.0
+aigg push docker.io/new-org/utils:1.0.0
 ```
 
 ## Important Considerations
@@ -314,11 +314,11 @@ Deleting a manifest doesn't immediately delete the layers:
 Deleting from registry doesn't touch local cache:
 ```bash
 # After delete, local cache still has it
-aigogo list
+aigg list
 # docker.io/myorg/utils:1.0.0 (cached)
 
 # Remove locally too
-aigogo remove docker.io/myorg/utils:1.0.0
+aigg remove docker.io/myorg/utils:1.0.0
 ```
 
 ### 4. Tag vs Digest
@@ -334,7 +334,7 @@ Example:
 # utils:latest → sha256:abc123
 
 # Deleting one tag doesn't affect the other
-aigogo delete docker.io/myorg/utils:1.0.0
+aigg delete docker.io/myorg/utils:1.0.0
 # utils:latest still exists and points to sha256:abc123
 ```
 
@@ -356,10 +356,10 @@ aigogo delete docker.io/myorg/utils:1.0.0
 
 ```bash
 # Login with PAT
-echo $GITHUB_TOKEN | aigogo login ghcr.io -u username --password-stdin
+echo $GITHUB_TOKEN | aigg login ghcr.io -u username --password-stdin
 
 # Delete
-aigogo delete ghcr.io/myorg/utils:1.0.0
+aigg delete ghcr.io/myorg/utils:1.0.0
 ```
 
 ### Self-Hosted Registry
@@ -405,15 +405,15 @@ If used by a team:
 # "Deleting utils:0.9.x versions tomorrow"
 
 # Then delete
-aigogo delete docker.io/myorg/utils:0.9.0
+aigg delete docker.io/myorg/utils:0.9.0
 ```
 
 ### 3. Keep Latest Stable
 
 ```bash
 # OK to delete
-aigogo delete docker.io/myorg/utils:1.0.0-beta
-aigogo delete docker.io/myorg/utils:1.0.0-rc1
+aigg delete docker.io/myorg/utils:1.0.0-beta
+aigg delete docker.io/myorg/utils:1.0.0-rc1
 
 # Keep these
 # utils:1.0.0 (latest stable)
@@ -434,8 +434,8 @@ Keep a log:
 Use a test repository:
 ```bash
 # Test deletion flow
-aigogo push docker.io/myorg/test-delete:1.0.0
-aigogo delete docker.io/myorg/test-delete:1.0.0
+aigg push docker.io/myorg/test-delete:1.0.0
+aigg delete docker.io/myorg/test-delete:1.0.0
 # Verify it worked
 ```
 
@@ -452,7 +452,7 @@ VERSIONS_TO_DELETE=("0.9.0" "0.9.1" "0.9.2")
 
 for ver in "${VERSIONS_TO_DELETE[@]}"; do
     echo "Deleting $REPO:$ver"
-    echo "yes" | aigogo delete "$REPO:$ver"
+    echo "yes" | aigg delete "$REPO:$ver"
 done
 ```
 
@@ -467,7 +467,7 @@ done
 REPO="docker.io/myorg/deprecated-utils"
 
 echo "This will delete ALL tags in $REPO"
-echo "DELETE ALL" | aigogo delete "$REPO" --all
+echo "DELETE ALL" | aigg delete "$REPO" --all
 ```
 
 **⚠️ DANGER**: This deletes ALL tags! Use with extreme caution!
@@ -489,12 +489,12 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Login
-        run: aigogo login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+        run: aigg login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
       
       - name: Delete old dev tags
         run: |
           for tag in dev test experiment; do
-            echo "yes" | aigogo delete ghcr.io/${{ github.repository }}:$tag || true
+            echo "yes" | aigg delete ghcr.io/${{ github.repository }}:$tag || true
           done
 ```
 
@@ -514,7 +514,7 @@ storage:
 **Solution**: Use credentials with write/delete permissions:
 ```bash
 # Use admin token
-aigogo login docker.io -u admin -p $ADMIN_TOKEN
+aigg login docker.io -u admin -p $ADMIN_TOKEN
 ```
 
 ### Problem: "Manifest not found"
@@ -526,15 +526,15 @@ aigogo login docker.io -u admin -p $ADMIN_TOKEN
 
 **Solution**: Verify image exists first:
 ```bash
-aigogo pull docker.io/myorg/utils:1.0.0
+aigg pull docker.io/myorg/utils:1.0.0
 # If this works, image exists
 ```
 
 ## Summary
 
 **Commands**: 
-- `aigogo delete <registry>/<name>:<tag>` - Delete specific tag
-- `aigogo delete <registry>/<name> --all` - Delete all tags
+- `aigg delete <registry>/<name>:<tag>` - Delete specific tag
+- `aigg delete <registry>/<name> --all` - Delete all tags
 
 **Purpose**: Permanently delete from remote registry
 

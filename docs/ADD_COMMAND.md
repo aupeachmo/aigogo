@@ -1,4 +1,4 @@
-# aigogo add Command
+# aigg add Command
 
 ## Overview
 
@@ -14,7 +14,7 @@ Adds files or glob patterns to the `files.include` array.
 
 **Usage:**
 ```bash
-aigogo add file <path>...
+aigg add file <path>...
 ```
 
 **Features:**
@@ -28,42 +28,42 @@ aigogo add file <path>...
 **Examples:**
 ```bash
 # Add single file
-aigogo add file api_client.py
+aigg add file api_client.py
 
 # Add multiple files
-aigogo add file utils.py helpers.py config.json
+aigg add file utils.py helpers.py config.json
 
 # Add with glob pattern
-aigogo add file "*.py"
+aigg add file "*.py"
 
 # Add with directory glob
-aigogo add file "lib/**/*.js"
+aigg add file "lib/**/*.js"
 
 # Add file that's normally ignored by .aigogoignore
-aigogo add file generated_code.py --force
+aigg add file generated_code.py --force
 # Equivalent:
-aigogo add file --force generated_code.py
+aigg add file --force generated_code.py
 ```
 
 **Error Handling:**
 ```bash
 # File doesn't exist
-$ aigogo add file nonexistent.py
+$ aigg add file nonexistent.py
 Error: file does not exist: nonexistent.py
 
 # Glob matches nothing
-$ aigogo add file "*.xyz"
+$ aigg add file "*.xyz"
 Error: glob pattern '*.xyz' matches no files
 
 # files.include is set to "auto"
-$ aigogo add file test.py
+$ aigg add file test.py
 Error: files.include is set to 'auto'
 Please edit aigogo.json to change it to an array before adding files
 ```
 
 **Interactive Mode:**
 ```bash
-$ aigogo add file
+$ aigg add file
 File paths (space-separated): api_client.py utils.py
 ✓ Added 2 file(s) to include list:
   - api_client.py
@@ -79,25 +79,25 @@ Adds a runtime dependency to `dependencies.runtime`.
 **Usage:**
 ```bash
 # Manual mode
-aigogo add dep <package> <version>
+aigg add dep <package> <version>
 
 # Import from pyproject.toml (Python only)
-aigogo add dep --from-pyproject
+aigg add dep --from-pyproject
 ```
 
 **Manual Examples:**
 ```bash
 # Python
-aigogo add dep requests ">=2.31.0,<3.0.0"
+aigg add dep requests ">=2.31.0,<3.0.0"
 
 # JavaScript
-aigogo add dep axios "^1.6.0"
+aigg add dep axios "^1.6.0"
 
 # Go
-aigogo add dep github.com/pkg/errors v0.9.1
+aigg add dep github.com/pkg/errors v0.9.1
 
 # Rust
-aigogo add dep serde "1.0"
+aigg add dep serde "1.0"
 ```
 
 **Import from pyproject.toml (Python):**
@@ -106,7 +106,7 @@ For Python projects, you can automatically import dependencies from `pyproject.t
 
 ```bash
 # Import all runtime dependencies
-$ aigogo add dep --from-pyproject
+$ aigg add dep --from-pyproject
 📦 Reading dependencies from: /path/to/pyproject.toml
 ✓ Detected format: poetry
 ✓ Set Python version requirement: ^3.9
@@ -130,14 +130,14 @@ Both formats will automatically extract and set the Python version from:
 
 **Interactive Mode:**
 ```bash
-$ aigogo add dep
+$ aigg add dep
 Package name: requests
 Version constraint (e.g., >=2.31.0,<3.0.0): >=2.31.0,<3.0.0
 ✓ Added requests >=2.31.0,<3.0.0 to runtime dependencies
 
 Next steps:
-  1. Run 'aigogo validate' to check your dependencies
-  2. Run 'aigogo scan' to detect any missing dependencies
+  1. Run 'aigg validate' to check your dependencies
+  2. Run 'aigg scan' to detect any missing dependencies
 ```
 
 **Version Format Suggestions:**
@@ -158,30 +158,30 @@ Adds a development dependency to `dependencies.dev`.
 **Usage:**
 ```bash
 # Manual mode
-aigogo add dev <package> <version>
+aigg add dev <package> <version>
 
 # Import from pyproject.toml (Python only)
-aigogo add dev --from-pyproject
+aigg add dev --from-pyproject
 ```
 
 **Manual Examples:**
 ```bash
 # Python testing
-aigogo add dev pytest "^7.0.0"
-aigogo add dev black ">=23.0.0"
+aigg add dev pytest "^7.0.0"
+aigg add dev black ">=23.0.0"
 
 # JavaScript testing
-aigogo add dev jest "^29.0.0"
+aigg add dev jest "^29.0.0"
 
 # Go testing
-aigogo add dev github.com/stretchr/testify v1.8.4
+aigg add dev github.com/stretchr/testify v1.8.4
 ```
 
 **Import from pyproject.toml (Python):**
 
 ```bash
 # Import all development dependencies
-$ aigogo add dev --from-pyproject
+$ aigg add dev --from-pyproject
 📦 Reading dependencies from: /path/to/pyproject.toml
 ✓ Detected format: poetry
 
@@ -199,7 +199,7 @@ Adding 2 development dependencies...
 
 **Interactive Mode:**
 ```bash
-$ aigogo add dev
+$ aigg add dev
 Package name: pytest
 Version constraint (e.g., >=2.31.0,<3.0.0): ^7.0.0
 ✓ Added pytest ^7.0.0 to development dependencies
@@ -214,7 +214,7 @@ Version constraint (e.g., >=2.31.0,<3.0.0): ^7.0.0
 ```bash
 # Initialize
 mkdir my-utils && cd my-utils
-aigogo init
+aigg init
 
 # Write code
 cat > utils.py <<'EOF'
@@ -225,15 +225,15 @@ def fetch_data(url):
 EOF
 
 # Add file
-aigogo add file utils.py
+aigg add file utils.py
 
 # Add dependencies
-aigogo add dep requests ">=2.31.0,<3.0.0"
-aigogo add dev pytest "^7.0.0"
+aigg add dep requests ">=2.31.0,<3.0.0"
+aigg add dev pytest "^7.0.0"
 
 # Validate and build
-aigogo validate
-aigogo build my-utils:1.0.0
+aigg validate
+aigg build my-utils:1.0.0
 ```
 
 ### Python Project with pyproject.toml
@@ -244,17 +244,17 @@ If you already have a Poetry or uv project with `pyproject.toml`:
 cd ~/my-poetry-project
 
 # Initialize aigogo
-aigogo init
+aigg init
 
 # Add files
-aigogo add file "src/**/*.py"
+aigg add file "src/**/*.py"
 
 # Import all dependencies from pyproject.toml
-aigogo add dep --from-pyproject
-aigogo add dev --from-pyproject
+aigg add dep --from-pyproject
+aigg add dev --from-pyproject
 
 # Build
-aigogo build my-project:1.0.0
+aigg build my-project:1.0.0
 ```
 
 **Example pyproject.toml (Poetry):**
@@ -297,34 +297,34 @@ dev = [
 cd ~/my-existing-project
 
 # Initialize
-aigogo init
+aigg init
 
 # Add multiple files
-aigogo add file "src/*.py" lib/helpers.py config/settings.py
+aigg add file "src/*.py" lib/helpers.py config/settings.py
 
 # Add dependencies
-aigogo add dep requests ">=2.31.0"
-aigogo add dep pyyaml ">=6.0"
-aigogo add dev pytest "^7.0.0"
-aigogo add dev black ">=23.0.0"
+aigg add dep requests ">=2.31.0"
+aigg add dep pyyaml ">=6.0"
+aigg add dev pytest "^7.0.0"
+aigg add dev black ">=23.0.0"
 
 # Build
-aigogo build my-project:1.0.0
+aigg build my-project:1.0.0
 ```
 
 ### Using Glob Patterns
 
 ```bash
 # Python project
-aigogo add file "*.py"
-aigogo add file "src/**/*.py"
+aigg add file "*.py"
+aigg add file "src/**/*.py"
 
 # JavaScript project
-aigogo add file "lib/**/*.js"
-aigogo add file "index.js"
+aigg add file "lib/**/*.js"
+aigg add file "index.js"
 
 # Multiple extensions
-aigogo add file "*.py" "*.json" "*.yaml"
+aigg add file "*.py" "*.json" "*.yaml"
 ```
 
 ---
@@ -343,7 +343,7 @@ If `files.include` is empty or null:
 }
 ```
 
-After `aigogo add file utils.py`:
+After `aigg add file utils.py`:
 
 ```json
 {
@@ -357,17 +357,17 @@ After `aigogo add file utils.py`:
 
 Files:
 ```bash
-$ aigogo add file test.py
+$ aigg add file test.py
 ✓ Added 1 file(s) to include list
 
-$ aigogo add file test.py
+$ aigg add file test.py
 ⚠ Skipping 'test.py' (already in include list)
 No new files to add
 ```
 
 Dependencies:
 ```bash
-$ aigogo add dep requests ">=3.0.0"
+$ aigg add dep requests ">=3.0.0"
 Error: package 'requests' is already declared as a runtime dependency with version '>=2.31.0,<3.0.0'
 ```
 
@@ -376,12 +376,12 @@ Error: package 'requests' is already declared as a runtime dependency with versi
 If `files.include` is set to `"auto"`, file commands will error:
 
 ```bash
-$ aigogo add file test.py
+$ aigg add file test.py
 Error: files.include is set to 'auto'
 Please edit aigogo.json to change it to an array before adding files
 ```
 
-**Note:** As of v2.0, `aigogo init` creates an empty array instead of `"auto"`, so this should only occur in manually created manifests.
+**Note:** As of v2.0, `aigg init` creates an empty array instead of `"auto"`, so this should only occur in manually created manifests.
 
 ---
 
@@ -390,18 +390,18 @@ Please edit aigogo.json to change it to an array before adding files
 ### No aigogo.json
 
 ```bash
-$ aigogo add file test.py
+$ aigg add file test.py
 Error: failed to load aigogo.json: no such file
-Run 'aigogo init' first
+Run 'aigg init' first
 ```
 
 ### Invalid Subcommand
 
 ```bash
-$ aigogo add
-Error: usage: aigogo add <file|dep|dev> [args...]
+$ aigg add
+Error: usage: aigg add <file|dep|dev> [args...]
 
-$ aigogo add invalid test.py
+$ aigg add invalid test.py
 Error: unknown subcommand 'invalid'
 Valid subcommands: file, dep, dev
 ```
@@ -410,26 +410,26 @@ Valid subcommands: file, dep, dev
 
 ```bash
 # Non-existent file (literal path)
-$ aigogo add file missing.py
+$ aigg add file missing.py
 Error: file does not exist: missing.py
 
 # Invalid glob pattern
-$ aigogo add file "[invalid"
+$ aigg add file "[invalid"
 Error: invalid glob pattern '[invalid': syntax error
 
 # Glob matches nothing
-$ aigogo add file "*.nonexistent"
+$ aigg add file "*.nonexistent"
 Error: glob pattern '*.nonexistent' matches no files
 ```
 
 ### Empty Arguments
 
 ```bash
-$ aigogo add dep
+$ aigg add dep
 Package name: [press enter]
 Error: package name is required
 
-$ aigogo add dep requests ""
+$ aigg add dep requests ""
 Error: version is required
 ```
 
@@ -441,14 +441,14 @@ Error: version is required
 
 ```bash
 # Scan finds imports
-aigogo scan
+aigg scan
 # Shows: "requests detected"
 
 # Add the dependency
-aigogo add dep requests ">=2.31.0,<3.0.0"
+aigg add dep requests ">=2.31.0,<3.0.0"
 
 # Validate it's correct
-aigogo validate
+aigg validate
 # ✅ All detected dependencies declared
 ```
 
@@ -456,11 +456,11 @@ aigogo validate
 
 ```bash
 # Add files and deps
-aigogo add file api.py
-aigogo add dep requests ">=2.31.0"
+aigg add file api.py
+aigg add dep requests ">=2.31.0"
 
 # Validate configuration
-aigogo validate
+aigg validate
 # Checks if:
 # - api.py exists
 # - requests is actually imported
@@ -470,11 +470,11 @@ aigogo validate
 
 ```bash
 # Add everything
-aigogo add file "*.py"
-aigogo add dep requests ">=2.31.0"
+aigg add file "*.py"
+aigg add dep requests ">=2.31.0"
 
 # Build
-aigogo build utils:1.0.0
+aigg build utils:1.0.0
 # Packages api.py with generated requirements.txt
 ```
 
@@ -486,10 +486,10 @@ aigogo build utils:1.0.0
 
 ```bash
 # Instead of:
-aigogo add file a.py b.py c.py d.py
+aigg add file a.py b.py c.py d.py
 
 # Use:
-aigogo add file "*.py"
+aigg add file "*.py"
 ```
 
 ### Add Files Before Building
@@ -497,29 +497,29 @@ aigogo add file "*.py"
 Always explicitly add files instead of relying on `"auto"`:
 
 ```bash
-aigogo init
-aigogo add file src/*.py lib/utils.py
-aigogo build my-pkg:1.0.0
+aigg init
+aigg add file src/*.py lib/utils.py
+aigg build my-pkg:1.0.0
 ```
 
 ### Add Dev Dependencies Separately
 
 ```bash
 # Runtime deps
-aigogo add dep requests ">=2.31.0"
-aigogo add dep click ">=8.0.0"
+aigg add dep requests ">=2.31.0"
+aigg add dep click ">=8.0.0"
 
 # Dev deps
-aigogo add dev pytest "^7.0.0"
-aigogo add dev black ">=23.0.0"
+aigg add dev pytest "^7.0.0"
+aigg add dev black ">=23.0.0"
 ```
 
 ### Validate After Adding
 
 ```bash
-aigogo add file utils.py
-aigogo add dep requests ">=2.31.0"
-aigogo validate  # Catches issues early
+aigg add file utils.py
+aigg add dep requests ">=2.31.0"
+aigg validate  # Catches issues early
 ```
 
 ---
@@ -528,20 +528,20 @@ aigogo validate  # Catches issues early
 
 **File Management:**
 ```bash
-aigogo add file <path>...         # Add files/globs
-aigogo add file "*.py" lib/*.js   # Multiple patterns
+aigg add file <path>...         # Add files/globs
+aigg add file "*.py" lib/*.js   # Multiple patterns
 ```
 
 **Runtime Dependencies:**
 ```bash
-aigogo add dep <pkg> <ver>        # Add runtime dep
-aigogo add dep requests ">=2.31.0,<3.0.0"
+aigg add dep <pkg> <ver>        # Add runtime dep
+aigg add dep requests ">=2.31.0,<3.0.0"
 ```
 
 **Dev Dependencies:**
 ```bash
-aigogo add dev <pkg> <ver>        # Add dev dep
-aigogo add dev pytest "^7.0.0"
+aigg add dev <pkg> <ver>        # Add dev dep
+aigg add dev pytest "^7.0.0"
 ```
 
 ✅ **Features:**

@@ -12,7 +12,7 @@ func removeCmd() *Command {
 		Description: "Remove a cached snippet package",
 		Run: func(args []string) error {
 			if len(args) < 1 {
-				return fmt.Errorf("usage: aigogo remove <name>:<tag>")
+				return fmt.Errorf("usage: aigg remove <name>:<tag>")
 			}
 
 			imageRef := args[0]

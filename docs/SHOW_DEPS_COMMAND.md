@@ -1,4 +1,4 @@
-# aigogo show-deps Command
+# aigg show-deps Command
 
 ## Overview
 
@@ -7,7 +7,7 @@ The `show-deps` command displays dependencies from an `aigogo.json` manifest in 
 ## Usage
 
 ```bash
-aigogo show-deps <path> [--format <format>]
+aigg show-deps <path> [--format <format>]
 ```
 
 **Arguments:**
@@ -31,7 +31,7 @@ aigogo show-deps <path> [--format <format>]
 Human-readable output showing package info and dependencies:
 
 ```bash
-$ aigogo show-deps vendor/my-snippet
+$ aigg show-deps vendor/my-snippet
 
 Package: my-snippet
 Version: 1.0.0
@@ -52,7 +52,7 @@ Development Dependencies (2):
 Output ready to copy into a PEP 621 `pyproject.toml`:
 
 ```bash
-$ aigogo show-deps vendor/my-snippet --format pyproject
+$ aigg show-deps vendor/my-snippet --format pyproject
 
 # Add these to your pyproject.toml
 
@@ -76,7 +76,7 @@ dev = [
 Output ready to copy into a Poetry `pyproject.toml`:
 
 ```bash
-$ aigogo show-deps vendor/my-snippet --format poetry
+$ aigg show-deps vendor/my-snippet --format poetry
 
 # Add these to your pyproject.toml
 
@@ -96,7 +96,7 @@ black = ">=23.0.0,<24.0.0"
 Output ready for `requirements.txt`:
 
 ```bash
-$ aigogo show-deps vendor/my-snippet --format requirements
+$ aigg show-deps vendor/my-snippet --format requirements
 
 # Runtime dependencies for requirements.txt
 requests>=2.31.0,<3.0.0
@@ -109,7 +109,7 @@ click>=8.0.0,<9.0.0
 Output ready to merge into `package.json`:
 
 ```bash
-$ aigogo show-deps vendor/my-js-snippet --format npm
+$ aigg show-deps vendor/my-js-snippet --format npm
 
 {
   "dependencies": {
@@ -127,7 +127,7 @@ $ aigogo show-deps vendor/my-js-snippet --format npm
 Output as yarn add commands:
 
 ```bash
-$ aigogo show-deps vendor/my-js-snippet --format yarn
+$ aigg show-deps vendor/my-js-snippet --format yarn
 
 yarn add express@^4.18.0
 yarn add axios@^1.6.0
@@ -142,18 +142,18 @@ yarn add --dev jest@^29.0.0
 
 ```bash
 # Step 1: Install the snippet
-aigogo add my-snippet:1.0.0
-aigogo install
+aigg add my-snippet:1.0.0
+aigg install
 
 # Step 2: View dependencies in your project's format
 # For PEP 621 (uv, modern setuptools):
-aigogo show-deps vendor/my-snippet --format pyproject
+aigg show-deps vendor/my-snippet --format pyproject
 
 # For Poetry:
-aigogo show-deps vendor/my-snippet --format poetry
+aigg show-deps vendor/my-snippet --format poetry
 
 # For pip/requirements.txt:
-aigogo show-deps .aigogo/imports/aigogo/my_snippet --format requirements > snippet-requirements.txt
+aigg show-deps .aigogo/imports/aigogo/my_snippet --format requirements > snippet-requirements.txt
 
 # Step 3: Copy/paste the output into your pyproject.toml or requirements.txt
 ```
@@ -162,25 +162,25 @@ aigogo show-deps .aigogo/imports/aigogo/my_snippet --format requirements > snipp
 
 ```bash
 # Check what dependencies a snippet needs before installing
-aigogo pull my-snippet:1.0.0
-aigogo show-deps ~/.aigogo/cache/my-snippet_1.0.0/
+aigg pull my-snippet:1.0.0
+aigg show-deps ~/.aigogo/cache/my-snippet_1.0.0/
 
 # Decide if you want to integrate it
-aigogo add my-snippet:1.0.0
-aigogo install
+aigg add my-snippet:1.0.0
+aigg install
 ```
 
 ### Workflow 3: Generate Combined Requirements
 
 ```bash
 # Install multiple snippets
-aigogo add utils:1.0.0
-aigogo add helpers:2.0.0
-aigogo install
+aigg add utils:1.0.0
+aigg add helpers:2.0.0
+aigg install
 
 # Generate combined requirements.txt
-aigogo show-deps .aigogo/imports/aigogo/utils --format requirements > requirements-snippets.txt
-aigogo show-deps .aigogo/imports/aigogo/helpers --format requirements >> requirements-snippets.txt
+aigg show-deps .aigogo/imports/aigogo/utils --format requirements > requirements-snippets.txt
+aigg show-deps .aigogo/imports/aigogo/helpers --format requirements >> requirements-snippets.txt
 
 # Install all
 pip install -r requirements-snippets.txt
@@ -191,10 +191,10 @@ pip install -r requirements-snippets.txt
 ```bash
 # If you're already in a directory with aigogo.json
 cd vendor/my-snippet
-aigogo show-deps . --format pyproject
+aigg show-deps . --format pyproject
 
 # Or just specify the file
-aigogo show-deps aigogo.json --format poetry
+aigg show-deps aigogo.json --format poetry
 ```
 
 ---
@@ -204,7 +204,7 @@ aigogo show-deps aigogo.json --format poetry
 ### Example 1: Basic Text Output
 
 ```bash
-$ aigogo show-deps vendor/api-client
+$ aigg show-deps vendor/api-client
 
 Package: api-client
 Version: 1.0.0
@@ -218,7 +218,7 @@ Runtime Dependencies (2):
 ### Example 2: Copy to pyproject.toml (PEP 621)
 
 ```bash
-$ aigogo show-deps vendor/api-client --format pyproject > deps.txt
+$ aigg show-deps vendor/api-client --format pyproject > deps.txt
 $ cat deps.txt
 
 # Add these to your pyproject.toml
@@ -248,8 +248,8 @@ dependencies = [
 ### Example 3: Poetry Project Integration
 
 ```bash
-$ aigogo add langchain-utils:2.0.0 && aigogo install
-$ aigogo show-deps .aigogo/imports/aigogo/langchain_utils --format poetry
+$ aigg add langchain-utils:2.0.0 && aigg install
+$ aigg show-deps .aigogo/imports/aigogo/langchain_utils --format poetry
 
 # Add these to your pyproject.toml
 
@@ -264,8 +264,8 @@ openai = ">=1.0.0,<2.0.0"
 ### Example 4: Create Separate Requirements File
 
 ```bash
-$ aigogo add data-utils:1.5.0 && aigogo install
-$ aigogo show-deps .aigogo/imports/aigogo/data_utils --format requirements > snippet-requirements.txt
+$ aigg add data-utils:1.5.0 && aigg install
+$ aigg show-deps .aigogo/imports/aigogo/data_utils --format requirements > snippet-requirements.txt
 
 # Now install with:
 $ pip install -r snippet-requirements.txt
@@ -279,15 +279,15 @@ The command accepts both files and directories:
 
 ```bash
 # Directory path (looks for aigogo.json inside)
-aigogo show-deps vendor/my-snippet
-aigogo show-deps .
+aigg show-deps vendor/my-snippet
+aigg show-deps .
 
 # Direct file path
-aigogo show-deps vendor/my-snippet/aigogo.json
-aigogo show-deps ./aigogo.json
+aigg show-deps vendor/my-snippet/aigogo.json
+aigg show-deps ./aigogo.json
 
 # Absolute paths
-aigogo show-deps /home/user/projects/snippet/aigogo.json
+aigg show-deps /home/user/projects/snippet/aigogo.json
 ```
 
 ---
@@ -297,10 +297,10 @@ aigogo show-deps /home/user/projects/snippet/aigogo.json
 The `pyproject`, `poetry`, and `requirements` formats are only available for Python packages. The `npm` and `yarn` formats are only available for JavaScript/TypeScript packages. Attempting to use a format with the wrong language will result in an error:
 
 ```bash
-$ aigogo show-deps go-utils --format pyproject
+$ aigg show-deps go-utils --format pyproject
 Error: pyproject format is only supported for Python packages (current language: go)
 
-$ aigogo show-deps python-utils --format npm
+$ aigg show-deps python-utils --format npm
 Error: npm format is only supported for JavaScript packages (current language: python)
 ```
 
@@ -313,14 +313,14 @@ The `text` format (default) works with all languages.
 ### File Not Found
 
 ```bash
-$ aigogo show-deps nonexistent
+$ aigg show-deps nonexistent
 Error: failed to access path: no such file or directory
 ```
 
 ### Invalid Format
 
 ```bash
-$ aigogo show-deps . --format invalid
+$ aigg show-deps . --format invalid
 Error: unsupported format: invalid
 Supported formats: text, pyproject, poetry, requirements, npm, yarn
 ```
@@ -328,7 +328,7 @@ Supported formats: text, pyproject, poetry, requirements, npm, yarn
 ### No aigogo.json in Directory
 
 ```bash
-$ aigogo show-deps some-directory
+$ aigg show-deps some-directory
 Error: failed to load manifest: failed to read manifest: no such file or directory
 ```
 
@@ -340,23 +340,23 @@ Error: failed to load manifest: failed to read manifest: no such file or directo
 
 ```bash
 # Linux (X11)
-aigogo show-deps . --format pyproject | xclip -selection clipboard
+aigg show-deps . --format pyproject | xclip -selection clipboard
 
 # macOS
-aigogo show-deps . --format pyproject | pbcopy
+aigg show-deps . --format pyproject | pbcopy
 
 # Windows (PowerShell)
-aigogo show-deps . --format pyproject | Set-Clipboard
+aigg show-deps . --format pyproject | Set-Clipboard
 ```
 
 ### Compare with Existing Dependencies
 
 ```bash
 # Show what the snippet needs
-aigogo show-deps vendor/snippet --format requirements
+aigg show-deps vendor/snippet --format requirements
 
 # Compare with your current requirements
-diff <(aigogo show-deps vendor/snippet --format requirements) requirements.txt
+diff <(aigg show-deps vendor/snippet --format requirements) requirements.txt
 ```
 
 ### Batch Processing
@@ -365,7 +365,7 @@ diff <(aigogo show-deps vendor/snippet --format requirements) requirements.txt
 # Show deps for all snippets in vendor/
 for dir in vendor/*/ ; do
     echo "=== $dir ==="
-    aigogo show-deps "$dir"
+    aigg show-deps "$dir"
     echo
 done
 ```
@@ -374,28 +374,28 @@ done
 
 ## Integration with Other Commands
 
-### After `aigogo install`
+### After `aigg install`
 
 ```bash
-aigogo add utils:1.0.0
-aigogo install
-aigogo show-deps .aigogo/imports/aigogo/utils --format pyproject  # View deps to add
+aigg add utils:1.0.0
+aigg install
+aigg show-deps .aigogo/imports/aigogo/utils --format pyproject  # View deps to add
 ```
 
-### Before `aigogo build`
+### Before `aigg build`
 
 ```bash
 # Check what dependencies will be packaged
-aigogo show-deps .
-aigogo build
+aigg show-deps .
+aigg build
 ```
 
-### With `aigogo list`
+### With `aigg list`
 
 ```bash
 # List cached packages and show deps for one
-aigogo list
-aigogo show-deps ~/.aigogo/cache/my-package_1.0.0/
+aigg list
+aigg show-deps ~/.aigogo/cache/my-package_1.0.0/
 ```
 
 ---

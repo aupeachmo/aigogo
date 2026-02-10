@@ -48,10 +48,10 @@ func initCmd() *Command {
 			fmt.Printf("  Created %s\n\n", manifestPath)
 			fmt.Println("Next steps:")
 			fmt.Println("  1. Edit aigogo.json to configure language and metadata")
-			fmt.Println("  2. Add files: aigogo add file <path>...")
-			fmt.Println("  3. Add dependencies: aigogo add dep <package> <version>")
-			fmt.Println("  4. Run 'aigogo validate' to check your configuration")
-			fmt.Println("  5. Build and share: aigogo build <name>:<tag>")
+			fmt.Println("  2. Add files: aigg add file <path>...")
+			fmt.Println("  3. Add dependencies: aigg add dep <package> <version>")
+			fmt.Println("  4. Run 'aigg validate' to check your configuration")
+			fmt.Println("  5. Build and share: aigg build <name>:<tag>")
 
 			return nil
 		},
