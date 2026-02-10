@@ -75,7 +75,7 @@ jobs:
       - name: Strip binary (Unix)
         if: matrix.goos != 'windows' && !(matrix.goos == 'linux' && matrix.goarch == 'arm64')
         run: |
-          strip ${{ matrix.output }}
+          strip ${{ matrix.output }} 2>/dev/null || true
           ls -lh ${{ matrix.output }}
 
       - name: Strip binary (Linux ARM64 cross-compiled)
