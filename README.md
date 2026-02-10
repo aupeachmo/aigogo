@@ -23,6 +23,22 @@ brew tap aupeachmo/aigogo
 brew install aigg
 ```
 
+OR
+
+```bash
+# macOS (Apple Silicon)
+curl -sL https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-darwin-arm64.tar.gz | tar xz && sudo mv aigg-darwin-arm64 /usr/local/bin/aigg
+
+# macOS (Intel)
+curl -sL https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-darwin-amd64.tar.gz | tar xz && sudo mv aigg-darwin-amd64 /usr/local/bin/aigg
+
+# Linux (AMD64)
+curl -sL https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-linux-amd64.tar.gz | tar xz && sudo mv aigg-linux-amd64 /usr/local/bin/aigg
+
+# Linux (ARM64)
+curl -sL https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-linux-arm64.tar.gz | tar xz && sudo mv aigg-linux-arm64 /usr/local/bin/aigg
+```
+
 **Enable tab completion** (optional):
 
 ```bash
@@ -126,20 +142,26 @@ brew install aigg
 
 ```bash
 # macOS (Apple Silicon)
-curl -sL https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-darwin-arm64.tar.gz | tar xz
-sudo mv aigg-darwin-arm64 /usr/local/bin/aigg
+curl -sL https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-darwin-arm64.tar.gz | tar xz && sudo mv aigg-darwin-arm64 /usr/local/bin/aigg
 
 # macOS (Intel)
-curl -sL https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-darwin-amd64.tar.gz | tar xz
-sudo mv aigg-darwin-amd64 /usr/local/bin/aigg
+curl -sL https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-darwin-amd64.tar.gz | tar xz && sudo mv aigg-darwin-amd64 /usr/local/bin/aigg
 
 # Linux (AMD64)
-curl -sL https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-linux-amd64.tar.gz | tar xz
-sudo mv aigg-linux-amd64 /usr/local/bin/aigg
+curl -sL https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-linux-amd64.tar.gz | tar xz && sudo mv aigg-linux-amd64 /usr/local/bin/aigg
 
 # Linux (ARM64)
-curl -sL https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-linux-arm64.tar.gz | tar xz
-sudo mv aigg-linux-arm64 /usr/local/bin/aigg
+curl -sL https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-linux-arm64.tar.gz | tar xz && sudo mv aigg-linux-arm64 /usr/local/bin/aigg
+```
+
+**Windows (PowerShell):**
+
+```powershell
+# Windows (AMD64)
+Invoke-WebRequest -Uri "https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-windows-amd64.zip" -OutFile aigg.zip; Expand-Archive aigg.zip -DestinationPath .; Move-Item aigg-windows-amd64.exe C:\Windows\aigg.exe; Remove-Item aigg.zip
+
+# Windows (ARM64)
+Invoke-WebRequest -Uri "https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-windows-arm64.zip" -OutFile aigg.zip; Expand-Archive aigg.zip -DestinationPath .; Move-Item aigg-windows-arm64.exe C:\Windows\aigg.exe; Remove-Item aigg.zip
 ```
 
 ### From Source
