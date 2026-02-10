@@ -10,7 +10,7 @@ import (
 func listCmd() *Command {
 	return &Command{
 		Name:        "list",
-		Description: "List cached snippet packages",
+		Description: "List cached agents",
 		Run: func(args []string) error {
 			lister := docker.NewLister()
 			images, err := lister.ListDetailed()
@@ -19,13 +19,13 @@ func listCmd() *Command {
 			}
 
 			if len(images) == 0 {
-				fmt.Println("No cached snippet packages found")
+				fmt.Println("No cached agents found")
 				fmt.Println("\nTip: Build a local package with: aigg build <name>:<tag>")
 				fmt.Println("     Or add from registry with:  aigg add <registry>/<name>:<tag>")
 				return nil
 			}
 
-			fmt.Printf("Cached snippet packages (%d):\n\n", len(images))
+			fmt.Printf("Cached agents (%d):\n\n", len(images))
 
 			for _, img := range images {
 				// Format the image line

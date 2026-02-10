@@ -9,7 +9,7 @@ import (
 func removeCmd() *Command {
 	return &Command{
 		Name:        "remove",
-		Description: "Remove a cached snippet package",
+		Description: "Remove a cached agent",
 		Run: func(args []string) error {
 			if len(args) < 1 {
 				return fmt.Errorf("usage: aigg remove <name>:<tag>")

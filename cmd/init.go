@@ -10,7 +10,7 @@ import (
 func initCmd() *Command {
 	return &Command{
 		Name:        "init",
-		Description: "Initialize a new snippet package in the current directory",
+		Description: "Initialize a new agent in the current directory",
 		Run: func(args []string) error {
 			manifestPath := "aigogo.json"
 
@@ -19,7 +19,7 @@ func initCmd() *Command {
 				Schema:      "https://github.com/aupeachmo/aigogo/blob/master/aigogo.schema.json",
 				Name:        getCurrentDirName(),
 				Version:     "0.1.0",
-				Description: "A code snippet package",
+				Description: "An AI agent",
 				Author:      "",
 				Language: manifest.Language{
 					Name:    "python",

@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/aupeachmo/aigogo/blob/master/aigogo.schema.json",
   "title": "aigogo Manifest",
-  "description": "Configuration file for aigogo code snippet packages",
+  "description": "Configuration file for aigogo agents",
   "type": "object",
   "required": ["name", "version", "language", "files"],
   "properties": {
@@ -132,7 +132,7 @@
       "properties": {
         "summary": {
           "type": "string",
-          "description": "One sentence describing what this snippet does and when to use it"
+          "description": "One sentence describing what this agent does and when to use it"
         },
         "capabilities": {
           "type": "array",

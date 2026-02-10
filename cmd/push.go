@@ -14,7 +14,7 @@ func pushCmd() *Command {
 
 	return &Command{
 		Name:        "push",
-		Description: "Push a snippet package to a registry",
+		Description: "Push an agent to a registry",
 		Flags:       flags,
 		Run: func(args []string) error {
 			if len(args) < 1 {
