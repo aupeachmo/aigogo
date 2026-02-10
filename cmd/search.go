@@ -7,7 +7,7 @@ import (
 func searchCmd() *Command {
 	return &Command{
 		Name:        "search",
-		Description: "Search for snippet packages in a registry",
+		Description: "Search for agents in a registry",
 		Run: func(args []string) error {
 			if len(args) < 1 {
 				return fmt.Errorf("usage: aigg search <term>")

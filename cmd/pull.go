@@ -9,7 +9,7 @@ import (
 func pullCmd() *Command {
 	return &Command{
 		Name:        "pull",
-		Description: "Pull a snippet package from a registry (without extracting)",
+		Description: "Pull an agent from a registry (without extracting)",
 		Run: func(args []string) error {
 			if len(args) < 1 {
 				return fmt.Errorf("usage: aigg pull <registry>/<name>:<tag>")

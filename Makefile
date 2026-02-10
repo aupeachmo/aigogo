@@ -207,7 +207,7 @@ build-all: clean
 
 # Show help
 help:
-	@echo "aigg v2.0 - Code Snippet Package Manager"
+	@echo "aigg v2.0 - AI Agent Manager"
 	@echo ""
 	@echo "Usage: make [target]"
 	@echo ""

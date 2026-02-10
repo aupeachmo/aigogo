@@ -169,7 +169,7 @@ skip_test() {
 # Helpers to create dummy projects
 ###############################################################################
 
-# Create a minimal Python snippet project in $1
+# Create a minimal Python agent project in $1
 create_python_project() {
     local dir="$1"
     mkdir -p "$dir"
@@ -190,7 +190,7 @@ def helper():
 PYEOF
 }
 
-# Create a minimal JS snippet project in $1
+# Create a minimal JS agent project in $1
 create_js_project() {
     local dir="$1"
     mkdir -p "$dir"
@@ -946,7 +946,7 @@ echo ""
 ###############################################################################
 echo "${BOLD}=== Cache Management ===${RESET}"
 
-run_test_grep "aigg list" "Cached snippet packages|No cached" \
+run_test_grep "aigg list" "Cached agents|No cached" \
     "$AIGOGO" list
 
 # Build something so we can remove it

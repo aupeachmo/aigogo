@@ -174,7 +174,7 @@ jobs:
           body: |
             ## aigg ${{ steps.get_version.outputs.VERSION }}
 
-            A package manager for AI agents
+            An AI agent manager
 
             ### Downloads
 

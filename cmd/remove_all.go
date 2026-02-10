@@ -13,7 +13,7 @@ import (
 func removeAllCmd() *Command {
 	return &Command{
 		Name:        "remove-all",
-		Description: "Remove all cached snippet packages",
+		Description: "Remove all cached agents",
 		Run: func(args []string) error {
 			flags := flag.NewFlagSet("remove-all", flag.ContinueOnError)
 			force := flags.Bool("force", false, "Skip confirmation prompt")

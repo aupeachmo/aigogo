@@ -17,7 +17,7 @@ func deleteCmd() *Command {
 
 	return &Command{
 		Name:        "delete",
-		Description: "Delete a snippet package from remote registry",
+		Description: "Delete an agent from remote registry",
 		Flags:       flags,
 		Run: func(args []string) error {
 			if len(args) < 1 {

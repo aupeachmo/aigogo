@@ -17,7 +17,7 @@ func buildCmd() *Command {
 
 	return &Command{
 		Name:        "build",
-		Description: "Build a snippet package locally (no push)",
+		Description: "Build an agent locally (no push)",
 		Flags:       flags,
 		Run: func(args []string) error {
 			// Find manifest (supports running from subdirectories)

@@ -95,7 +95,6 @@ func Execute() error {
 }
 
 func printUsage(commands map[string]*Command) {
-	// fmt.Println("aigg - Code snippet package manager using Docker as transport")
 	fmt.Println("aigg - Easily manage and reuse your AI agents between projects")
 	fmt.Println()
 	fmt.Println("Usage:")
