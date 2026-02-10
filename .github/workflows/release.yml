@@ -109,13 +109,13 @@ jobs:
 
       - name: Attest artifact (Linux/macOS)
         if: matrix.goos == 'linux' || matrix.goos == 'darwin'
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v3
         with:
           subject-path: ${{ matrix.output }}.tar.gz
 
       - name: Attest artifact (Windows)
         if: matrix.goos == 'windows'
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v3
         with:
           subject-path: ${{ matrix.output }}.zip
 
