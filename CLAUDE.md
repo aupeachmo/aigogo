@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**aigogo** is a lightweight code snippet package manager that uses Docker registries as a transport mechanism. It enables sharing and distributing reusable code snippets (not full packages) across projects. Key distinction: this manages CODE SNIPPETS, not dependencies.
+**aigogo** is a lightweight agent manager that uses Docker registries as a transport mechanism. It enables sharing and distributing reusable AI agents across projects. Key distinction: this manages AGENTS, not dependencies.
 
 ## Build & Test Commands
 

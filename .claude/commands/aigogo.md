@@ -1,6 +1,6 @@
-# aigg - Code Snippet Package Manager
+# aigg - AI Agent Manager
 
-You are helping the user work with aigg, a code snippet package manager that uses Docker registries as transport. Follow these instructions exactly.
+You are helping the user work with aigg, an AI agent manager that uses Docker registries as transport. Follow these instructions exactly.
 
 ## Determine Intent
 

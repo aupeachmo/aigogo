@@ -6,7 +6,7 @@ aigogo is an agent manager that lets you build, share, and install AI agents. No
 
 ## Why aigogo?
 
-You have a useful Python module — a prompt template, a tool-calling decorator, an API client wrapper. You want to reuse it across three projects. Your options:
+You have a useful agent, or even a component of one (such as a prompt template, a tool-calling decorator or an API client wrapper). You want to reuse it across three projects. Your options:
 
 - **Copy-paste** it into each project (now you have three copies to maintain)
 - **Publish to PyPI** (heavyweight for a single file)

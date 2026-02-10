@@ -14,7 +14,7 @@ aigogo supports AI agent discovery and usage through two mechanisms: structured 
 | **When** | User explicitly invokes `/aigogo` | Agent discovers packages during a task |
 | **How** | Prompt instructions shaping assistant behavior | Structured data in the package manifest |
 | **Interaction** | Interactive, conversational | Programmatic, no human in the loop |
-| **Scope** | Knows the aigg CLI | Describes one specific snippet |
+| **Scope** | Knows the aigg CLI | Describes one specific agent |
 
 They complement each other: a skill can use AI metadata when helping a human ("I found 3 packages matching your needs, here's what each does"), and an autonomous agent doesn't need the skill at all -- it just reads manifests and runs commands.
 
@@ -22,14 +22,14 @@ The gap right now is discovery. The `ai` field describes individual packages, bu
 
 ## AI Metadata in aigogo.json
 
-The `ai` field in `aigogo.json` is an optional section that describes a snippet in terms AI agents can parse and act on. This allows agents to discover, evaluate, and use snippets without reading the source code.
+The `ai` field in `aigogo.json` is an optional section that describes an agent in terms other AI agents can parse and act on. This allows agents to discover, evaluate, and use agents without reading the source code.
 
 ### Schema
 
 ```json
 {
   "ai": {
-    "summary": "One sentence describing what this snippet does and when to use it.",
+    "summary": "One sentence describing what this agent does and when to use it.",
     "capabilities": [
       "Short verb phrase for each action the code can perform"
     ],
@@ -44,8 +44,8 @@ The `ai` field in `aigogo.json` is an optional section that describes a snippet 
 
 | Field | Required | Purpose |
 |---|---|---|
-| `summary` | Yes | What the snippet does, in one sentence. Should be specific enough for an agent to decide whether to use it. |
-| `capabilities` | Yes | List of actions the code can perform, as short verb phrases. Agents use these to match snippets to tasks. |
+| `summary` | Yes | What the agent does, in one sentence. Should be specific enough for another agent to decide whether to use it. |
+| `capabilities` | Yes | List of actions the code can perform, as short verb phrases. Agents use these to match agents to tasks. |
 | `usage` | No | Minimal import and function call example. Shows the agent exactly how to invoke the code. |
 | `inputs` | No | What the functions expect. Types, formats, constraints. |
 | `outputs` | No | What the functions return. Types, formats, side effects. |
@@ -60,7 +60,7 @@ The `ai` field in `aigogo.json` is an optional section that describes a snippet 
 - Bad: "logging", "formatting"
 - Good: "Configure a JSON-formatted logger", "Inject context fields into all log entries"
 
-**Usage** should be copy-pasteable. An agent should be able to read this field and immediately write working code that uses the snippet.
+**Usage** should be copy-pasteable. An agent should be able to read this field and immediately write working code that uses the agent.
 
 ### Example
 
@@ -96,8 +96,8 @@ From `examples/tool-use-decorator/aigogo.json`:
 ### How Agents Use This
 
 1. **Discovery**: An agent searching for "HTTP client with retry" can match against `summary` and `capabilities` fields across available packages.
-2. **Evaluation**: The `inputs`, `outputs`, and `usage` fields let the agent determine whether the snippet fits its needs without reading source.
-3. **Integration**: The agent runs `aigg add <package>` and `aigg install`, then uses the `usage` example as a template for writing code that calls the snippet.
+2. **Evaluation**: The `inputs`, `outputs`, and `usage` fields let the agent determine whether the agent fits its needs without reading source.
+3. **Integration**: The agent runs `aigg add <package>` and `aigg install`, then uses the `usage` example as a template for writing code that calls the agent.
 
 The `ai` field is ignored by all existing aigg commands (build, install, push, etc.) -- it is purely advisory metadata for agent consumption.
 

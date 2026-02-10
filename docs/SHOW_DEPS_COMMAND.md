@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `show-deps` command displays dependencies from an `aigogo.json` manifest in various output formats. This is particularly useful when integrating aigogo snippets into existing projects with their own dependency management systems.
+The `show-deps` command displays dependencies from an `aigogo.json` manifest in various output formats. This is particularly useful when integrating aigogo agents into existing projects with their own dependency management systems.
 
 ## Usage
 

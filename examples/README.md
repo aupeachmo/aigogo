@@ -205,7 +205,7 @@ This is useful when packaging existing code that already has a `pyproject.toml` 
 
 ## Dependencies
 
-aigg manages **snippet files**, not environments. `aigg install` pulls the source files and creates import symlinks, but it does not run `pip install` or `npm install`. Dependencies declared in `aigogo.json` are metadata that tells the consumer what their environment needs.
+aigg manages **AI agents**, not environments. `aigg install` pulls the source files and creates import symlinks, but it does not run `pip install` or `npm install`. Dependencies declared in `aigogo.json` are metadata that tells the consumer what their environment needs.
 
 For packages with dependencies, the consumer installs them separately using their preferred package manager. The `show-deps` command outputs dependencies in various formats to make this easy.
 
