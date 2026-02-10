@@ -1,8 +1,8 @@
 # aigogo
 
-**Share reusable code packages between AI agent projects in seconds.**
+**Share reusable AI agents between projects in seconds.**
 
-aigogo is a package manager that lets you build, share, and install AI agents using any Docker registry as transport. No publishing pipelines, no package ecosystem overhead — just your code, versioned and importable.
+aigogo is an agent manager that lets you build, share, and install AI agents using any Docker registry as transport. No publishing pipelines, no package ecosystem overhead — just your agents, versioned and importable.
 
 ## Why aigogo?
 
@@ -293,10 +293,10 @@ No. aigg talks directly to registry APIs. No Docker daemon required.
 Any Docker V2 registry: Docker Hub, GitHub Container Registry (ghcr.io), GitLab, AWS ECR, etc.
 
 **How is this different from pip/npm?**
-aigogo manages *source code snippets*, not compiled packages. Your code is copied into the project and imported directly — no build step, no virtualenv conflicts, no dependency resolution. Think of it as "git submodules done right."
+aigogo manages *AI agents as source code*, not compiled packages. Your agent code is copied into the project and imported directly — no build step, no virtualenv conflicts, no dependency resolution. Think of it as "git submodules done right."
 
 **What about dependencies?**
-Dependencies are declared in `aigogo.json` as metadata. Use `aigg show-deps --format requirements` to pipe them into pip, or `--format npm` for package.json. aigogo manages the code; your existing package manager handles the dependencies.
+Dependencies are declared in `aigogo.json` as metadata. Use `aigg show-deps --format requirements` to pipe them into pip, or `--format npm` for package.json. aigogo manages the agents; your existing package manager handles the dependencies.
 
 ## Development
 
