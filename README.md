@@ -16,6 +16,13 @@ aigogo gives you a fourth option: **package it once, share it everywhere**, usin
 
 ## Quick Start
 
+### 0. Install (macOS/Linux)
+
+```bash
+brew tap aupeachmo/aigogo
+brew install aigg
+```
+
 ### 1. Package your code
 
 ```python
