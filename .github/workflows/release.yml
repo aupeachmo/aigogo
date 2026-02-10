@@ -162,6 +162,11 @@ jobs:
           find artifacts -name "*.zip*" -exec cp {} release-assets/ \;
           ls -lh release-assets/
 
+      - name: Delete existing release (if re-running, will silently abort if release does not exist)
+        run: gh release delete ${{ steps.get_version.outputs.VERSION }} --yes --cleanup-tag=false 2>/dev/null || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
@@ -169,7 +174,7 @@ jobs:
           body: |
             ## aigogo ${{ steps.get_version.outputs.VERSION }}
 
-            Code snippet package manager with content-addressable storage and lock file support.
+            A package manager for AI agents
 
             ### Downloads
 
