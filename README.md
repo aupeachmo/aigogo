@@ -2,7 +2,7 @@
 
 **Share reusable AI agents between projects in seconds.**
 
-aigogo is an agent manager that lets you build, share, and install AI agents using any Docker registry as transport. No publishing pipelines, no package ecosystem overhead — just your agents, versioned and importable.
+aigogo is an agent manager that lets you build, share, and install AI agents. No publishing pipelines, no package ecosystem overhead — just your agents, versioned and importable.
 
 ## Why aigogo?
 
@@ -12,7 +12,7 @@ You have a useful Python module — a prompt template, a tool-calling decorator,
 - **Publish to PyPI** (heavyweight for a single file)
 - **Git submodules** (fragile, confusing)
 
-aigogo gives you a fourth option: **package it once, share it everywhere**, using Docker registries you already have access to.
+aigogo gives you a fourth option: **package it once, share it everywhere**.
 
 ## Quick Start
 
