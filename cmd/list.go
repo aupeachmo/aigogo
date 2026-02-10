@@ -20,8 +20,8 @@ func listCmd() *Command {
 
 			if len(images) == 0 {
 				fmt.Println("No cached snippet packages found")
-				fmt.Println("\nTip: Build a local package with: aigogo build <name>:<tag>")
-				fmt.Println("     Or add from registry with:  aigogo add <registry>/<name>:<tag>")
+				fmt.Println("\nTip: Build a local package with: aigg build <name>:<tag>")
+				fmt.Println("     Or add from registry with:  aigg add <registry>/<name>:<tag>")
 				return nil
 			}
 

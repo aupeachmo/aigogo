@@ -16,7 +16,7 @@ func rmCmd() *Command {
 		Description: "Remove files or dependencies from aigogo.json",
 		Run: func(args []string) error {
 			if len(args) == 0 {
-				return fmt.Errorf("usage: aigogo rm <file|dep|dev> [args...]\n\nSubcommands:\n  file <path>...  Remove files from include list\n  dep <pkg>       Remove runtime dependency\n  dev <pkg>       Remove development dependency")
+				return fmt.Errorf("usage: aigg rm <file|dep|dev> [args...]\n\nSubcommands:\n  file <path>...  Remove files from include list\n  dep <pkg>       Remove runtime dependency\n  dev <pkg>       Remove development dependency")
 			}
 
 			subcommand := args[0]
@@ -40,7 +40,7 @@ func rmFiles(args []string) error {
 	// Find and load manifest (supports subdirectories)
 	m, manifestDir, err := manifest.FindManifest()
 	if err != nil {
-		return fmt.Errorf("failed to find aigogo.json: %w\nRun 'aigogo init' first", err)
+		return fmt.Errorf("failed to find aigogo.json: %w\nRun 'aigg init' first", err)
 	}
 
 	manifestPath := filepath.Join(manifestDir, "aigogo.json")
@@ -143,7 +143,7 @@ func rmDependency(args []string, isDev bool) error {
 	// Find and load manifest (supports subdirectories)
 	m, manifestDir, err := manifest.FindManifest()
 	if err != nil {
-		return fmt.Errorf("failed to find aigogo.json: %w\nRun 'aigogo init' first", err)
+		return fmt.Errorf("failed to find aigogo.json: %w\nRun 'aigg init' first", err)
 	}
 
 	manifestPath := filepath.Join(manifestDir, "aigogo.json")

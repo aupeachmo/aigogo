@@ -10,7 +10,7 @@ func completionCmd() *Command {
 		Description: "Generate shell completion scripts",
 		Run: func(args []string) error {
 			if len(args) < 1 {
-				return fmt.Errorf("usage: aigogo completion <bash|zsh|fish>\n\nExamples:\n  # Bash\n  aigogo completion bash | sudo tee /etc/bash_completion.d/aigogo && sudo chmod 755 /etc/bash_completion.d/aigogo\n  # or add to ~/.bashrc:\n  source <(aigogo completion bash)\n\n  # Zsh\n  aigogo completion zsh > ~/.zsh/completions/_aigogo\n  # or add to ~/.zshrc:\n  source <(aigogo completion zsh)\n\n  # Fish\n  aigogo completion fish > ~/.config/fish/completions/aigogo.fish")
+				return fmt.Errorf("usage: aigg completion <bash|zsh|fish>\n\nExamples:\n  # Bash\n  aigg completion bash | sudo tee /etc/bash_completion.d/aigg && sudo chmod 755 /etc/bash_completion.d/aigg\n  # or add to ~/.bashrc:\n  source <(aigg completion bash)\n\n  # Zsh\n  aigg completion zsh > ~/.zsh/completions/_aigg\n  # or add to ~/.zshrc:\n  source <(aigg completion zsh)\n\n  # Fish\n  aigg completion fish > ~/.config/fish/completions/aigg.fish")
 			}
 
 			shell := args[0]
@@ -31,9 +31,9 @@ func completionCmd() *Command {
 	}
 }
 
-const bashCompletion = `# aigogo bash completion script
+const bashCompletion = `# aigg bash completion script
 
-_aigogo_completions() {
+_aigg_completions() {
     local cur prev words cword
     _init_completion || return
 
@@ -58,7 +58,7 @@ _aigogo_completions() {
     # Get cached images for completion
     local cached_images=""
     if [ -d "$HOME/.aigogo/cache" ]; then
-        cached_images=$(aigogo list 2>/dev/null | grep -E '^[🔨📦]' | awk '{print $2}' || echo "")
+        cached_images=$(aigg list 2>/dev/null | grep -E '^[🔨📦]' | awk '{print $2}' || echo "")
     fi
 
     case $cword in
@@ -186,12 +186,12 @@ _aigogo_completions() {
     esac
 }
 
-complete -F _aigogo_completions aigogo
+complete -F _aigg_completions aigg
 `
 
-const zshCompletion = `#compdef aigogo
+const zshCompletion = `#compdef aigg
 
-_aigogo() {
+_aigg() {
     local -a commands
     commands=(
         'init:Initialize a new aigogo package'
@@ -236,7 +236,7 @@ _aigogo() {
     # Get cached images
     local -a cached_images
     if [[ -d "$HOME/.aigogo/cache" ]]; then
-        cached_images=(${(f)"$(aigogo list 2>/dev/null | grep -E '^[🔨📦]' | awk '{print $2}')"})
+        cached_images=(${(f)"$(aigg list 2>/dev/null | grep -E '^[🔨📦]' | awk '{print $2}')"})
     fi
 
     case $state in
@@ -295,72 +295,72 @@ _aigogo() {
     esac
 }
 
-_aigogo "$@"
+_aigg "$@"
 `
 
-const fishCompletion = `# aigogo fish completion script
+const fishCompletion = `# aigg fish completion script
 
 # Main commands
-complete -c aigogo -f
-complete -c aigogo -n "__fish_use_subcommand" -a "init" -d "Initialize a new aigogo package"
-complete -c aigogo -n "__fish_use_subcommand" -a "add" -d "Add packages, files or dependencies"
-complete -c aigogo -n "__fish_use_subcommand" -a "install" -d "Install packages from aigogo.lock"
-complete -c aigogo -n "__fish_use_subcommand" -a "uninstall" -d "Remove installed packages and import configuration"
-complete -c aigogo -n "__fish_use_subcommand" -a "rm" -d "Remove files or dependencies"
-complete -c aigogo -n "__fish_use_subcommand" -a "validate" -d "Validate the manifest"
-complete -c aigogo -n "__fish_use_subcommand" -a "scan" -d "Scan for dependencies"
-complete -c aigogo -n "__fish_use_subcommand" -a "build" -d "Build a package locally"
-complete -c aigogo -n "__fish_use_subcommand" -a "push" -d "Push a package to registry"
-complete -c aigogo -n "__fish_use_subcommand" -a "pull" -d "Pull a package from registry"
-complete -c aigogo -n "__fish_use_subcommand" -a "login" -d "Login to a registry"
-complete -c aigogo -n "__fish_use_subcommand" -a "logout" -d "Logout from a registry"
-complete -c aigogo -n "__fish_use_subcommand" -a "list" -d "List cached packages"
-complete -c aigogo -n "__fish_use_subcommand" -a "show-deps" -d "Show dependencies in various formats"
-complete -c aigogo -n "__fish_use_subcommand" -a "remove" -d "Remove a cached package"
-complete -c aigogo -n "__fish_use_subcommand" -a "remove-all" -d "Remove all cached packages"
-complete -c aigogo -n "__fish_use_subcommand" -a "delete" -d "Delete a package from registry"
-complete -c aigogo -n "__fish_use_subcommand" -a "search" -d "Search for packages"
-complete -c aigogo -n "__fish_use_subcommand" -a "version" -d "Show version information"
-complete -c aigogo -n "__fish_use_subcommand" -a "completion" -d "Generate completion scripts"
+complete -c aigg -f
+complete -c aigg -n "__fish_use_subcommand" -a "init" -d "Initialize a new aigogo package"
+complete -c aigg -n "__fish_use_subcommand" -a "add" -d "Add packages, files or dependencies"
+complete -c aigg -n "__fish_use_subcommand" -a "install" -d "Install packages from aigogo.lock"
+complete -c aigg -n "__fish_use_subcommand" -a "uninstall" -d "Remove installed packages and import configuration"
+complete -c aigg -n "__fish_use_subcommand" -a "rm" -d "Remove files or dependencies"
+complete -c aigg -n "__fish_use_subcommand" -a "validate" -d "Validate the manifest"
+complete -c aigg -n "__fish_use_subcommand" -a "scan" -d "Scan for dependencies"
+complete -c aigg -n "__fish_use_subcommand" -a "build" -d "Build a package locally"
+complete -c aigg -n "__fish_use_subcommand" -a "push" -d "Push a package to registry"
+complete -c aigg -n "__fish_use_subcommand" -a "pull" -d "Pull a package from registry"
+complete -c aigg -n "__fish_use_subcommand" -a "login" -d "Login to a registry"
+complete -c aigg -n "__fish_use_subcommand" -a "logout" -d "Logout from a registry"
+complete -c aigg -n "__fish_use_subcommand" -a "list" -d "List cached packages"
+complete -c aigg -n "__fish_use_subcommand" -a "show-deps" -d "Show dependencies in various formats"
+complete -c aigg -n "__fish_use_subcommand" -a "remove" -d "Remove a cached package"
+complete -c aigg -n "__fish_use_subcommand" -a "remove-all" -d "Remove all cached packages"
+complete -c aigg -n "__fish_use_subcommand" -a "delete" -d "Delete a package from registry"
+complete -c aigg -n "__fish_use_subcommand" -a "search" -d "Search for packages"
+complete -c aigg -n "__fish_use_subcommand" -a "version" -d "Show version information"
+complete -c aigg -n "__fish_use_subcommand" -a "completion" -d "Generate completion scripts"
 
 # add subcommands
-complete -c aigogo -n "__fish_seen_subcommand_from add; and not __fish_seen_subcommand_from file dep dev" -a "file" -d "Add files to include list"
-complete -c aigogo -n "__fish_seen_subcommand_from add; and not __fish_seen_subcommand_from file dep dev" -a "dep" -d "Add runtime dependency"
-complete -c aigogo -n "__fish_seen_subcommand_from add; and not __fish_seen_subcommand_from file dep dev" -a "dev" -d "Add development dependency"
+complete -c aigg -n "__fish_seen_subcommand_from add; and not __fish_seen_subcommand_from file dep dev" -a "file" -d "Add files to include list"
+complete -c aigg -n "__fish_seen_subcommand_from add; and not __fish_seen_subcommand_from file dep dev" -a "dep" -d "Add runtime dependency"
+complete -c aigg -n "__fish_seen_subcommand_from add; and not __fish_seen_subcommand_from file dep dev" -a "dev" -d "Add development dependency"
 
 # rm subcommands
-complete -c aigogo -n "__fish_seen_subcommand_from rm; and not __fish_seen_subcommand_from file dep dev" -a "file" -d "Remove files from include list"
-complete -c aigogo -n "__fish_seen_subcommand_from rm; and not __fish_seen_subcommand_from file dep dev" -a "dep" -d "Remove runtime dependency"
-complete -c aigogo -n "__fish_seen_subcommand_from rm; and not __fish_seen_subcommand_from file dep dev" -a "dev" -d "Remove development dependency"
+complete -c aigg -n "__fish_seen_subcommand_from rm; and not __fish_seen_subcommand_from file dep dev" -a "file" -d "Remove files from include list"
+complete -c aigg -n "__fish_seen_subcommand_from rm; and not __fish_seen_subcommand_from file dep dev" -a "dep" -d "Remove runtime dependency"
+complete -c aigg -n "__fish_seen_subcommand_from rm; and not __fish_seen_subcommand_from file dep dev" -a "dev" -d "Remove development dependency"
 
 # completion shells
-complete -c aigogo -n "__fish_seen_subcommand_from completion" -a "bash zsh fish"
+complete -c aigg -n "__fish_seen_subcommand_from completion" -a "bash zsh fish"
 
 # Cached images for remove, build, push
-function __aigogo_cached_images
+function __aigg_cached_images
     if test -d "$HOME/.aigogo/cache"
-        aigogo list 2>/dev/null | grep -E '^[🔨📦]' | awk '{print $2}'
+        aigg list 2>/dev/null | grep -E '^[🔨📦]' | awk '{print $2}'
     end
 end
 
-complete -c aigogo -n "__fish_seen_subcommand_from remove" -a "(__aigogo_cached_images)" -d "Cached package"
-complete -c aigogo -n "__fish_seen_subcommand_from build" -a "(__aigogo_cached_images)" -d "Package reference"
-complete -c aigogo -n "__fish_seen_subcommand_from push" -a "(__aigogo_cached_images)" -d "Package reference"
+complete -c aigg -n "__fish_seen_subcommand_from remove" -a "(__aigg_cached_images)" -d "Cached package"
+complete -c aigg -n "__fish_seen_subcommand_from build" -a "(__aigg_cached_images)" -d "Package reference"
+complete -c aigg -n "__fish_seen_subcommand_from push" -a "(__aigg_cached_images)" -d "Package reference"
 
 # Flags
-complete -c aigogo -n "__fish_seen_subcommand_from build" -l "force" -d "Force rebuild"
-complete -c aigogo -n "__fish_seen_subcommand_from build" -l "no-validate" -d "Skip validation"
-complete -c aigogo -n "__fish_seen_subcommand_from push" -l "from" -d "Push from local build"
-complete -c aigogo -n "__fish_seen_subcommand_from delete" -l "all" -d "Delete all tags"
-complete -c aigogo -n "__fish_seen_subcommand_from remove-all" -l "force" -d "Skip confirmation"
-complete -c aigogo -n "__fish_seen_subcommand_from add; and __fish_seen_subcommand_from file" -l "force" -d "Add files even if ignored"
-complete -c aigogo -n "__fish_seen_subcommand_from add; and __fish_seen_subcommand_from dep" -l "from-pyproject" -d "Import from pyproject.toml"
-complete -c aigogo -n "__fish_seen_subcommand_from add; and __fish_seen_subcommand_from dev" -l "from-pyproject" -d "Import from pyproject.toml"
-complete -c aigogo -n "__fish_seen_subcommand_from show-deps" -l "format" -d "Output format" -a "text pyproject pep621 poetry requirements pip npm package-json yarn"
-complete -c aigogo -n "__fish_seen_subcommand_from login" -s "u" -l "username" -d "Username"
-complete -c aigogo -n "__fish_seen_subcommand_from login" -s "p" -d "Read password from stdin (prevents password in shell history)"
-complete -c aigogo -n "__fish_seen_subcommand_from login" -l "dockerhub" -d "Use Docker Hub (docker.io) as registry"
+complete -c aigg -n "__fish_seen_subcommand_from build" -l "force" -d "Force rebuild"
+complete -c aigg -n "__fish_seen_subcommand_from build" -l "no-validate" -d "Skip validation"
+complete -c aigg -n "__fish_seen_subcommand_from push" -l "from" -d "Push from local build"
+complete -c aigg -n "__fish_seen_subcommand_from delete" -l "all" -d "Delete all tags"
+complete -c aigg -n "__fish_seen_subcommand_from remove-all" -l "force" -d "Skip confirmation"
+complete -c aigg -n "__fish_seen_subcommand_from add; and __fish_seen_subcommand_from file" -l "force" -d "Add files even if ignored"
+complete -c aigg -n "__fish_seen_subcommand_from add; and __fish_seen_subcommand_from dep" -l "from-pyproject" -d "Import from pyproject.toml"
+complete -c aigg -n "__fish_seen_subcommand_from add; and __fish_seen_subcommand_from dev" -l "from-pyproject" -d "Import from pyproject.toml"
+complete -c aigg -n "__fish_seen_subcommand_from show-deps" -l "format" -d "Output format" -a "text pyproject pep621 poetry requirements pip npm package-json yarn"
+complete -c aigg -n "__fish_seen_subcommand_from login" -s "u" -l "username" -d "Username"
+complete -c aigg -n "__fish_seen_subcommand_from login" -s "p" -d "Read password from stdin (prevents password in shell history)"
+complete -c aigg -n "__fish_seen_subcommand_from login" -l "dockerhub" -d "Use Docker Hub (docker.io) as registry"
 
 # Complete --from with cached images
-complete -c aigogo -n "__fish_seen_subcommand_from push; and __fish_seen_argument -l from" -a "(__aigogo_cached_images)" -d "Local build"
+complete -c aigg -n "__fish_seen_subcommand_from push; and __fish_seen_argument -l from" -a "(__aigg_cached_images)" -d "Local build"
 `

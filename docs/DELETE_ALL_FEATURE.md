@@ -8,10 +8,10 @@ The `--all` flag for the `delete` command enables deletion of all tags in a repo
 
 ```bash
 # Delete a specific tag (existing behavior)
-aigogo delete docker.io/myorg/utils:1.0.0
+aigg delete docker.io/myorg/utils:1.0.0
 
 # Delete all tags in a repository (new)
-aigogo delete --all docker.io/myorg/utils
+aigg delete --all docker.io/myorg/utils
 ```
 
 **Important**: Flags must come **before** the image reference.
@@ -27,7 +27,7 @@ aigogo delete --all docker.io/myorg/utils
 
 ### Flow
 
-1. **User runs**: `aigogo delete --all docker.io/myorg/utils`
+1. **User runs**: `aigg delete --all docker.io/myorg/utils`
 2. **Flag parsing**: Root command parses `--all` flag
 3. **Confirmation**: Prompts for `DELETE ALL` confirmation (using `bufio.Reader`)
 4. **List tags**: Calls Docker Registry API `/v2/<name>/tags/list`
@@ -68,7 +68,7 @@ For each tag:
 ### Success Case
 
 ```bash
-$ aigogo delete --all docker.io/myorg/utils
+$ aigg delete --all docker.io/myorg/utils
 
 ⚠️  WARNING: This will permanently delete ALL tags in docker.io/myorg/utils
 
@@ -91,7 +91,7 @@ Deleting latest... ✓ Deleted
 ### Partial Failure
 
 ```bash
-$ aigogo delete --all docker.io/myorg/utils
+$ aigg delete --all docker.io/myorg/utils
 
 Found 3 tag(s):
   - 1.0.0
@@ -109,7 +109,7 @@ Successfully deleted 2 out of 3 tags
 ### Cancellation
 
 ```bash
-$ aigogo delete --all docker.io/myorg/utils
+$ aigg delete --all docker.io/myorg/utils
 
 ⚠️  WARNING: This will permanently delete ALL tags in docker.io/myorg/utils
 
@@ -121,19 +121,19 @@ Delete cancelled
 
 ```bash
 # Build
-go build -o aigogo .
+go build -o aigg .
 
 # Test single delete (existing)
-echo "yes" | ./aigogo delete test.example.com/fake:1.0.0
+echo "yes" | ./aigg delete test.example.com/fake:1.0.0
 
 # Test delete all with confirmation
-echo "DELETE ALL" | ./aigogo delete --all test.example.com/fake
+echo "DELETE ALL" | ./aigg delete --all test.example.com/fake
 
 # Test delete all with cancellation
-echo "no" | ./aigogo delete --all test.example.com/fake
+echo "no" | ./aigg delete --all test.example.com/fake
 
 # Check help
-./aigogo delete --help
+./aigg delete --help
 ```
 
 ## Documentation
@@ -160,10 +160,10 @@ Go's standard `flag` package stops parsing when it encounters a non-flag argumen
 
 ```bash
 # Correct
-aigogo delete --all docker.io/myorg/utils
+aigg delete --all docker.io/myorg/utils
 
 # Incorrect (--all is treated as a positional argument)
-aigogo delete docker.io/myorg/utils --all
+aigg delete docker.io/myorg/utils --all
 ```
 
 This is standard Go behavior and matches other Go CLI tools.

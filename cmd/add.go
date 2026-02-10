@@ -22,7 +22,7 @@ func addCmd() *Command {
 		Description: "Add packages, files, or dependencies",
 		Run: func(args []string) error {
 			if len(args) == 0 {
-				return fmt.Errorf("usage: aigogo add <package-ref|file|dep|dev> [args...]\n\nSubcommands:\n  <registry/repo:tag>         Add a package to aigogo.lock\n  file <path>...              Add files to include list\n  dep <pkg> <ver>             Add runtime dependency\n  dep --from-pyproject        Import all dependencies from pyproject.toml\n  dev <pkg> <ver>             Add development dependency\n  dev --from-pyproject        Import dev dependencies from pyproject.toml\n\nExamples:\n  aigogo add docker.io/org/my-utils:1.0.0\n  aigogo add file utils.py helpers.py\n  aigogo add dep requests >=2.28.0")
+				return fmt.Errorf("usage: aigg add <package-ref|file|dep|dev> [args...]\n\nSubcommands:\n  <registry/repo:tag>         Add a package to aigogo.lock\n  file <path>...              Add files to include list\n  dep <pkg> <ver>             Add runtime dependency\n  dep --from-pyproject        Import all dependencies from pyproject.toml\n  dev <pkg> <ver>             Add development dependency\n  dev --from-pyproject        Import dev dependencies from pyproject.toml\n\nExamples:\n  aigg add docker.io/org/my-utils:1.0.0\n  aigg add file utils.py helpers.py\n  aigg add dep requests >=2.28.0")
 			}
 
 			subcommand := args[0]
@@ -219,7 +219,7 @@ func addPackage(imageRef string) error {
 	fmt.Printf("  Language: %s\n", pkgLanguage)
 
 	fmt.Println("\nNext steps:")
-	fmt.Println("  1. Run 'aigogo install' to create import links")
+	fmt.Println("  1. Run 'aigg install' to create import links")
 	fmt.Println("  2. Commit aigogo.lock to version control")
 
 	// Show import hint
@@ -287,7 +287,7 @@ func addFiles(args []string) error {
 	// Find and load manifest (supports subdirectories)
 	m, manifestDir, err := manifest.FindManifest()
 	if err != nil {
-		return fmt.Errorf("failed to find aigogo.json: %w\nRun 'aigogo init' first", err)
+		return fmt.Errorf("failed to find aigogo.json: %w\nRun 'aigg init' first", err)
 	}
 
 	manifestPath := filepath.Join(manifestDir, "aigogo.json")
@@ -456,7 +456,7 @@ func addDependency(args []string, isDev bool) error {
 	// Find and load manifest (supports subdirectories)
 	m, manifestDir, err := manifest.FindManifest()
 	if err != nil {
-		return fmt.Errorf("failed to find aigogo.json: %w\nRun 'aigogo init' first", err)
+		return fmt.Errorf("failed to find aigogo.json: %w\nRun 'aigg init' first", err)
 	}
 
 	manifestPath := filepath.Join(manifestDir, "aigogo.json")
@@ -538,8 +538,8 @@ func addDependency(args []string, isDev bool) error {
 
 	fmt.Printf("✓ Added %s %s to %s dependencies\n", pkgName, version, depType)
 	fmt.Println("\nNext steps:")
-	fmt.Println("  1. Run 'aigogo validate' to check your dependencies")
-	fmt.Println("  2. Run 'aigogo scan' to detect any missing dependencies")
+	fmt.Println("  1. Run 'aigg validate' to check your dependencies")
+	fmt.Println("  2. Run 'aigg scan' to detect any missing dependencies")
 
 	return nil
 }
@@ -565,7 +565,7 @@ func addDependenciesFromPyproject(isDev bool) error {
 	// Find and load manifest (supports subdirectories)
 	m, manifestDir, err := manifest.FindManifest()
 	if err != nil {
-		return fmt.Errorf("failed to find aigogo.json: %w\nRun 'aigogo init' first", err)
+		return fmt.Errorf("failed to find aigogo.json: %w\nRun 'aigg init' first", err)
 	}
 
 	manifestPath := filepath.Join(manifestDir, "aigogo.json")

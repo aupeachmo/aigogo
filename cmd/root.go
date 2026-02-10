@@ -95,11 +95,11 @@ func Execute() error {
 }
 
 func printUsage(commands map[string]*Command) {
-	// fmt.Println("aigogo - Code snippet package manager using Docker as transport")
-	fmt.Println("aigogo - Easily manage and reuse your AI agents between projects")
+	// fmt.Println("aigg - Code snippet package manager using Docker as transport")
+	fmt.Println("aigg - Easily manage and reuse your AI agents between projects")
 	fmt.Println()
 	fmt.Println("Usage:")
-	fmt.Println("  aigogo <command> [options]")
+	fmt.Println("  aigg <command> [options]")
 	fmt.Println()
 	fmt.Println("Commands:")
 
@@ -114,15 +114,15 @@ func printUsage(commands map[string]*Command) {
 
 	fmt.Println()
 	fmt.Println("Workflow (package consumer):")
-	fmt.Println("  aigogo add docker.io/org/my-utils:1.0.0  # Add package to aigogo.lock")
-	fmt.Println("  aigogo install                           # Create import links")
+	fmt.Println("  aigg add docker.io/org/my-utils:1.0.0  # Add package to aigogo.lock")
+	fmt.Println("  aigg install                           # Create import links")
 	fmt.Println("  # Python: from aigogo.my_utils import ...")
 	fmt.Println("  # JS: import ... from '@aigogo/my-utils'")
 	fmt.Println()
 	fmt.Println("Workflow (package author):")
-	fmt.Println("  aigogo init                              # Create aigogo.json")
-	fmt.Println("  aigogo build utils:1.0.0                 # Build locally")
-	fmt.Println("  aigogo push docker.io/org/utils:1.0.0    # Push to registry")
+	fmt.Println("  aigg init                              # Create aigogo.json")
+	fmt.Println("  aigg build utils:1.0.0                 # Build locally")
+	fmt.Println("  aigg push docker.io/org/utils:1.0.0    # Push to registry")
 	fmt.Println()
 	// fmt.Println("For more information, visit: https://github.com/aupeachmo/aigogo")
 	// fmt.Println("For more information, visit: https://github.com/aupeachmo/aigogo")

@@ -69,7 +69,7 @@ func buildCmd() *Command {
 				fmt.Printf("   Location: ~/.aigogo/cache/%s\n", docker.SanitizeImageRef(imageRef))
 				fmt.Println()
 				fmt.Println("   To push to registry:")
-				fmt.Printf("     aigogo push %s --from %s\n", imageRef, imageRef)
+				fmt.Printf("     aigg push %s --from %s\n", imageRef, imageRef)
 				fmt.Println()
 			}
 
@@ -105,14 +105,14 @@ func buildCmd() *Command {
 
 			fmt.Printf("\n✓ Successfully built %s\n", imageRef)
 			fmt.Println("\nNext steps:")
-			fmt.Printf("  Test locally:  aigogo add %s && aigogo install\n", imageRef)
+			fmt.Printf("  Test locally:  aigg add %s && aigg install\n", imageRef)
 
 			// Suggest a registry name if it's a local build
 			registryHint := "<registry>/myorg/" + strings.Split(imageRef, ":")[0]
 			if strings.Contains(imageRef, "/") {
 				registryHint = "<registry>/" + imageRef
 			}
-			fmt.Printf("  Push to registry: aigogo push %s\n", registryHint)
+			fmt.Printf("  Push to registry: aigg push %s\n", registryHint)
 
 			return nil
 		},

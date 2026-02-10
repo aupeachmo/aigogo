@@ -20,7 +20,7 @@ func showDepsCmd() *Command {
 		Flags:       flags,
 		Run: func(args []string) error {
 			if len(args) < 1 {
-				return fmt.Errorf("usage: aigogo show-deps <path-to-aigogo.json-or-directory> [--format text|pyproject|poetry|requirements|npm|yarn]\n\nExamples:\n  aigogo show-deps aigogo.json\n  aigogo show-deps vendor/my-snippet\n  aigogo show-deps aigogo.json --format pyproject\n  aigogo show-deps . --format requirements\n  aigogo show-deps . --format npm\n  aigogo show-deps . --format yarn")
+				return fmt.Errorf("usage: aigg show-deps <path-to-aigogo.json-or-directory> [--format text|pyproject|poetry|requirements|npm|yarn]\n\nExamples:\n  aigg show-deps aigogo.json\n  aigg show-deps vendor/my-snippet\n  aigg show-deps aigogo.json --format pyproject\n  aigg show-deps . --format requirements\n  aigg show-deps . --format npm\n  aigg show-deps . --format yarn")
 			}
 
 			targetPath := args[0]

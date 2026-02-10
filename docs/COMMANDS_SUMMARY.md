@@ -1,6 +1,6 @@
-# aigogo Commands Summary
+# aigg Commands Summary
 
-Complete reference of all aigogo commands and their purposes.
+Complete reference of all aigg commands and their purposes.
 
 ## Command Overview
 
@@ -36,25 +36,25 @@ Complete reference of all aigogo commands and their purposes.
 
 **`init`** - Initialize new package
 ```bash
-aigogo init
+aigg init
 # Creates aigogo.json with empty files array
 ```
 
 **`add file`** - Add files to package
 ```bash
-aigogo add file utils.py api.py
-aigogo add file "*.py"  # Glob patterns supported
+aigg add file utils.py api.py
+aigg add file "*.py"  # Glob patterns supported
 # Updates aigogo.json files.include
 ```
 
 **`add dep`** - Add runtime dependency
 ```bash
 # Manual mode
-aigogo add dep requests ">=2.31.0,<3.0.0"
+aigg add dep requests ">=2.31.0,<3.0.0"
 # Updates aigogo.json dependencies.runtime
 
 # Import from pyproject.toml (Python only)
-aigogo add dep --from-pyproject
+aigg add dep --from-pyproject
 # Reads [tool.poetry.dependencies] or [project.dependencies]
 # Automatically sets Python version requirement
 ```
@@ -62,29 +62,29 @@ aigogo add dep --from-pyproject
 **`add dev`** - Add dev dependency
 ```bash
 # Manual mode
-aigogo add dev pytest "^7.0.0"
+aigg add dev pytest "^7.0.0"
 # Updates aigogo.json dependencies.dev
 
 # Import from pyproject.toml (Python only)
-aigogo add dev --from-pyproject
+aigg add dev --from-pyproject
 # Reads [tool.poetry.dev-dependencies] or [project.optional-dependencies]
 ```
 
 **`rm file`** - Remove files from package
 ```bash
-aigogo rm file old_utils.py
+aigg rm file old_utils.py
 # Updates aigogo.json files.include
 ```
 
 **`rm dep`** - Remove runtime dependency
 ```bash
-aigogo rm dep requests
+aigg rm dep requests
 # Updates aigogo.json dependencies.runtime
 ```
 
 **`rm dev`** - Remove dev dependency
 ```bash
-aigogo rm dev pytest
+aigg rm dev pytest
 # Updates aigogo.json dependencies.dev
 ```
 
@@ -92,13 +92,13 @@ aigogo rm dev pytest
 
 **`validate`** - Check dependencies
 ```bash
-aigogo validate
+aigg validate
 # Scans files, compares with declared deps
 ```
 
 **`scan`** - Detect dependencies
 ```bash
-aigogo scan
+aigg scan
 # Analyzes imports, suggests what to add
 ```
 
@@ -106,15 +106,15 @@ aigogo scan
 
 **`build`** - Build package locally
 ```bash
-aigogo build utils:1.0.0       # Explicit name and tag
-aigogo build                   # Auto-increment patch version
-aigogo build --force           # Rebuild even if exists
-aigogo build --no-validate     # Skip dependency validation
+aigg build utils:1.0.0       # Explicit name and tag
+aigg build                   # Auto-increment patch version
+aigg build --force           # Rebuild even if exists
+aigg build --no-validate     # Skip dependency validation
 ```
 
 **`install`** - Install packages from lock file
 ```bash
-aigogo install
+aigg install
 # Reads aigogo.lock, stores packages in CAS, creates import symlinks
 # Python: from aigogo.package_name import ...
 # JavaScript: import ... from '@aigogo/package-name'
@@ -125,16 +125,16 @@ aigogo install
 **`push`** - Upload to registry
 ```bash
 # Push to Docker Hub
-aigogo push docker.io/myorg/utils:1.0.0 --from utils:1.0.0
+aigg push docker.io/myorg/utils:1.0.0 --from utils:1.0.0
 
 # Push to GitHub Container Registry
-aigogo push ghcr.io/myorg/utils:1.0.0 --from utils:1.0.0
+aigg push ghcr.io/myorg/utils:1.0.0 --from utils:1.0.0
 ```
 
 **`pull`** - Download only
 ```bash
-aigogo pull docker.io/myorg/utils:1.0.0
-aigogo pull ghcr.io/myorg/utils:1.0.0
+aigg pull docker.io/myorg/utils:1.0.0
+aigg pull ghcr.io/myorg/utils:1.0.0
 # Pulls from registry, saves to cache
 ```
 
@@ -142,24 +142,24 @@ aigogo pull ghcr.io/myorg/utils:1.0.0
 
 **`remove`** - Delete from local cache
 ```bash
-aigogo remove docker.io/myorg/utils:1.0.0
+aigg remove docker.io/myorg/utils:1.0.0
 # Removes from ~/.aigogo/cache/
 ```
 
 **`remove-all`** - Delete all from local cache
 ```bash
-aigogo remove-all              # Prompts for confirmation
-aigogo remove-all --force      # Skip confirmation
+aigg remove-all              # Prompts for confirmation
+aigg remove-all --force      # Skip confirmation
 # Removes everything from ~/.aigogo/cache/
 ```
 
 **`delete`** - Delete from registry ⚠️
 ```bash
 # Delete specific tag
-aigogo delete docker.io/myorg/utils:1.0.0
+aigg delete docker.io/myorg/utils:1.0.0
 
 # Delete all tags
-aigogo delete docker.io/myorg/utils --all
+aigg delete docker.io/myorg/utils --all
 # Permanently removes from remote registry
 ```
 
@@ -168,32 +168,32 @@ aigogo delete docker.io/myorg/utils --all
 **`login`** - Authenticate
 ```bash
 # Interactive login (prompts for username and password)
-aigogo login docker.io
+aigg login docker.io
 
 # Use Docker Hub shortcut (no registry argument needed)
-aigogo login --dockerhub
+aigg login --dockerhub
 
 # GitHub Container Registry (use a PAT as password)
-aigogo login ghcr.io
+aigg login ghcr.io
 
 # With username flag
-aigogo login docker.io -u myusername
+aigg login docker.io -u myusername
 
 # Read password from stdin (prevents password in shell history)
-echo "mypassword" | aigogo login docker.io -u myusername -p
+echo "mypassword" | aigg login docker.io -u myusername -p
 
 # ghcr.io with PAT from stdin
-echo "$GHCR_PAT" | aigogo login ghcr.io -u myusername -p
+echo "$GHCR_PAT" | aigg login ghcr.io -u myusername -p
 
 # Docker Hub with stdin password
-echo "mypassword" | aigogo login --dockerhub -u myusername -p
+echo "mypassword" | aigg login --dockerhub -u myusername -p
 # Stores credentials for registry access
 ```
 
 **`logout`** - Remove credentials
 ```bash
-aigogo logout docker.io
-aigogo logout ghcr.io
+aigg logout docker.io
+aigg logout ghcr.io
 # Removes stored credentials for the specified registry
 ```
 
@@ -201,7 +201,7 @@ aigogo logout ghcr.io
 
 **`search`** - Search registry
 ```bash
-aigogo search utils
+aigg search utils
 # (Placeholder - not fully implemented)
 ```
 
@@ -209,13 +209,13 @@ aigogo search utils
 
 **`version`** - Show version
 ```bash
-aigogo version
-# Shows aigogo version, platform, Go version
+aigg version
+# Shows aigg version, platform, Go version
 ```
 
 **`list`** - List cached packages
 ```bash
-aigogo list
+aigg list
 # Shows packages in local cache with:
 #   - Package name and version
 #   - Type (local build or registry pull)
@@ -227,12 +227,12 @@ aigogo list
 
 **`show-deps`** - Display dependencies in various formats
 ```bash
-aigogo show-deps <path>                        # Text format (default)
-aigogo show-deps <path> --format pyproject     # PEP 621 format (alias: pep621)
-aigogo show-deps <path> --format poetry        # Poetry format
-aigogo show-deps <path> --format requirements  # pip requirements.txt (alias: pip)
-aigogo show-deps <path> --format npm           # package.json fragment (alias: package-json)
-aigogo show-deps <path> --format yarn          # yarn add commands
+aigg show-deps <path>                        # Text format (default)
+aigg show-deps <path> --format pyproject     # PEP 621 format (alias: pep621)
+aigg show-deps <path> --format poetry        # Poetry format
+aigg show-deps <path> --format requirements  # pip requirements.txt (alias: pip)
+aigg show-deps <path> --format npm           # package.json fragment (alias: package-json)
+aigg show-deps <path> --format yarn          # yarn add commands
 
 # Path can be:
 # - Directory containing aigogo.json
@@ -246,47 +246,47 @@ aigogo show-deps <path> --format yarn          # yarn add commands
 
 ```bash
 # 1. Initialize
-aigogo init
+aigg init
 
 # 2. Add files
-aigogo add file utils.py helpers.py
+aigg add file utils.py helpers.py
 
 # 3. Add dependencies
-aigogo add dep requests ">=2.31.0,<3.0.0"
-aigogo add dep click ">=8.0.0,<9.0.0"
-aigogo add dev pytest "^7.0.0"
+aigg add dep requests ">=2.31.0,<3.0.0"
+aigg add dep click ">=8.0.0,<9.0.0"
+aigg add dev pytest "^7.0.0"
 
 # 4. Validate
-aigogo validate
+aigg validate
 
 # 5. Build locally
-aigogo build utils:1.0.0
+aigg build utils:1.0.0
 
 # 6. Login
-aigogo login --dockerhub -u myusername
-# Or: aigogo login docker.io -u myusername
-# Or: aigogo login ghcr.io -u myusername  (use PAT as password)
+aigg login --dockerhub -u myusername
+# Or: aigg login docker.io -u myusername
+# Or: aigg login ghcr.io -u myusername  (use PAT as password)
 
 # 7. Push
-aigogo push docker.io/myorg/utils:1.0.0 --from utils:1.0.0
-# Or: aigogo push ghcr.io/myorg/utils:1.0.0 --from utils:1.0.0
+aigg push docker.io/myorg/utils:1.0.0 --from utils:1.0.0
+# Or: aigg push ghcr.io/myorg/utils:1.0.0 --from utils:1.0.0
 ```
 
 ### Using a Snippet
 
 ```bash
 # 1. Login (if private)
-aigogo login --dockerhub
-# Or: aigogo login docker.io
-# Or: aigogo login ghcr.io
+aigg login --dockerhub
+# Or: aigg login docker.io
+# Or: aigg login ghcr.io
 
 # 2. Add and install snippet
-aigogo add docker.io/myorg/utils:1.0.0
-# Or: aigogo add ghcr.io/myorg/utils:1.0.0
-aigogo install
+aigg add docker.io/myorg/utils:1.0.0
+# Or: aigg add ghcr.io/myorg/utils:1.0.0
+aigg install
 
 # 3. Install external dependencies
-aigogo show-deps .aigogo/imports/aigogo/utils --format requirements | pip install -r /dev/stdin
+aigg show-deps .aigogo/imports/aigogo/utils --format requirements | pip install -r /dev/stdin
 
 # 4. Use the code
 python -c "from aigogo.utils import fetch_data; print(fetch_data('https://api.example.com'))"
@@ -296,42 +296,42 @@ python -c "from aigogo.utils import fetch_data; print(fetch_data('https://api.ex
 
 ```bash
 # Check what's actually used
-aigogo scan
+aigg scan
 
 # Add missing runtime dependencies
-aigogo add dep <package> <version>
+aigg add dep <package> <version>
 
 # Add dev dependencies
-aigogo add dev <package> <version>
+aigg add dev <package> <version>
 
 # For Python projects with pyproject.toml
-aigogo add dep --from-pyproject
-aigogo add dev --from-pyproject
+aigg add dep --from-pyproject
+aigg add dev --from-pyproject
 
 # Remove unused dependencies
-aigogo rm dep <package>
-aigogo rm dev <package>
+aigg rm dep <package>
+aigg rm dev <package>
 
 # Validate everything matches
-aigogo validate
+aigg validate
 ```
 
 ### Integrating Snippets into Existing Projects
 
 ```bash
 # Install the snippet
-aigogo add utils:1.0.0
-aigogo install
+aigg add utils:1.0.0
+aigg install
 
 # View dependencies in format matching your project
 # For uv/PEP 621 projects:
-aigogo show-deps .aigogo/imports/aigogo/utils --format pyproject
+aigg show-deps .aigogo/imports/aigogo/utils --format pyproject
 
 # For Poetry projects:
-aigogo show-deps .aigogo/imports/aigogo/utils --format poetry
+aigg show-deps .aigogo/imports/aigogo/utils --format poetry
 
 # For pip/requirements.txt:
-aigogo show-deps .aigogo/imports/aigogo/utils --format requirements >> requirements.txt
+aigg show-deps .aigogo/imports/aigogo/utils --format requirements >> requirements.txt
 
 # Copy the output into your pyproject.toml or requirements.txt
 # Then install:
@@ -344,18 +344,18 @@ poetry install
 
 ```bash
 # Remove old cached downloads
-aigogo list
-aigogo remove docker.io/myorg/utils:0.9.0
+aigg list
+aigg remove docker.io/myorg/utils:0.9.0
 
 # Remove all cached packages
-aigogo remove-all              # Prompts for confirmation
-aigogo remove-all --force      # Skip confirmation
+aigg remove-all              # Prompts for confirmation
+aigg remove-all --force      # Skip confirmation
 
 # Delete specific old version from registry
-aigogo delete docker.io/myorg/utils:0.9.0
+aigg delete docker.io/myorg/utils:0.9.0
 
 # Delete entire deprecated repository from registry
-aigogo delete docker.io/myorg/deprecated-utils --all
+aigg delete docker.io/myorg/deprecated-utils --all
 ```
 
 ## Destruction Matrix
@@ -364,9 +364,9 @@ Understanding what each destructive command affects:
 
 | Command | Affects | Reversible | How to Reverse |
 |---------|---------|------------|----------------|
-| `rm file/dep/dev` | Local manifest | ✅ Yes | Re-add with `aigogo add file/dep/dev` |
-| `remove` | Local cache (single) | ✅ Yes | Re-add with `aigogo add` + `aigogo install` |
-| `remove-all` | Local cache (all) | ✅ Yes | Re-add with `aigogo add` + `aigogo install` |
+| `rm file/dep/dev` | Local manifest | ✅ Yes | Re-add with `aigg add file/dep/dev` |
+| `remove` | Local cache (single) | ✅ Yes | Re-add with `aigg add` + `aigg install` |
+| `remove-all` | Local cache (all) | ✅ Yes | Re-add with `aigg add` + `aigg install` |
 | `delete` | Remote registry | ❌ **NO** | Must re-push |
 
 ## Command Comparison
@@ -377,28 +377,28 @@ Often confused - here's the difference:
 
 ```bash
 # rm - Edits aigogo.json
-aigogo rm dep requests  # Remove runtime dependency
-aigogo rm dev pytest    # Remove dev dependency
-aigogo rm file old.py   # Remove file from include list
+aigg rm dep requests  # Remove runtime dependency
+aigg rm dev pytest    # Remove dev dependency
+aigg rm file old.py   # Remove file from include list
 # Effect: Removes from aigogo.json
 # File: aigogo.json modified
-# Reversible: Yes (aigogo add dep/dev/file ...)
+# Reversible: Yes (aigg add dep/dev/file ...)
 
 # remove - Cleans local cache (single package)
-aigogo remove docker.io/myorg/utils:1.0.0
+aigg remove docker.io/myorg/utils:1.0.0
 # Effect: Deletes from ~/.aigogo/cache/
 # Files: Specific cached package deleted
-# Reversible: Yes (aigogo add ... + aigogo install)
+# Reversible: Yes (aigg add ... + aigg install)
 
 # remove-all - Cleans local cache (all packages)
-aigogo remove-all              # Prompts for confirmation
-aigogo remove-all --force      # Skip confirmation
+aigg remove-all              # Prompts for confirmation
+aigg remove-all --force      # Skip confirmation
 # Effect: Deletes everything from ~/.aigogo/cache/
 # Files: All cached packages deleted
-# Reversible: Yes (aigogo add ... + aigogo install)
+# Reversible: Yes (aigg add ... + aigg install)
 
 # delete - Removes from registry
-aigogo delete docker.io/myorg/utils:1.0.0
+aigg delete docker.io/myorg/utils:1.0.0
 # Effect: Permanently removes from remote
 # Registry: Image deleted
 # Reversible: NO (must re-push)
@@ -408,32 +408,32 @@ aigogo delete docker.io/myorg/utils:1.0.0
 
 ```bash
 # push - Upload to registry
-aigogo push docker.io/myorg/utils:1.0.0
+aigg push docker.io/myorg/utils:1.0.0
 # Direction: Local → Registry
 # Creates: Remote image
 
 # pull - Download to cache
-aigogo pull docker.io/myorg/utils:1.0.0
+aigg pull docker.io/myorg/utils:1.0.0
 # Direction: Registry → Cache
 # Creates: ~/.aigogo/cache/docker.io_myorg_utils_1.0.0/
 
 # To install after pulling, use add + install:
-aigogo add docker.io/myorg/utils:1.0.0
-aigogo install
+aigg add docker.io/myorg/utils:1.0.0
+aigg install
 ```
 
 ### `add` vs `scan`
 
 ```bash
 # add - Manually declare files/dependencies
-aigogo add file utils.py
-aigogo add dep requests ">=2.31.0,<3.0.0"
-aigogo add dev pytest "^7.0.0"
+aigg add file utils.py
+aigg add dep requests ">=2.31.0,<3.0.0"
+aigg add dev pytest "^7.0.0"
 # Action: You tell aigogo what you need
 # Updates: aigogo.json
 
 # scan - Auto-detect dependencies
-aigogo scan
+aigg scan
 # Action: aigogo tells you what you're using
 # Updates: Nothing (just shows suggestions)
 ```
@@ -444,7 +444,7 @@ aigogo scan
 
 If your shell supports it:
 ```bash
-aigogo <TAB>
+aigg <TAB>
 # Shows all commands
 ```
 
@@ -452,43 +452,43 @@ aigogo <TAB>
 
 ```bash
 # Before delete
-aigogo pull docker.io/myorg/utils:1.0.0  # Backup locally
-aigogo delete docker.io/myorg/utils:1.0.0  # Then delete
+aigg pull docker.io/myorg/utils:1.0.0  # Backup locally
+aigg delete docker.io/myorg/utils:1.0.0  # Then delete
 
 # Before remove
-aigogo list  # See what you have
-aigogo remove docker.io/myorg/utils:1.0.0  # Remove specific one
+aigg list  # See what you have
+aigg remove docker.io/myorg/utils:1.0.0  # Remove specific one
 ```
 
 ### Chain Commands
 
 ```bash
 # Add multiple dependencies
-aigogo add dep requests ">=2.31.0,<3.0.0" && \
-aigogo add dep click ">=8.0.0,<9.0.0" && \
-aigogo validate
+aigg add dep requests ">=2.31.0,<3.0.0" && \
+aigg add dep click ">=8.0.0,<9.0.0" && \
+aigg validate
 
 # Full publish flow
-aigogo init && \
-aigogo add file utils.py && \
-aigogo add dep requests ">=2.31.0,<3.0.0" && \
-aigogo validate && \
-aigogo build utils:1.0.0 && \
-aigogo push docker.io/myorg/utils:1.0.0 --from utils:1.0.0
+aigg init && \
+aigg add file utils.py && \
+aigg add dep requests ">=2.31.0,<3.0.0" && \
+aigg validate && \
+aigg build utils:1.0.0 && \
+aigg push docker.io/myorg/utils:1.0.0 --from utils:1.0.0
 ```
 
 ### Use Aliases
 
 ```bash
 # Add to ~/.bashrc or ~/.zshrc
-alias ag='aigogo'
-alias agaf='aigogo add file'
-alias agad='aigogo add dep'
-alias agav='aigogo add dev'
-alias agrf='aigogo rm file'
-alias agrd='aigogo rm dep'
-alias agv='aigogo validate'
-alias ags='aigogo scan'
+alias ag='aigg'
+alias agaf='aigg add file'
+alias agad='aigg add dep'
+alias agav='aigg add dev'
+alias agrf='aigg rm file'
+alias agrd='aigg rm dep'
+alias agv='aigg validate'
+alias ags='aigg scan'
 
 # Use them
 ag init

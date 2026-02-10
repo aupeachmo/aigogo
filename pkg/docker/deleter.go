@@ -32,7 +32,7 @@ func (d *Deleter) Delete(imageRef string) error {
 	authManager := auth.NewManager()
 	token, err := authManager.GetToken(registry, repository)
 	if err != nil {
-		return fmt.Errorf("not logged in to %s: %w\nRun 'aigogo login %s' first", registry, err, registry)
+		return fmt.Errorf("not logged in to %s: %w\nRun 'aigg login %s' first", registry, err, registry)
 	}
 
 	// First, get the manifest digest
@@ -56,7 +56,7 @@ func (d *Deleter) Delete(imageRef string) error {
 	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode == 401 {
-		return fmt.Errorf("authentication required, run 'aigogo login %s'", registry)
+		return fmt.Errorf("authentication required, run 'aigg login %s'", registry)
 	}
 
 	if resp.StatusCode == 404 {
@@ -150,7 +150,7 @@ func (d *Deleter) listTags(registry, repository string) ([]string, error) {
 	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode == 401 {
-		return nil, fmt.Errorf("authentication required, run 'aigogo login %s'", registry)
+		return nil, fmt.Errorf("authentication required, run 'aigg login %s'", registry)
 	}
 
 	if resp.StatusCode == 404 {

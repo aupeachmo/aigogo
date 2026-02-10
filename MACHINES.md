@@ -6,7 +6,7 @@ aigogo supports AI agent discovery and usage through two mechanisms: structured 
 
 **Skills** (`.claude/commands/aigogo.md`) are for **humans using an AI assistant**. A developer types `/aigogo` and Claude walks them through building or consuming a package interactively. The skill is instructions that shape Claude's behavior -- it's a prompt, not data. The human is in the loop making decisions.
 
-**AI metadata** (`ai` field in `aigogo.json`) is for **agents acting autonomously**. An agent is working on a task, needs an HTTP client with retry logic, and can programmatically search available aigogo packages by reading their `ai.summary` and `ai.capabilities` fields to find a match. It then runs `aigogo add` and `aigogo install` itself, and uses the `ai.usage` field as a template to write the integration code. No human interaction required.
+**AI metadata** (`ai` field in `aigogo.json`) is for **agents acting autonomously**. An agent is working on a task, needs an HTTP client with retry logic, and can programmatically search available aigogo packages by reading their `ai.summary` and `ai.capabilities` fields to find a match. It then runs `aigg add` and `aigg install` itself, and uses the `ai.usage` field as a template to write the integration code. No human interaction required.
 
 | | Skill | AI Metadata |
 |---|---|---|
@@ -14,7 +14,7 @@ aigogo supports AI agent discovery and usage through two mechanisms: structured 
 | **When** | User explicitly invokes `/aigogo` | Agent discovers packages during a task |
 | **How** | Prompt instructions shaping assistant behavior | Structured data in the package manifest |
 | **Interaction** | Interactive, conversational | Programmatic, no human in the loop |
-| **Scope** | Knows the aigogo CLI | Describes one specific snippet |
+| **Scope** | Knows the aigg CLI | Describes one specific snippet |
 
 They complement each other: a skill can use AI metadata when helping a human ("I found 3 packages matching your needs, here's what each does"), and an autonomous agent doesn't need the skill at all -- it just reads manifests and runs commands.
 
@@ -97,9 +97,9 @@ From `examples/tool-use-decorator/aigogo.json`:
 
 1. **Discovery**: An agent searching for "HTTP client with retry" can match against `summary` and `capabilities` fields across available packages.
 2. **Evaluation**: The `inputs`, `outputs`, and `usage` fields let the agent determine whether the snippet fits its needs without reading source.
-3. **Integration**: The agent runs `aigogo add <package>` and `aigogo install`, then uses the `usage` example as a template for writing code that calls the snippet.
+3. **Integration**: The agent runs `aigg add <package>` and `aigg install`, then uses the `usage` example as a template for writing code that calls the snippet.
 
-The `ai` field is ignored by all existing aigogo commands (build, install, push, etc.) -- it is purely advisory metadata for agent consumption.
+The `ai` field is ignored by all existing aigg commands (build, install, push, etc.) -- it is purely advisory metadata for agent consumption.
 
 ## Claude Code Skill
 
@@ -115,7 +115,7 @@ The `/aigogo` command guides Claude through:
 
 ### How It Works
 
-The skill is a prompt file that teaches Claude the aigogo command set, the two-step build/push workflow, the manifest schema (including the `ai` field), and the import conventions for each language. It is not executable code -- it is instructions that Claude follows when the user invokes the command.
+The skill is a prompt file that teaches Claude the aigg command set, the two-step build/push workflow, the manifest schema (including the `ai` field), and the import conventions for each language. It is not executable code -- it is instructions that Claude follows when the user invokes the command.
 
 ### Distributing the Skill
 

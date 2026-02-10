@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /workspace
 
 # Copy the pre-built Linux binary into the image
-COPY bin/aigogo-linux-* /usr/local/bin/aigogo
-RUN chmod +x /usr/local/bin/aigogo
+COPY bin/aigg-linux-* /usr/local/bin/aigg
+RUN chmod +x /usr/local/bin/aigg
 
 CMD ["bash"]

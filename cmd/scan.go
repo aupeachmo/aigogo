@@ -15,7 +15,7 @@ func scanCmd() *Command {
 			// Load manifest
 			m, err := manifest.Load("aigogo.json")
 			if err != nil {
-				return fmt.Errorf("failed to load aigogo.json: %w\nRun 'aigogo init' first", err)
+				return fmt.Errorf("failed to load aigogo.json: %w\nRun 'aigg init' first", err)
 			}
 
 			fmt.Println("Scanning source files for imports...")

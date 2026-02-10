@@ -23,9 +23,9 @@ func GetVersion() string {
 func versionCmd() *Command {
 	return &Command{
 		Name:        "version",
-		Description: "Show aigogo version information",
+		Description: "Show aigg version information",
 		Run: func(args []string) error {
-			fmt.Printf("aigogo version %s\n", version)
+			fmt.Printf("aigg version %s\n", version)
 			fmt.Printf("  Platform: %s/%s\n", runtime.GOOS, runtime.GOARCH)
 			fmt.Printf("  Go version: %s\n", runtime.Version())
 			fmt.Println()

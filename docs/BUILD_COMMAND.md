@@ -1,13 +1,13 @@
-# `aigogo build` - Build Packages Locally
+# `aigg build` - Build Packages Locally
 
 The `build` command creates snippet packages locally without pushing to a registry, enabling testing and offline development.
 
 ## Auto-Versioning (Recommended)
 
-Run `aigogo build` without arguments to automatically increment the patch version:
+Run `aigg build` without arguments to automatically increment the patch version:
 
 ```bash
-aigogo build              # Reads aigogo.json, auto-increments, builds
+aigg build              # Reads aigogo.json, auto-increments, builds
 ```
 
 **How it works:**
@@ -30,23 +30,23 @@ my-project/
         └── helper.py
 
 $ cd src/utils
-$ aigogo build            # ✓ Finds aigogo.json in ../..
+$ aigg build            # ✓ Finds aigogo.json in ../..
 ```
 
 ## Usage
 
 ```bash
 # Auto-increment and build (recommended)
-aigogo build
+aigg build
 
 # Or specify version explicitly
-aigogo build <name>:<tag>
+aigg build <name>:<tag>
 
 # Force rebuild
-aigogo build --force
+aigg build --force
 
 # Skip validation
-aigogo build --no-validate
+aigg build --no-validate
 ```
 
 ## Options
@@ -61,7 +61,7 @@ Packages files into local cache directory (`~/.aigogo/cache/`) without requiring
 **With auto-versioning:**
 
 ```bash
-$ aigogo build
+$ aigg build
 
 Auto-incrementing version: 0.1.0 -> 0.1.1
 Building package: utils:0.1.1
@@ -77,14 +77,14 @@ Packaging 3 file(s)...
 ✓ Successfully built utils:0.1.1
 
 Next steps:
-  Test locally:  aigogo add utils:0.1.1 && aigogo install
-  Push to registry: aigogo push docker.io/myorg/utils
+  Test locally:  aigg add utils:0.1.1 && aigg install
+  Push to registry: aigg push docker.io/myorg/utils
 ```
 
 **With explicit version:**
 
 ```bash
-$ aigogo build utils:2.0.0
+$ aigg build utils:2.0.0
 
 Building package: utils:2.0.0
 # ... (same output as above)
@@ -104,22 +104,22 @@ Building package: utils:2.0.0
 ```bash
 # 1. Create package
 cd my-snippet
-aigogo init
+aigg init
 
 # 2. Add files and dependencies
-aigogo add file api_client.py
-aigogo add dep requests ">=2.31.0"
+aigg add file api_client.py
+aigg add dep requests ">=2.31.0"
 
 # 3. Build locally (auto-increments from 0.1.0 to 0.1.1)
-aigogo build
+aigg build
 
 # 4. Make changes and rebuild (0.1.1 -> 0.1.2)
-aigogo build
+aigg build
 
 # 5. Test it
 cd ~/test-project
-aigogo add mysnippet:0.1.2
-aigogo install
+aigg add mysnippet:0.1.2
+aigg install
 python -c "from aigogo.mysnippet import ..."
 ```
 
@@ -127,8 +127,8 @@ python -c "from aigogo.mysnippet import ..."
 
 ```bash
 # When you need to specify version explicitly
-aigogo build mysnippet:2.0.0  # Major version bump
-aigogo build mysnippet:1.1.0  # Minor version bump
+aigg build mysnippet:2.0.0  # Major version bump
+aigg build mysnippet:1.1.0  # Minor version bump
 
 # Note: Explicit versions don't update aigogo.json
 ```
@@ -138,26 +138,26 @@ aigogo build mysnippet:1.1.0  # Minor version bump
 ```bash
 # This is still a LOCAL build
 # The registry prefix is just part of the name
-aigogo build docker.io/myorg/utils:1.0.0
+aigg build docker.io/myorg/utils:1.0.0
 
 ⚠️  Note: Building with registry prefix - this is a local build
-         To push to registry later, use: aigogo push docker.io/myorg/utils:1.0.0
+         To push to registry later, use: aigg push docker.io/myorg/utils:1.0.0
 ```
 
 ### Force Rebuild
 
 ```bash
 # First build
-aigogo build utils:1.0.0
+aigg build utils:1.0.0
 ✓ Successfully built
 
 # Try to build again
-aigogo build utils:1.0.0
+aigg build utils:1.0.0
 Error: package already exists in cache: utils:1.0.0
 Use --force to rebuild
 
 # Force rebuild
-aigogo build utils:1.0.0 --force
+aigg build utils:1.0.0 --force
 ✓ Successfully built (rebuilt)
 ```
 
@@ -165,7 +165,7 @@ aigogo build utils:1.0.0 --force
 
 ```bash
 # Build without validating dependencies
-aigogo build utils:1.0.0 --no-validate
+aigg build utils:1.0.0 --no-validate
 ```
 
 ## Workflows
@@ -174,31 +174,31 @@ aigogo build utils:1.0.0 --no-validate
 
 ```bash
 # 1. Build locally
-aigogo build utils:1.0.0
+aigg build utils:1.0.0
 
 # 2. Test locally
 cd ~/test-project
-aigogo add utils:1.0.0
-aigogo install
+aigg add utils:1.0.0
+aigg install
 
 # 3. If tests pass, push to registry
-aigogo push docker.io/myorg/utils:1.0.0 --from utils:1.0.0
+aigg push docker.io/myorg/utils:1.0.0 --from utils:1.0.0
 ```
 
 ### 2. Offline Development
 
 ```bash
 # Work without internet
-aigogo build mysnippet:dev
+aigg build mysnippet:dev
 
 # Test
 cd ~/test-project
-aigogo add mysnippet:dev
-aigogo install
+aigg add mysnippet:dev
+aigg install
 
 # Make changes, rebuild
 cd ~/my-snippet
-aigogo build mysnippet:dev --force
+aigg build mysnippet:dev --force
 ```
 
 ### 3. CI/CD Pipeline
@@ -206,33 +206,33 @@ aigogo build mysnippet:dev --force
 ```yaml
 # .github/workflows/test.yml
 - name: Build snippet
-  run: aigogo build myorg/utils:${GITHUB_SHA}
+  run: aigg build myorg/utils:${GITHUB_SHA}
 
 - name: Extract and test
   run: |
-    aigogo add myorg/utils:${GITHUB_SHA}
-    aigogo install
+    aigg add myorg/utils:${GITHUB_SHA}
+    aigg install
 
 - name: Push if tests pass
-  run: aigogo push docker.io/myorg/utils:${VERSION} --from myorg/utils:${GITHUB_SHA}
+  run: aigg push docker.io/myorg/utils:${VERSION} --from myorg/utils:${GITHUB_SHA}
 ```
 
 ### 4. Multi-Version Testing
 
 ```bash
 # Build multiple versions
-aigogo build utils:1.0.0
-aigogo build utils:2.0.0-beta
-aigogo build utils:3.0.0-alpha
+aigg build utils:1.0.0
+aigg build utils:2.0.0-beta
+aigg build utils:3.0.0-alpha
 
 # List all
-aigogo list
+aigg list
 
 # Test each
 for v in 1.0.0 2.0.0-beta 3.0.0-alpha; do
   mkdir test-$v && cd test-$v
-  aigogo add utils:$v
-  aigogo install
+  aigg add utils:$v
+  aigg install
   cd ..
 done
 ```
@@ -243,9 +243,9 @@ done
 
 ```bash
 # These are LOCAL references
-aigogo build utils:1.0.0
-aigogo build myorg/utils:1.0.0
-aigogo build my-snippets:dev
+aigg build utils:1.0.0
+aigg build myorg/utils:1.0.0
+aigg build my-snippets:dev
 ```
 
 **Characteristics:**
@@ -257,13 +257,13 @@ aigogo build my-snippets:dev
 
 ```bash
 # These have registry prefixes
-aigogo build docker.io/myorg/utils:1.0.0
-aigogo build ghcr.io/myorg/utils:1.0.0
-aigogo build registry.company.com/team/utils:1.0.0
+aigg build docker.io/myorg/utils:1.0.0
+aigg build ghcr.io/myorg/utils:1.0.0
+aigg build registry.company.com/team/utils:1.0.0
 ```
 
 **Note:** Even with registry prefix, `build` creates LOCAL builds!  
-To push to the actual registry, use `aigogo push`.
+To push to the actual registry, use `aigg push`.
 
 ## Integration with Other Commands
 
@@ -271,18 +271,18 @@ To push to the actual registry, use `aigogo push`.
 
 ```bash
 # Build → Add → Install
-aigogo build utils:1.0.0
+aigg build utils:1.0.0
 cd ~/test-project
-aigogo add utils:1.0.0   # Adds from local cache
-aigogo install            # Creates import links
+aigg add utils:1.0.0   # Adds from local cache
+aigg install            # Creates import links
 ```
 
 ### With `list`
 
 ```bash
 # Build → List
-aigogo build utils:1.0.0
-aigogo list
+aigg build utils:1.0.0
+aigg list
 
 # Output:
 # 🔨 utils:1.0.0
@@ -295,16 +295,16 @@ aigogo list
 
 ```bash
 # Build → Push
-aigogo build utils:1.0.0
-aigogo push docker.io/myorg/utils:1.0.0 --from utils:1.0.0
+aigg build utils:1.0.0
+aigg push docker.io/myorg/utils:1.0.0 --from utils:1.0.0
 ```
 
 ### With `remove`
 
 ```bash
 # Build → Remove
-aigogo build utils:test
-aigogo remove utils:test  # Clean up test build
+aigg build utils:test
+aigg remove utils:test  # Clean up test build
 ```
 
 ## Error Handling
@@ -312,42 +312,42 @@ aigogo remove utils:test  # Clean up test build
 ### No aigogo.json
 
 ```bash
-$ aigogo build utils:1.0.0
+$ aigg build utils:1.0.0
 Error: failed to load aigogo.json
-Run 'aigogo init' first
+Run 'aigg init' first
 ```
 
 **Solution:**
 ```bash
-aigogo init
+aigg init
 # Edit aigogo.json
-aigogo build utils:1.0.0
+aigg build utils:1.0.0
 ```
 
 ### Already Exists
 
 ```bash
-$ aigogo build utils:1.0.0
+$ aigg build utils:1.0.0
 Error: package already exists in cache: utils:1.0.0
 Use --force to rebuild
 ```
 
 **Solution:**
 ```bash
-aigogo build utils:1.0.0 --force
+aigg build utils:1.0.0 --force
 ```
 
 ### No Files Found
 
 ```bash
-$ aigogo build utils:1.0.0
+$ aigg build utils:1.0.0
 Error: no files to package
 ```
 
 **Solution:**
 - Check `files.include` in `aigogo.json`
 - Ensure source files exist
-- Try `aigogo validate` to see what's detected
+- Try `aigg validate` to see what's detected
 
 
 ## Performance
@@ -365,8 +365,8 @@ Building to local cache is fast and requires no external dependencies:
 
 ```bash
 # Fast iteration
-aigogo build mysnippet:dev --force
-aigogo add mysnippet:dev && aigogo install
+aigg build mysnippet:dev --force
+aigg add mysnippet:dev && aigg install
 # Test, modify, repeat
 ```
 
@@ -374,44 +374,44 @@ aigogo add mysnippet:dev && aigogo install
 
 ```bash
 # Good
-aigogo build utils:1.0.0
-aigogo build utils:2.0.0-beta
-aigogo build utils:dev
-aigogo build utils:${GIT_SHA}
+aigg build utils:1.0.0
+aigg build utils:2.0.0-beta
+aigg build utils:dev
+aigg build utils:${GIT_SHA}
 
 # Avoid
-aigogo build utils:1
-aigogo build utils:latest  # Ambiguous
+aigg build utils:1
+aigg build utils:latest  # Ambiguous
 ```
 
 ### 3. Clean Up Test Builds
 
 ```bash
 # After testing
-aigogo remove utils:test
-aigogo remove utils:experiment
+aigg remove utils:test
+aigg remove utils:experiment
 ```
 
 ### 4. Validate Before Building
 
 ```bash
 # Check first
-aigogo validate
-aigogo scan
+aigg validate
+aigg scan
 
 # Then build
-aigogo build utils:1.0.0
+aigg build utils:1.0.0
 ```
 
 ### 5. Use --force Judiciously
 
 ```bash
 # During development: OK
-aigogo build mysnippet:dev --force
+aigg build mysnippet:dev --force
 
 # For releases: Avoid (build fresh)
 rm -rf ~/.aigogo/cache/utils_1.0.0
-aigogo build utils:1.0.0
+aigg build utils:1.0.0
 ```
 
 ## Advanced Usage
@@ -420,9 +420,9 @@ aigogo build utils:1.0.0
 
 ```bash
 # Different configurations
-aigogo build utils:minimal --no-validate
-aigogo build utils:full
-aigogo build utils:debug
+aigg build utils:minimal --no-validate
+aigg build utils:full
+aigg build utils:debug
 ```
 
 ### Scripted Builds
@@ -433,12 +433,12 @@ VERSIONS=("1.0.0" "1.0.1" "1.1.0")
 
 for ver in "${VERSIONS[@]}"; do
   echo "Building $ver..."
-  aigogo build utils:$ver --force
+  aigg build utils:$ver --force
 
   # Test each
   mkdir -p test-$ver && cd test-$ver
-  aigogo add utils:$ver
-  aigogo install
+  aigg add utils:$ver
+  aigg install
   cd ..
 done
 ```
@@ -448,14 +448,14 @@ done
 ```bash
 # Build snippet A
 cd /path/to/snippet-a
-aigogo build snippet-a:1.0.0
+aigg build snippet-a:1.0.0
 
 # Build snippet B
 cd /path/to/snippet-b
-aigogo build snippet-b:1.0.0
+aigg build snippet-b:1.0.0
 
 # Both are in cache
-aigogo list
+aigg list
 ```
 
 ## Troubleshooting
@@ -465,7 +465,7 @@ aigogo list
 **Check:**
 - Are you using `--docker` or `--podman`? (slower than local)
 - Large files being packaged?
-- Run `aigogo list` to see sizes
+- Run `aigg list` to see sizes
 
 **Solution:**
 - Use local build (default, no flags)
@@ -475,25 +475,25 @@ aigogo list
 
 **Check:**
 ```bash
-aigogo build utils:test
-aigogo add utils:test && aigogo install
+aigg build utils:test
+aigg add utils:test && aigg install
 ls -la .aigogo/imports/  # Check what got installed
 ```
 
 **Solution:**
 - Update `files.include` in `aigogo.json`
-- Use `aigogo scan` to see what's detected
+- Use `aigg scan` to see what's detected
 
 ### Can't Find Built Package
 
 ```bash
-$ aigogo add utils:1.0.0
+$ aigg add utils:1.0.0
 Error: local image not found: utils:1.0.0
 ```
 
 **Check:**
 ```bash
-aigogo list  # See what's actually built
+aigg list  # See what's actually built
 ```
 
 **Common issues:**
@@ -503,7 +503,7 @@ aigogo list  # See what's actually built
 
 ## Summary
 
-**Command**: `aigogo build <name>:<tag>`
+**Command**: `aigg build <name>:<tag>`
 
 **Purpose**: Build snippet packages locally for testing
 
@@ -523,9 +523,9 @@ aigogo list  # See what's actually built
 - ✅ Local iteration
 
 **Next steps after building**:
-- Test: `aigogo add <name>:<tag>` + `aigogo install`
-- Push: `aigogo push <registry>/<name>:<tag> --from <name>:<tag>`
-- List: `aigogo list`
+- Test: `aigg add <name>:<tag>` + `aigg install`
+- Push: `aigg push <registry>/<name>:<tag> --from <name>:<tag>`
+- List: `aigg list`
 
 **Note**: When you push to a registry, aigogo automatically creates Docker-compatible image format. You don't need Docker installed locally to use aigogo!
 

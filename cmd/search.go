@@ -10,7 +10,7 @@ func searchCmd() *Command {
 		Description: "Search for snippet packages in a registry",
 		Run: func(args []string) error {
 			if len(args) < 1 {
-				return fmt.Errorf("usage: aigogo search <term>")
+				return fmt.Errorf("usage: aigg search <term>")
 			}
 
 			// Note: This is a placeholder. Actual registry search would require

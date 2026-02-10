@@ -12,7 +12,7 @@ func pullCmd() *Command {
 		Description: "Pull a snippet package from a registry (without extracting)",
 		Run: func(args []string) error {
 			if len(args) < 1 {
-				return fmt.Errorf("usage: aigogo pull <registry>/<name>:<tag>")
+				return fmt.Errorf("usage: aigg pull <registry>/<name>:<tag>")
 			}
 
 			imageRef := args[0]
@@ -25,7 +25,7 @@ func pullCmd() *Command {
 			}
 
 			fmt.Printf("Successfully pulled %s\n", imageRef)
-			fmt.Println("Use 'aigogo add' + 'aigogo install' to set up import links")
+			fmt.Println("Use 'aigg add' + 'aigg install' to set up import links")
 
 			return nil
 		},
