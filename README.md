@@ -2,19 +2,7 @@
 
 **Share reusable code packages between AI agent projects in seconds.**
 
-aigogo is a package manager that lets you build, share, and install code snippets using any Docker registry as transport. No publishing pipelines, no package ecosystem overhead — just your code, versioned and importable.
-
-```bash
-pip install requests  # installs a library into your environment
-aigg add docker.io/org/api-utils:1.0.0  # installs source code into your project
-aigg install
-```
-
-```python
-from aigogo.api_utils import fetch_json
-
-data = fetch_json("https://api.example.com/data")
-```
+aigogo is a package manager that lets you build, share, and install AI agents using any Docker registry as transport. No publishing pipelines, no package ecosystem overhead — just your code, versioned and importable.
 
 ## Why aigogo?
 
