@@ -21,6 +21,9 @@ aigogo gives you a fourth option: **package it once, share it everywhere**.
 ```bash
 brew tap aupeachmo/aigogo
 brew install aigg
+
+# Update with
+brew update && brew upgrade aigg
 ```
 
 OR
