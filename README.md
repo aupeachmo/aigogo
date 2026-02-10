@@ -23,6 +23,14 @@ brew tap aupeachmo/aigogo
 brew install aigg
 ```
 
+**Enable tab completion** (optional):
+
+```bash
+source <(aigg completion bash)   # Bash — or add to ~/.bashrc
+source <(aigg completion zsh)    # Zsh  — or add to ~/.zshrc
+aigg completion fish > ~/.config/fish/completions/aigg.fish  # Fish
+```
+
 ### 1. Package your code
 
 ```python
