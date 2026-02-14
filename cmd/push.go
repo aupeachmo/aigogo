@@ -11,6 +11,7 @@ import (
 func pushCmd() *Command {
 	flags := flag.NewFlagSet("push", flag.ExitOnError)
 	from := flags.String("from", "", "Push from existing local build (required)")
+	dryRun := flags.Bool("dry-run", false, "Check if push is needed without pushing")
 
 	return &Command{
 		Name:        "push",
@@ -28,10 +29,43 @@ func pushCmd() *Command {
 				return fmt.Errorf("--from flag is required\n\nWorkflow:\n  1. aigg build <name>:<tag>\n  2. aigg push %s --from <name>:<tag>\n\nExample:\n  aigg build utils:1.0.0\n  aigg push %s --from utils:1.0.0", imageRef, imageRef)
 			}
 
+			if *dryRun {
+				return pushDryRun(imageRef, *from)
+			}
+
 			// Push from the specified local build
 			return pushFromLocalBuild(imageRef, *from)
 		},
 	}
+}
+
+// pushDryRun checks if a push is needed without actually pushing.
+// Uses CompareWithRemote which handles Tier 1 (digest) → Tier 2 (content) fallback.
+func pushDryRun(registryRef, localRef string) error {
+	if !docker.ImageExistsInCache(localRef) {
+		return fmt.Errorf("local build not found: %s\nBuild it first with: aigg build %s", localRef, localRef)
+	}
+
+	fmt.Printf("Checking if push is needed: %s -> %s\n", localRef, registryRef)
+
+	differ := docker.NewDiffer()
+
+	result, err := differ.CompareWithRemote(localRef, registryRef)
+	if err != nil {
+		// Remote doesn't exist or is unreachable — push is needed
+		fmt.Println("Remote image not found or unreachable — push needed.")
+		return nil
+	}
+
+	if result.Identical {
+		fmt.Println("Remote is already up-to-date — no push needed.")
+		return nil
+	}
+
+	fmt.Println("Changes detected — push needed.")
+	fmt.Println()
+	fmt.Print(docker.FormatSummary(result))
+	return nil
 }
 
 // pushFromLocalBuild pushes an existing local build to a registry

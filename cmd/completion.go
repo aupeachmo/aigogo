@@ -38,7 +38,7 @@ _aigg_completions() {
     _init_completion || return
 
     # Main commands
-    local commands="init add install uninstall rm validate scan build push pull login logout list show-deps remove remove-all delete search version completion"
+    local commands="init add install uninstall rm validate scan build diff push pull login logout list show-deps remove remove-all delete search version completion"
 
     # Subcommands for add/rm
     local add_subcommands="file dep dev"
@@ -46,7 +46,8 @@ _aigg_completions() {
 
     # Flags
     local build_flags="--force --no-validate"
-    local push_flags="--from"
+    local push_flags="--from --dry-run"
+    local diff_flags="--remote --summary"
     local delete_flags="--all"
     local add_file_flags="--force"
     local add_dep_flags="--from-pyproject"
@@ -99,6 +100,13 @@ _aigg_completions() {
                 build|push)
                     # Complete with cached images for reference
                     COMPREPLY=($(compgen -W "$cached_images" -- "$cur"))
+                    ;;
+                diff)
+                    if [[ $cur == -* ]]; then
+                        COMPREPLY=($(compgen -W "$diff_flags" -- "$cur"))
+                    else
+                        COMPREPLY=($(compgen -W "$cached_images" -- "$cur"))
+                    fi
                     ;;
                 *)
                     ;;
@@ -155,6 +163,13 @@ _aigg_completions() {
                         COMPREPLY=($(compgen -W "$cached_images" -- "$cur"))
                     fi
                     ;;
+                diff)
+                    if [[ $cur == -* ]]; then
+                        COMPREPLY=($(compgen -W "$diff_flags" -- "$cur"))
+                    else
+                        COMPREPLY=($(compgen -W "$cached_images" -- "$cur"))
+                    fi
+                    ;;
                 delete)
                     if [[ $cur == -* ]]; then
                         COMPREPLY=($(compgen -W "$delete_flags" -- "$cur"))
@@ -202,6 +217,7 @@ _aigg() {
         'validate:Validate the manifest'
         'scan:Scan for dependencies'
         'build:Build a package locally'
+        'diff:Compare package versions'
         'push:Push a package to registry'
         'pull:Pull a package from registry'
         'login:Login to a registry'
@@ -276,6 +292,13 @@ _aigg() {
                 build|push)
                     _values 'image reference' $cached_images
                     ;;
+                diff)
+                    if [[ $words[$CURRENT] == -* ]]; then
+                        _arguments '--remote[Compare against remote registry]' '--summary[Show compact summary only]'
+                    else
+                        _values 'image reference' $cached_images
+                    fi
+                    ;;
                 show-deps)
                     if [[ $words[$CURRENT] == -* ]]; then
                         _arguments '--format[Output format]:format:(text pyproject pep621 poetry requirements pip npm package-json yarn)'
@@ -310,6 +333,7 @@ complete -c aigg -n "__fish_use_subcommand" -a "rm" -d "Remove files or dependen
 complete -c aigg -n "__fish_use_subcommand" -a "validate" -d "Validate the manifest"
 complete -c aigg -n "__fish_use_subcommand" -a "scan" -d "Scan for dependencies"
 complete -c aigg -n "__fish_use_subcommand" -a "build" -d "Build a package locally"
+complete -c aigg -n "__fish_use_subcommand" -a "diff" -d "Compare package versions"
 complete -c aigg -n "__fish_use_subcommand" -a "push" -d "Push a package to registry"
 complete -c aigg -n "__fish_use_subcommand" -a "pull" -d "Pull a package from registry"
 complete -c aigg -n "__fish_use_subcommand" -a "login" -d "Login to a registry"
@@ -345,12 +369,16 @@ end
 
 complete -c aigg -n "__fish_seen_subcommand_from remove" -a "(__aigg_cached_images)" -d "Cached package"
 complete -c aigg -n "__fish_seen_subcommand_from build" -a "(__aigg_cached_images)" -d "Package reference"
+complete -c aigg -n "__fish_seen_subcommand_from diff" -a "(__aigg_cached_images)" -d "Package reference"
 complete -c aigg -n "__fish_seen_subcommand_from push" -a "(__aigg_cached_images)" -d "Package reference"
 
 # Flags
 complete -c aigg -n "__fish_seen_subcommand_from build" -l "force" -d "Force rebuild"
 complete -c aigg -n "__fish_seen_subcommand_from build" -l "no-validate" -d "Skip validation"
+complete -c aigg -n "__fish_seen_subcommand_from diff" -l "remote" -d "Compare against remote registry"
+complete -c aigg -n "__fish_seen_subcommand_from diff" -l "summary" -d "Show compact summary only"
 complete -c aigg -n "__fish_seen_subcommand_from push" -l "from" -d "Push from local build"
+complete -c aigg -n "__fish_seen_subcommand_from push" -l "dry-run" -d "Check if push is needed without pushing"
 complete -c aigg -n "__fish_seen_subcommand_from delete" -l "all" -d "Delete all tags"
 complete -c aigg -n "__fish_seen_subcommand_from remove-all" -l "force" -d "Skip confirmation"
 complete -c aigg -n "__fish_seen_subcommand_from add; and __fish_seen_subcommand_from file" -l "force" -d "Add files even if ignored"

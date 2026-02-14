@@ -262,6 +262,8 @@ aigg rm file|dep|dev <name>      # remove from manifest
 aigg scan                        # auto-detect imports
 aigg validate                    # check declared vs actual deps
 aigg build [name:tag]            # build locally
+aigg diff [ref-a] [ref-b]        # compare package versions
+aigg diff --remote <ref>         # compare local vs remote
 
 # Package consumption
 aigg add <registry/name:tag>     # pull and add to lock file
@@ -273,6 +275,7 @@ aigg uninstall                   # remove imports and path config
 aigg login <registry>            # authenticate
 aigg logout <registry>           # remove credentials
 aigg push <ref> --from <local>   # upload to registry
+aigg push <ref> --from <l> --dry-run  # check if push needed
 aigg pull <ref>                  # download without installing
 aigg delete <ref>                # delete from registry
 

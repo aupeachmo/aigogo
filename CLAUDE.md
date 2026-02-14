@@ -51,13 +51,14 @@ This matches the CI lint job (`.github/workflows/test.yml` — `golangci/golangc
 - `main.go` - Entry point with version injection via ldflags (`-X main.Version`)
 
 ### CLI Commands (`cmd/`)
-20 commands built without external CLI framework. Key files:
+21 commands built without external CLI framework. Key files:
 - `root.go` - Command routing and argument parsing
 - `add.go` - Add packages to lock file, or files/dependencies to manifest
 - `install.go` - Install packages from aigogo.lock (creates symlinks)
 - `uninstall.go` - Remove installed packages, .pth file, register.js, and .aigogo/ directory
 - `build.go` - Local build with auto-versioning
-- `push.go` - Push to registry (requires `--from` flag for local builds)
+- `diff.go` - Compare package versions (working dir, local builds, remote)
+- `push.go` - Push to registry (requires `--from` flag; supports `--dry-run`)
 
 ### Core Packages (`pkg/`)
 
@@ -90,6 +91,7 @@ This matches the CI lint job (`.github/workflows/test.yml` — `golangci/golangc
 - `local_builder.go` - Build packages to local cache (~/.aigogo/cache)
 - `builder.go` - Create Docker image tar structures
 - `extractor.go` - Extract files from cached packages
+- `differ.go` - Compare package versions (dir-level diff, remote digest check, unified diff output)
 - `puller.go` / `pusher.go` - Registry pull/push operations
 - `utils.go` - Image ref parsing, cache directory utilities, hash functions
 

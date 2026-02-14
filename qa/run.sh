@@ -404,6 +404,59 @@ popd >/dev/null
 echo ""
 
 ###############################################################################
+#  SECTION: Diff Command
+###############################################################################
+echo "${BOLD}=== Diff Command ===${RESET}"
+
+# Re-use the build dir from the build section (BUILD_DIR).
+# State: aigogo.json has name=author-build version=0.1.1 (from auto-increment
+# build). Cache has "author-build:0.1.1" matching the working dir files.
+pushd "$BUILD_DIR" >/dev/null
+
+# --- Zero-arg mode (uses name:version from aigogo.json) ---
+# Working dir hasn't changed since the auto-increment build, so should be identical
+run_test_grep "aigg diff (zero-arg, identical)" "identical" \
+    "$AIGOGO" diff
+
+# Modify a file, then zero-arg diff should detect the change
+cp utils.py utils.py.bak
+echo "# zero-arg change" >> utils.py
+
+run_test_grep "aigg diff (zero-arg, modified)" "modified" \
+    "$AIGOGO" diff
+
+# Restore for subsequent tests
+cp utils.py.bak utils.py
+
+# --- One-arg mode (explicit ref) ---
+echo "# modified" >> utils.py
+
+run_test_grep "aigg diff <name>:<tag> (working dir vs build)" "modified" \
+    "$AIGOGO" diff qa-test:1.0.0
+
+run_test_grep "aigg diff --summary <name>:<tag>" "^M " \
+    "$AIGOGO" diff --summary qa-test:1.0.0
+
+# Restore file — diff should show identical
+cp utils.py.bak utils.py
+rm utils.py.bak
+
+run_test_grep "aigg diff <name>:<tag> (identical)" "identical" \
+    "$AIGOGO" diff qa-test:1.0.0
+
+# --- Two-arg mode (local build vs local build) ---
+"$AIGOGO" build qa-diff-a:1.0.0 --force >>"$LOGFILE" 2>&1
+echo "# diff change" >> utils.py
+"$AIGOGO" build qa-diff-b:1.0.0 --force >>"$LOGFILE" 2>&1
+
+run_test_grep "aigg diff <ref-a> <ref-b> (two local builds)" "modified" \
+    "$AIGOGO" diff qa-diff-a:1.0.0 qa-diff-b:1.0.0
+
+popd >/dev/null
+
+echo ""
+
+###############################################################################
 #  SECTION: Consumer Commands
 ###############################################################################
 echo "${BOLD}=== Consumer Commands ===${RESET}"

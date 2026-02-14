@@ -47,6 +47,16 @@ mkdir /tmp/qa-aigg && cd /tmp/qa-aigg
 - [ ] `aigg build --force` — rebuilds even if exists
 - [ ] `aigg build --no-validate` — skips dep validation
 
+## Diff Command
+
+- [ ] `aigg diff` — working dir vs latest local build
+- [ ] `aigg diff <name>:<tag>` — working dir vs specified build
+- [ ] `aigg diff <ref-a> <ref-b>` — two local builds
+- [ ] `aigg diff --remote <remote-ref>` — local build vs remote
+- [ ] `aigg diff --remote <local-ref> <remote-ref>` — specific local vs remote
+- [ ] `aigg diff --summary` — compact M/A/D output
+- [ ] `aigg diff` with identical packages → "Packages are identical."
+
 ## Consumer Commands
 
 - [ ] `aigg add <name>:<tag>` — adds local package to lock file
@@ -103,6 +113,7 @@ mkdir /tmp/qa-aigg && cd /tmp/qa-aigg
 - [ ] `aigg pull <registry>/<name>:<tag>` — pulls without installing
 - [ ] `aigg pull ghcr.io/<name>:<tag>` — pulls from ghcr.io (Basic auth)
 - [ ] `aigg push <registry>/<name>:<tag> --from <local>` — pushes to registry
+- [ ] `aigg push <registry>/<name>:<tag> --from <local> --dry-run` — checks if push needed
 - [ ] `aigg push ghcr.io/<name>:<tag> --from <local>` — pushes to ghcr.io
 - [ ] `aigg delete <registry>/<name>:<tag>` — deletes from registry
 - [ ] `aigg delete <registry>/<name>:<tag> --all` — deletes all tags
