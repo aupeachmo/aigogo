@@ -167,6 +167,12 @@ Invoke-WebRequest -Uri "https://github.com/aupeachmo/aigogo/releases/latest/down
 Invoke-WebRequest -Uri "https://github.com/aupeachmo/aigogo/releases/latest/download/aigg-windows-arm64.zip" -OutFile aigg.zip; Expand-Archive aigg.zip -DestinationPath .; Move-Item aigg-windows-arm64.exe C:\Windows\aigg.exe; Remove-Item aigg.zip
 ```
 
+### As a go package
+
+```bash
+go install github.com/aupeachmo/aigogo@latest # or @tag, eg: @v0.0.1
+```
+
 ### From Source
 
 ```bash
