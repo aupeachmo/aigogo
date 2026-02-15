@@ -145,6 +145,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Download all artifacts
         uses: actions/download-artifact@v7
@@ -154,6 +156,26 @@ jobs:
       - name: Get version from tag
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          CURRENT_TAG="${GITHUB_REF#refs/tags/}"
+          # Find the previous tag (second most recent by version sort)
+          PREVIOUS_TAG=$(git tag --sort=-version:refname | grep -v "^${CURRENT_TAG}$" | head -1)
+          if [ -n "$PREVIOUS_TAG" ]; then
+            echo "Generating changelog from ${PREVIOUS_TAG} to ${CURRENT_TAG}"
+            CHANGELOG=$(git log --oneline --no-merges "${PREVIOUS_TAG}..${CURRENT_TAG}" | head -50)
+          else
+            echo "No previous tag found, listing all commits"
+            CHANGELOG=$(git log --oneline --no-merges "${CURRENT_TAG}" | head -50)
+          fi
+          # Write to a multi-line output
+          {
+            echo "CHANGELOG<<EOF"
+            echo "$CHANGELOG"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
       - name: Prepare release assets
         run: |
@@ -236,7 +258,7 @@ jobs:
 
             ### What's Changed
 
-            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ steps.get_version.outputs.VERSION }}/CHANGELOG.md) for details.
+            ${{ steps.changelog.outputs.CHANGELOG }}
           files: |
             release-assets/*
           draft: false
