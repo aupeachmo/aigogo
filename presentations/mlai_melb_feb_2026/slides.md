@@ -412,6 +412,21 @@ OK, let's see this in action. I'm going to walk through the complete lifecycle: 
 -->
 
 ---
+layout: center
+class: text-center
+---
+
+# Scan to ask questions on Slido
+
+<div class="mt-8">
+  <img src="/slido.png" class="mx-auto rounded" style="width: 350px" />
+</div>
+
+<div class="text-gray-400 mt-6 text-lg">
+  https://qr.sli.do/vYANwQwyrHP42wwJByuSBs
+</div>
+
+---
 
 # Demo: The Package
 
