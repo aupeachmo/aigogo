@@ -2,14 +2,14 @@
 
 **Share reusable AI agents between projects in seconds.**
 
-aigogo is an agent manager that lets you build, share, and install AI agents. No publishing pipelines, no package ecosystem overhead — just your agents, versioned and importable.
+aigogo is a language-agnostic agent manager that lets you build, share, and install AI agents across Python, JavaScript/TypeScript, and more. No publishing pipelines, no package ecosystem overhead — just your agents, versioned and importable.
 
 ## Why aigogo?
 
 You have a useful agent, or even a component of one (such as a prompt template, a tool-calling decorator or an API client wrapper). You want to reuse it across three projects. Your options:
 
 - **Copy-paste** it into each project (now you have three copies to maintain)
-- **Publish to PyPI** (heavyweight for a single file)
+- **Publish to PyPI/npm** (heavyweight for a single file)
 - **Git submodules** (fragile, confusing)
 
 aigogo gives you a fourth option: **package it once, share it everywhere**.
@@ -95,6 +95,8 @@ aigg add docker.io/you/tool-decorator:1.0.0
 aigg install
 ```
 
+**Python:**
+
 ```python
 from aigogo.tool_decorator import tool
 
@@ -107,7 +109,17 @@ print(get_weather.schema)
 # {"type": "function", "function": {"name": "get_weather", ...}}
 ```
 
-That's it. No `setup.py`, no `pyproject.toml` publishing — just your code, versioned and importable.
+**JavaScript:**
+
+```javascript
+const { tool } = require('@aigogo/tool-decorator');
+// or: import { tool } from '@aigogo/tool-decorator';
+
+const getWeather = tool((city) => `Sunny in ${city}`);
+console.log(getWeather.schema);
+```
+
+That's it. No `setup.py`, no `package.json` publishing — just your code, versioned and importable.
 
 ## How It Works
 
