@@ -107,8 +107,24 @@ func TestGeneratePython(t *testing.T) {
 	if !strings.Contains(pyStr, `requires-python = ">=3.8"`) {
 		t.Error("pyproject.toml missing requires-python")
 	}
+	if !strings.Contains(pyStr, "[project.optional-dependencies]") {
+		t.Error("pyproject.toml missing [project.optional-dependencies] section")
+	}
+	if !strings.Contains(pyStr, "aigogo = [") {
+		t.Error("pyproject.toml missing aigogo group for runtime deps")
+	}
+	if !strings.Contains(pyStr, "requests>=2.31.0") {
+		t.Error("pyproject.toml missing requests in aigogo group")
+	}
+	if !strings.Contains(pyStr, "aigogo-dev = [") {
+		t.Error("pyproject.toml missing aigogo-dev group for dev deps")
+	}
 	if !strings.Contains(pyStr, "pytest>=7.0.0") {
-		t.Error("pyproject.toml missing dev dependency")
+		t.Error("pyproject.toml missing pytest in aigogo-dev group")
+	}
+	// Runtime deps should NOT be in a top-level dependencies section
+	if strings.Contains(pyStr, "dependencies = [") {
+		t.Error("pyproject.toml should not have top-level dependencies = [...], use [project.optional-dependencies] aigogo instead")
 	}
 }
 
@@ -158,6 +174,16 @@ func TestGenerateJavaScript(t *testing.T) {
 	}
 	if !strings.Contains(jsonStr, `"node": ">=18.0.0"`) {
 		t.Error("package.json missing engines.node")
+	}
+	// Check aigogo metadata
+	if !strings.Contains(jsonStr, `"aigogo"`) {
+		t.Error("package.json missing aigogo metadata key")
+	}
+	if !strings.Contains(jsonStr, `"managedDependencies"`) {
+		t.Error("package.json missing managedDependencies in aigogo metadata")
+	}
+	if !strings.Contains(jsonStr, `"managedDevDependencies"`) {
+		t.Error("package.json missing managedDevDependencies in aigogo metadata")
 	}
 }
 
@@ -279,9 +305,17 @@ func TestGeneratePythonNoDevDeps(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Should not have optional-dependencies section
-	if strings.Contains(string(content), "[project.optional-dependencies]") {
-		t.Error("pyproject.toml should not have optional-dependencies when no dev deps")
+	pyStr := string(content)
+	// Should have optional-dependencies with aigogo group (runtime deps)
+	if !strings.Contains(pyStr, "[project.optional-dependencies]") {
+		t.Error("pyproject.toml should have [project.optional-dependencies] for aigogo runtime deps")
+	}
+	if !strings.Contains(pyStr, "aigogo = [") {
+		t.Error("pyproject.toml should have aigogo group for runtime deps")
+	}
+	// Should NOT have aigogo-dev group
+	if strings.Contains(pyStr, "aigogo-dev = [") {
+		t.Error("pyproject.toml should not have aigogo-dev group when no dev deps")
 	}
 }
 
@@ -310,7 +344,18 @@ func TestGenerateJavaScriptNoDevDeps(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if strings.Contains(string(content), "devDependencies") {
+	jsonStr := string(content)
+	if strings.Contains(jsonStr, "devDependencies") {
 		t.Error("package.json should not have devDependencies when none specified")
+	}
+	if strings.Contains(jsonStr, "managedDevDependencies") {
+		t.Error("package.json should not have managedDevDependencies when no dev deps")
+	}
+	// Should still have aigogo metadata with managedDependencies
+	if !strings.Contains(jsonStr, `"aigogo"`) {
+		t.Error("package.json should have aigogo metadata key")
+	}
+	if !strings.Contains(jsonStr, `"managedDependencies"`) {
+		t.Error("package.json should have managedDependencies in aigogo metadata")
 	}
 }

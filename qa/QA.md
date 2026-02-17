@@ -75,12 +75,12 @@ mkdir /tmp/qa-aigg && cd /tmp/qa-aigg
 - [ ] `aigg show-deps <path> --format text` — explicit text
 - [ ] `aigg show-deps <path> --format requirements` — pip requirements.txt
 - [ ] `aigg show-deps <path> --format pip` — alias for requirements
-- [ ] `aigg show-deps <path> --format pyproject` — PEP 621 TOML
+- [ ] `aigg show-deps <path> --format pyproject` — PEP 621 TOML with `[project.optional-dependencies] aigogo` group
 - [ ] `aigg show-deps <path> --format pep621` — alias for pyproject
-- [ ] `aigg show-deps <path> --format poetry` — Poetry TOML
-- [ ] `aigg show-deps <path> --format npm` — package.json fragment
+- [ ] `aigg show-deps <path> --format poetry` — Poetry TOML with `[tool.poetry.group.aigogo.dependencies]`
+- [ ] `aigg show-deps <path> --format npm` — package.json fragment with `aigogo` metadata key
 - [ ] `aigg show-deps <path> --format package-json` — alias for npm
-- [ ] `aigg show-deps <path> --format yarn` — yarn add commands
+- [ ] `aigg show-deps <path> --format yarn` — yarn add commands with aigogo label
 - [ ] `aigg show-deps <dir>` — accepts directory (finds aigogo.json)
 - [ ] Python format on JS package → error
 - [ ] JS format on Python package → error

@@ -107,7 +107,7 @@ print(get_weather.schema)
 # {"type": "function", "function": {"name": "get_weather", ...}}
 ```
 
-That's it. No `pip install`, no `setup.py`, no `pyproject.toml` publishing — just your code, versioned and importable.
+That's it. No `setup.py`, no `pyproject.toml` publishing — just your code, versioned and importable.
 
 ## How It Works
 
@@ -327,7 +327,7 @@ Any Docker V2 registry: Docker Hub, GitHub Container Registry (ghcr.io), GitLab,
 aigogo manages *AI agents as source code*, not compiled packages. Your agent code is copied into the project and imported directly — no build step, no virtualenv conflicts, no dependency resolution. Think of it as "git submodules done right."
 
 **What about dependencies?**
-Dependencies are declared in `aigogo.json` as metadata. Use `aigg show-deps --format requirements` to pipe them into pip, or `--format npm` for package.json. aigogo manages the agents; your existing package manager handles the dependencies.
+Dependencies are declared in `aigogo.json` as metadata. Use `aigg show-deps --format pyproject` to get a ready-to-paste `[project.optional-dependencies] aigogo` section, or `--format npm` for package.json with an `aigogo` metadata key tracking managed deps. aigogo manages the agents; your existing package manager handles the dependencies. All aigogo-managed dependencies are clearly separated so you can identify and remove them easily.
 
 ## Development
 

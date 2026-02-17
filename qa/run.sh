@@ -905,28 +905,28 @@ run_test_grep "show-deps <path> (default=text)" "Package:" \
 run_test_grep "show-deps --format text" "Package:" \
     "$AIGOGO" show-deps "$PY_MANIFEST" --format text
 
-run_test_grep "show-deps --format requirements" "requirements" \
+run_test_grep "show-deps --format requirements" "aigogo-managed" \
     "$AIGOGO" show-deps "$PY_MANIFEST" --format requirements
 
-run_test_grep "show-deps --format pip" "requirements" \
+run_test_grep "show-deps --format pip" "aigogo-managed" \
     "$AIGOGO" show-deps "$PY_MANIFEST" --format pip
 
-run_test_grep "show-deps --format pyproject" "pyproject.toml" \
+run_test_grep "show-deps --format pyproject" "optional-dependencies" \
     "$AIGOGO" show-deps "$PY_MANIFEST" --format pyproject
 
-run_test_grep "show-deps --format pep621" "pyproject.toml" \
+run_test_grep "show-deps --format pep621" "aigogo = " \
     "$AIGOGO" show-deps "$PY_MANIFEST" --format pep621
 
-run_test_grep "show-deps --format poetry" "poetry" \
+run_test_grep "show-deps --format poetry" "group.aigogo.dependencies" \
     "$AIGOGO" show-deps "$PY_MANIFEST" --format poetry
 
-run_test_grep "show-deps --format npm (JS)" "dependencies" \
+run_test_grep "show-deps --format npm (JS)" "managedDependencies" \
     "$AIGOGO" show-deps "$JS_MANIFEST" --format npm
 
-run_test_grep "show-deps --format package-json (JS)" "dependencies" \
+run_test_grep "show-deps --format package-json (JS)" "managedDependencies" \
     "$AIGOGO" show-deps "$JS_MANIFEST" --format package-json
 
-run_test_grep "show-deps --format yarn (JS)" "yarn add" \
+run_test_grep "show-deps --format yarn (JS)" "aigogo-managed" \
     "$AIGOGO" show-deps "$JS_MANIFEST" --format yarn
 
 run_test_grep "show-deps <dir> (directory)" "Package:" \

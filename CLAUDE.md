@@ -113,6 +113,7 @@ This matches the CI lint job (`.github/workflows/test.yml` — `golangci/golangc
 7. **Auto-Versioning**: `aigg build` without args increments patch version
 8. **`.aigogoignore` Support**: Gitignore-compatible file exclusion
 9. **AI Metadata**: Optional `ai` field in aigogo.json for agent discovery (see MACHINES.md)
+10. **Isolated Dependency Groups**: Dependencies output by `show-deps` and the generator use aigogo-specific groups rather than mixing into standard sections. Python uses `[project.optional-dependencies] aigogo = [...]` (PEP 621) or `[tool.poetry.group.aigogo.dependencies]` (Poetry). JavaScript uses standard `dependencies`/`devDependencies` (for npm/yarn compatibility) plus an `"aigogo"` metadata key listing managed package names. This lets consumers clearly identify aigogo-managed deps and cleanly remove them. The generated pyproject.toml in built packages uses the same pattern — deps are in optional groups because aigogo packages are installed via symlinks, not pip; the pyproject.toml is for reference only.
 
 ### AI Agent Integration
 

@@ -286,6 +286,11 @@ aigg add docker.io/myorg/utils:1.0.0
 aigg install
 
 # 3. Install external dependencies
+# Option A: Add aigogo group to your pyproject.toml
+aigg show-deps .aigogo/imports/aigogo/utils --format pyproject
+# Then: pip install -e '.[aigogo]'
+
+# Option B: Direct pip install from requirements format
 aigg show-deps .aigogo/imports/aigogo/utils --format requirements | pip install -r /dev/stdin
 
 # 4. Use the code
@@ -333,11 +338,11 @@ aigg show-deps .aigogo/imports/aigogo/utils --format poetry
 # For pip/requirements.txt:
 aigg show-deps .aigogo/imports/aigogo/utils --format requirements >> requirements.txt
 
-# Copy the output into your pyproject.toml or requirements.txt
+# Copy the aigogo group into your pyproject.toml or append to requirements.txt
 # Then install:
-pip install -e .
+pip install -e '.[aigogo]'
 # or
-poetry install
+poetry install --with aigogo
 ```
 
 ### Cleaning Up

@@ -49,47 +49,55 @@ Development Dependencies (2):
 
 ### PEP 621 Format (pyproject)
 
-Output ready to copy into a PEP 621 `pyproject.toml`:
+Output ready to copy into a PEP 621 `pyproject.toml`. Dependencies are placed in aigogo-specific optional-dependency groups so they are clearly separated from your own project dependencies:
 
 ```bash
 $ aigg show-deps vendor/my-snippet --format pyproject
 
 # Add these to your pyproject.toml
+# Install with: pip install -e '.[aigogo]' or pip install -e '.[aigogo,aigogo-dev]'
 
 [project]
 requires-python = ">=3.9"
 
-[project.dependencies]
+[project.optional-dependencies]
+aigogo = [
     "requests>=2.31.0,<3.0.0",
     "pyyaml>=6.0,<7.0",
     "click>=8.0.0,<9.0.0",
-
-[project.optional-dependencies]
-dev = [
+]
+aigogo-dev = [
     "pytest^7.0.0",
     "black>=23.0.0,<24.0.0",
 ]
 ```
 
+To install: `pip install -e '.[aigogo]'` (runtime only) or `pip install -e '.[aigogo,aigogo-dev]'` (with dev deps). To remove aigogo dependencies, delete the `aigogo` and `aigogo-dev` groups from `[project.optional-dependencies]`.
+
 ### Poetry Format
 
-Output ready to copy into a Poetry `pyproject.toml`:
+Output ready to copy into a Poetry `pyproject.toml`. Dependencies use dedicated aigogo groups:
 
 ```bash
 $ aigg show-deps vendor/my-snippet --format poetry
 
 # Add these to your pyproject.toml
+# Install with: poetry install --with aigogo or poetry install --with aigogo,aigogo-dev
 
 [tool.poetry.dependencies]
 python = ">=3.9"
+
+[tool.poetry.group.aigogo.dependencies]
 requests = ">=2.31.0,<3.0.0"
 pyyaml = ">=6.0,<7.0"
 click = ">=8.0.0,<9.0.0"
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.group.aigogo-dev.dependencies]
 pytest = "^7.0.0"
 black = ">=23.0.0,<24.0.0"
 ```
+
+To install: `poetry install --with aigogo` or `poetry install --with aigogo,aigogo-dev`. To remove, delete the `[tool.poetry.group.aigogo.*]` sections.
 
 ### Requirements Format
 
@@ -98,7 +106,8 @@ Output ready for `requirements.txt`:
 ```bash
 $ aigg show-deps vendor/my-snippet --format requirements
 
-# Runtime dependencies for requirements.txt
+# aigogo-managed runtime dependencies
+# To remove: delete these entries and uninstall the packages
 requests>=2.31.0,<3.0.0
 pyyaml>=6.0,<7.0
 click>=8.0.0,<9.0.0
@@ -106,7 +115,7 @@ click>=8.0.0,<9.0.0
 
 ### NPM Format (JavaScript)
 
-Output ready to merge into `package.json`:
+Output ready to merge into `package.json`. Dependencies go into standard `dependencies`/`devDependencies` sections (for npm/yarn compatibility), plus an `aigogo` metadata key that tracks which deps are aigogo-managed:
 
 ```bash
 $ aigg show-deps vendor/my-js-snippet --format npm
@@ -118,9 +127,15 @@ $ aigg show-deps vendor/my-js-snippet --format npm
   },
   "devDependencies": {
     "jest": "^29.0.0"
+  },
+  "aigogo": {
+    "managedDependencies": ["express", "axios"],
+    "managedDevDependencies": ["jest"]
   }
 }
 ```
+
+To remove aigogo dependencies: delete the packages listed in `aigogo.managedDependencies` and `aigogo.managedDevDependencies` from the corresponding sections, then delete the `aigogo` key.
 
 ### Yarn Format (JavaScript)
 
@@ -129,9 +144,10 @@ Output as yarn add commands:
 ```bash
 $ aigg show-deps vendor/my-js-snippet --format yarn
 
-yarn add express@^4.18.0
-yarn add axios@^1.6.0
-yarn add --dev jest@^29.0.0
+# aigogo-managed dependencies
+# To remove: uninstall these packages and delete the "aigogo" key from package.json
+yarn add "express@^4.18.0" "axios@^1.6.0"
+yarn add --dev "jest@^29.0.0"
 ```
 
 ---
@@ -222,28 +238,19 @@ $ aigg show-deps vendor/api-client --format pyproject > deps.txt
 $ cat deps.txt
 
 # Add these to your pyproject.toml
+# Install with: pip install -e '.[aigogo]' or pip install -e '.[aigogo,aigogo-dev]'
 
 [project]
 requires-python = ">=3.8,<4.0"
 
-[project.dependencies]
-    "requests>=2.31.0,<3.0.0",
-    "urllib3>=2.0.0",
-```
-
-Then manually copy into your `pyproject.toml`:
-
-```toml
-[project]
-name = "my-project"
-version = "0.1.0"
-requires-python = ">=3.8"
-dependencies = [
-    # ... your existing dependencies ...
+[project.optional-dependencies]
+aigogo = [
     "requests>=2.31.0,<3.0.0",
     "urllib3>=2.0.0",
 ]
 ```
+
+Then copy the `[project.optional-dependencies]` section into your `pyproject.toml` and install with `pip install -e '.[aigogo]'`. To remove aigogo deps later, just delete the `aigogo` group.
 
 ### Example 3: Poetry Project Integration
 
@@ -252,13 +259,16 @@ $ aigg add langchain-utils:2.0.0 && aigg install
 $ aigg show-deps .aigogo/imports/aigogo/langchain_utils --format poetry
 
 # Add these to your pyproject.toml
+# Install with: poetry install --with aigogo or poetry install --with aigogo,aigogo-dev
 
 [tool.poetry.dependencies]
 python = ">=3.9"
+
+[tool.poetry.group.aigogo.dependencies]
 langchain = ">=0.1.0,<0.2.0"
 openai = ">=1.0.0,<2.0.0"
 
-# Copy these lines into your existing [tool.poetry.dependencies] section
+# Copy these sections into your pyproject.toml, then: poetry install --with aigogo
 ```
 
 ### Example 4: Create Separate Requirements File

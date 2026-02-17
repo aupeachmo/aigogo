@@ -217,7 +217,25 @@ aigg add embedding-search:1.0.0
 aigg install
 ```
 
-**pip:**
+**pyproject.toml (PEP 621) — recommended:**
+```bash
+# Output aigogo-specific optional-dependency groups (copy into your pyproject.toml)
+aigg show-deps .aigogo/imports/aigogo/embedding_search --format pyproject
+
+# Then install with:
+pip install -e '.[aigogo]'
+```
+
+**Poetry:**
+```bash
+# Output aigogo-specific dependency groups (copy into your pyproject.toml)
+aigg show-deps .aigogo/imports/aigogo/embedding_search --format poetry
+
+# Then install with:
+poetry install --with aigogo
+```
+
+**pip (requirements.txt):**
 ```bash
 aigg show-deps .aigogo/imports/aigogo/embedding_search --format requirements | pip install -r /dev/stdin
 ```
@@ -231,21 +249,6 @@ aigg show-deps .aigogo/imports/aigogo/embedding_search --format requirements | u
 aigg show-deps .aigogo/imports/aigogo/embedding_search --format requirements | xargs uv add
 ```
 
-**poetry:**
-```bash
-# Output in Poetry's pyproject.toml format (copy into your pyproject.toml)
-aigg show-deps .aigogo/imports/aigogo/embedding_search --format poetry
-
-# Or pipe requirements into poetry add
-aigg show-deps .aigogo/imports/aigogo/embedding_search --format requirements | xargs poetry add
-```
-
-**pyproject.toml (PEP 621):**
-```bash
-# Output in PEP 621 format (copy into your pyproject.toml)
-aigg show-deps .aigogo/imports/aigogo/embedding_search --format pyproject
-```
-
 ### JavaScript Dependencies
 
 ```bash
@@ -256,12 +259,11 @@ aigg install
 
 **npm:**
 ```bash
-# Output as package.json fragment (merge into your package.json)
+# Output as package.json fragment with aigogo metadata (merge into your package.json)
 aigg show-deps .aigogo/imports/@aigogo/token-budget-js --format npm
 
-# Or install directly
-aigg show-deps .aigogo/imports/@aigogo/token-budget-js --format npm > /tmp/deps.json
-npm install $(node -e "const d=require('/tmp/deps.json'); Object.entries(d.dependencies||{}).forEach(([k,v])=>process.stdout.write(k+'@\"'+v+'\" '))")
+# The "aigogo" key in the output tracks which deps are aigogo-managed
+# To remove later: delete listed packages and the "aigogo" key
 ```
 
 **yarn:**
@@ -278,10 +280,10 @@ eval "$(aigg show-deps .aigogo/imports/@aigogo/token-budget-js --format yarn)"
 | Format | Alias | Language | Output |
 |--------|-------|----------|--------|
 | `text` | | Any | Human-readable summary |
-| `requirements` | `pip` | Python | `package>=1.0.0` (one per line) |
-| `pyproject` | `pep621` | Python | PEP 621 `[project.dependencies]` TOML |
-| `poetry` | | Python | `[tool.poetry.dependencies]` TOML |
-| `npm` | `package-json` | JavaScript | `{"dependencies": {...}}` JSON |
+| `requirements` | `pip` | Python | `package>=1.0.0` (one per line, aigogo-labeled) |
+| `pyproject` | `pep621` | Python | `[project.optional-dependencies] aigogo = [...]` TOML |
+| `poetry` | | Python | `[tool.poetry.group.aigogo.dependencies]` TOML |
+| `npm` | `package-json` | JavaScript | `{"dependencies": {...}, "aigogo": {...}}` JSON |
 | `yarn` | | JavaScript | `yarn add "pkg@version"` commands |
 
 This is a deliberate design choice -- aigg distributes reusable code, not full packages with dependency trees.

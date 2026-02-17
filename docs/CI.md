@@ -215,6 +215,11 @@ jobs:
 
       - name: Install Python dependencies
         run: |
+          # Option A: If your project has a pyproject.toml, add the aigogo group and install
+          # aigg show-deps aigogo.lock --format pyproject >> pyproject.toml
+          # pip install -e '.[aigogo]'
+          #
+          # Option B: Direct install from requirements format
           aigg show-deps aigogo.lock --format requirements > /tmp/agent-deps.txt
           pip install -r /tmp/agent-deps.txt
 

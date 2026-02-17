@@ -114,6 +114,7 @@ func outputPyproject(m *manifest.Manifest) error {
 	}
 
 	fmt.Println("# Add these to your pyproject.toml")
+	fmt.Println("# Install with: pip install -e '.[aigogo]' or pip install -e '.[aigogo,aigogo-dev]'")
 	fmt.Println()
 
 	if m.Language.Version != "" {
@@ -122,17 +123,23 @@ func outputPyproject(m *manifest.Manifest) error {
 		fmt.Println()
 	}
 
-	if m.Dependencies != nil && len(m.Dependencies.Runtime) > 0 {
-		fmt.Println("[project.dependencies]")
+	hasRuntime := m.Dependencies != nil && len(m.Dependencies.Runtime) > 0
+	hasDev := m.Dependencies != nil && len(m.Dependencies.Dev) > 0
+
+	if hasRuntime || hasDev {
+		fmt.Println("[project.optional-dependencies]")
+	}
+
+	if hasRuntime {
+		fmt.Println("aigogo = [")
 		for _, dep := range m.Dependencies.Runtime {
 			fmt.Printf("    \"%s%s\",\n", dep.Package, dep.Version)
 		}
-		fmt.Println()
+		fmt.Println("]")
 	}
 
-	if m.Dependencies != nil && len(m.Dependencies.Dev) > 0 {
-		fmt.Println("[project.optional-dependencies]")
-		fmt.Println("dev = [")
+	if hasDev {
+		fmt.Println("aigogo-dev = [")
 		for _, dep := range m.Dependencies.Dev {
 			fmt.Printf("    \"%s%s\",\n", dep.Package, dep.Version)
 		}
@@ -148,22 +155,25 @@ func outputPoetry(m *manifest.Manifest) error {
 	}
 
 	fmt.Println("# Add these to your pyproject.toml")
+	fmt.Println("# Install with: poetry install --with aigogo or poetry install --with aigogo,aigogo-dev")
 	fmt.Println()
 
-	fmt.Println("[tool.poetry.dependencies]")
 	if m.Language.Version != "" {
+		fmt.Println("[tool.poetry.dependencies]")
 		fmt.Printf("python = \"%s\"\n", m.Language.Version)
+		fmt.Println()
 	}
 
 	if m.Dependencies != nil && len(m.Dependencies.Runtime) > 0 {
+		fmt.Println("[tool.poetry.group.aigogo.dependencies]")
 		for _, dep := range m.Dependencies.Runtime {
 			fmt.Printf("%s = \"%s\"\n", dep.Package, dep.Version)
 		}
+		fmt.Println()
 	}
-	fmt.Println()
 
 	if m.Dependencies != nil && len(m.Dependencies.Dev) > 0 {
-		fmt.Println("[tool.poetry.group.dev.dependencies]")
+		fmt.Println("[tool.poetry.group.aigogo-dev.dependencies]")
 		for _, dep := range m.Dependencies.Dev {
 			fmt.Printf("%s = \"%s\"\n", dep.Package, dep.Version)
 		}
@@ -182,7 +192,8 @@ func outputRequirements(m *manifest.Manifest) error {
 		return nil
 	}
 
-	fmt.Println("# Runtime dependencies for requirements.txt")
+	fmt.Println("# aigogo-managed runtime dependencies")
+	fmt.Println("# To remove: delete these entries and uninstall the packages")
 	for _, dep := range m.Dependencies.Runtime {
 		fmt.Printf("%s%s\n", dep.Package, dep.Version)
 	}
@@ -223,11 +234,7 @@ func outputNpm(m *manifest.Manifest) error {
 			}
 			fmt.Printf("    \"%s\": \"%s\"%s\n", dep.Package, npmVersionRange(dep.Version), comma)
 		}
-		if hasDev {
-			fmt.Println("  },")
-		} else {
-			fmt.Println("  }")
-		}
+		fmt.Println("  },")
 	}
 
 	if hasDev {
@@ -239,8 +246,35 @@ func outputNpm(m *manifest.Manifest) error {
 			}
 			fmt.Printf("    \"%s\": \"%s\"%s\n", dep.Package, npmVersionRange(dep.Version), comma)
 		}
-		fmt.Println("  }")
+		fmt.Println("  },")
 	}
+
+	fmt.Println("  \"aigogo\": {")
+	if hasRuntime {
+		fmt.Printf("    \"managedDependencies\": [")
+		for i, dep := range m.Dependencies.Runtime {
+			if i > 0 {
+				fmt.Print(", ")
+			}
+			fmt.Printf("\"%s\"", dep.Package)
+		}
+		fmt.Print("]")
+		if hasDev {
+			fmt.Print(",")
+		}
+		fmt.Println()
+	}
+	if hasDev {
+		fmt.Printf("    \"managedDevDependencies\": [")
+		for i, dep := range m.Dependencies.Dev {
+			if i > 0 {
+				fmt.Print(", ")
+			}
+			fmt.Printf("\"%s\"", dep.Package)
+		}
+		fmt.Println("]")
+	}
+	fmt.Println("  }")
 
 	fmt.Println("}")
 
@@ -256,6 +290,9 @@ func outputYarn(m *manifest.Manifest) error {
 		fmt.Println("# No dependencies")
 		return nil
 	}
+
+	fmt.Println("# aigogo-managed dependencies")
+	fmt.Println("# To remove: uninstall these packages and delete the \"aigogo\" key from package.json")
 
 	if len(m.Dependencies.Runtime) > 0 {
 		fmt.Print("yarn add")

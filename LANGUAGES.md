@@ -42,9 +42,9 @@ The `.pth` file location is tracked in `.aigogo/.pth-location` for cleanup by `a
 | Format | Alias | Output |
 |--------|-------|--------|
 | `text` | | Human-readable summary |
-| `requirements` | `pip` | `package>=1.0.0` (one per line) |
-| `pyproject` | `pep621` | PEP 621 `[project.dependencies]` TOML |
-| `poetry` | | `[tool.poetry.dependencies]` TOML |
+| `requirements` | `pip` | `package>=1.0.0` (one per line, aigogo-labeled) |
+| `pyproject` | `pep621` | `[project.optional-dependencies] aigogo = [...]` TOML |
+| `poetry` | | `[tool.poetry.group.aigogo.dependencies]` TOML |
 
 ## JavaScript / TypeScript
 
@@ -98,7 +98,7 @@ The register script is removed by `aigg uninstall`.
 | Format | Alias | Output |
 |--------|-------|--------|
 | `text` | | Human-readable summary |
-| `npm` | `package-json` | `{"dependencies": {...}}` JSON |
+| `npm` | `package-json` | `{"dependencies": {...}, "aigogo": {...}}` JSON |
 | `yarn` | | `yarn add "pkg@version"` commands |
 
 ## Implementation Checklist

@@ -323,6 +323,11 @@ pip freeze > requirements-lock.txt  # Lock for deployment
 
 ## Quick Copy-Paste Templates
 
+> **Note:** These templates show standard pyproject.toml/package.json syntax for version constraints.
+> When aigogo outputs dependencies (via `aigg show-deps`), it uses aigogo-specific groups
+> (`[project.optional-dependencies] aigogo = [...]` for Python, `"aigogo"` metadata key for JS)
+> so consumers can easily identify and remove aigogo-managed dependencies.
+
 ### Python Package
 
 ```toml
