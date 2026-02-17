@@ -1,0 +1,14 @@
+{
+  "name": "aigogo-mlai-melb-feb-2026",
+  "private": true,
+  "scripts": {
+    "dev": "slidev --open",
+    "build": "slidev build",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@slidev/cli": "^51",
+    "@slidev/theme-default": "latest",
+    "@iconify-json/carbon": "latest"
+  }
+}

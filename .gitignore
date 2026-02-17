@@ -36,3 +36,5 @@ examples/.aigogo/
 
 # Vim
 .sw*
+
+presentations/*/slides
