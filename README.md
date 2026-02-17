@@ -254,7 +254,7 @@ The [`examples/`](examples/) directory includes ready-to-use AI/LLM packages:
 | [agent-context-manager](examples/agent-context-manager) | Sliding-window context management for multi-turn LLM conversations |
 | [token-budget-js](examples/token-budget-js) | Token counting and budget management for LLM API calls (JavaScript) |
 
-Each includes an `aigogo.json` with an `ai` field for agent discovery. See [MACHINES.md](MACHINES.md) for the AI metadata spec.
+Each includes an `aigogo.json` with an `ai` field for agent discovery. See [MACHINES.md](MACHINES.md) for the AI metadata spec and [current limitations](MACHINES.md#current-limitations) on discovery.
 
 ## Command Reference
 

@@ -178,9 +178,9 @@ When modifying `.go` files (especially `cmd/`), check and update:
 - `qa/run.sh` - Automated test harness. Must cover every command tested in QA.md.
 - `README.md` - Command reference tables and usage examples.
 - `CLAUDE.md` - Architecture section if commands/packages change.
-- `MACHINES.md` - If `ai` metadata or examples change.
+- `MACHINES.md` - If `ai` metadata, examples, or agent discovery capabilities change. Review the "Current Limitations" section and update it if any limitations are resolved or new ones are introduced.
 - `examples/README.md` - If examples or `show-deps` formats change.
-- `.claude/commands/aigogo.md` - If author/consumer workflows change.
+- `.claude/commands/aigogo.md` - Claude Code skill. Must document every command, subcommand, flag, and workflow. Update when commands, flags, AI metadata schema, or known limitations change.
 - `LANGUAGES.md` - If language support changes.
 - `.github/README-CI.md`, `.github/RELEASE.md` - If build flags or release process changes.
 

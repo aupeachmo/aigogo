@@ -18,8 +18,6 @@ aigogo supports AI agent discovery and usage through two mechanisms: structured 
 
 They complement each other: a skill can use AI metadata when helping a human ("I found 3 packages matching your needs, here's what each does"), and an autonomous agent doesn't need the skill at all -- it just reads manifests and runs commands.
 
-The gap right now is discovery. The `ai` field describes individual packages, but there's no aggregation layer -- no index or search that lets an agent query "show me all packages with capability X" across a registry. That would be the next piece for fully autonomous agent consumption.
-
 ## AI Metadata in aigogo.json
 
 The `ai` field in `aigogo.json` is an optional section that describes an agent in terms other AI agents can parse and act on. This allows agents to discover, evaluate, and use agents without reading the source code.
@@ -100,6 +98,30 @@ From `examples/tool-use-decorator/aigogo.json`:
 3. **Integration**: The agent runs `aigg add <package>` and `aigg install`, then uses the `usage` example as a template for writing code that calls the agent.
 
 The `ai` field is ignored by all existing aigg commands (build, install, push, etc.) -- it is purely advisory metadata for agent consumption.
+
+## Current Limitations
+
+The `ai` field ships with each package as part of `aigogo.json`, but **there is no discovery or search infrastructure today**. An agent cannot query a registry for "all packages with capability X."
+
+Specifically:
+
+- **`aigg search` is a stub.** It prints a placeholder message and does nothing. The Docker Registry HTTP API V2 does not support searching by arbitrary metadata inside image layers, so a simple registry query won't work.
+- **No aggregation layer exists.** There is no index, catalog, or database that collects `ai` fields across packages. Each package's metadata is only accessible after you already know its image ref and have pulled or built it.
+- **Discovery requires out-of-band knowledge.** Today, an agent can only read the `ai` field from a package it already has locally (in the store or cache). Finding packages in the first place requires the user to know the registry path, or to browse the registry's web UI.
+
+### What works today
+
+Once you have a package locally, the `ai` field is fully usable. An agent can read `aigogo.json` from the store (`~/.aigogo/store/sha256/<hash>/aigogo.json`), inspect `summary`, `capabilities`, and `usage`, and decide whether and how to use the package. The evaluation and integration steps in "How Agents Use This" above work — it's the initial discovery step that is missing.
+
+### What would close the gap
+
+A discovery layer would need to aggregate `ai` fields from published packages into a searchable index. Possible approaches include:
+
+- A registry-side metadata index (similar to Docker Hub's search, but aware of aigogo manifests)
+- A separate catalog service that crawls known registries and indexes `ai` fields
+- A local index built from all packages in `aigogo.lock` files across a workspace
+
+None of these are implemented yet.
 
 ## Claude Code Skill
 
