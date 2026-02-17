@@ -294,6 +294,12 @@ Or in your test runner:
 }
 ```
 
+## Security Scanners
+
+If your CI pipeline or registry has automated container scanning (Trivy, Snyk, Grype, Docker Scout, AWS ECR scanning), be aware that aigogo artifacts are **not runnable container images**. They contain only source code in a minimal Docker v2 manifest structure (empty `{}` config, single tar layer with source files). Scanners may produce false positives, scan failures, or dashboard noise.
+
+**Recommended:** Push aigogo packages to a dedicated repository namespace (e.g., `ghcr.io/myorg/aigogo/`) and exclude that path from your scanner configuration. See [Security Scanners](SECURITY_SCANNERS.md) for detailed guidance and scanner-specific exclusion examples.
+
 ## Tips
 
 - **Pin the aigg version** in CI for reproducible builds. Use a specific release URL instead of `latest`.

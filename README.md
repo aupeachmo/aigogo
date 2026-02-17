@@ -329,6 +329,9 @@ aigogo manages *AI agents as source code*, not compiled packages. Your agent cod
 **What about dependencies?**
 Dependencies are declared in `aigogo.json` as metadata. Use `aigg show-deps --format pyproject` to get a ready-to-paste `[project.optional-dependencies] aigogo` section, or `--format npm` for package.json with an `aigogo` metadata key tracking managed deps. aigogo manages the agents; your existing package manager handles the dependencies. All aigogo-managed dependencies are clearly separated so you can identify and remove them easily.
 
+**Will security scanners flag aigogo packages in my registry?**
+Possibly. aigogo uses Docker registries as transport, but its artifacts are source-only tarballs with an empty config — not runnable containers. Security scanners may flag them or produce noise. The fix: push aigogo packages to a dedicated namespace (e.g., `ghcr.io/myorg/aigogo/`) and exclude that path from scanning. See [Security Scanners](docs/SECURITY_SCANNERS.md) for detailed guidance.
+
 ## Development
 
 ```bash
@@ -349,5 +352,6 @@ MPL-2.0 — See [LICENSE](LICENSE) for details.
 - [Examples](examples/)
 - [AI Agent Integration](MACHINES.md)
 - [Language Support](LANGUAGES.md)
+- [Security Scanners](docs/SECURITY_SCANNERS.md)
 - [Releases](https://github.com/aupeachmo/aigogo/releases)
 - [Issues](https://github.com/aupeachmo/aigogo/issues)
