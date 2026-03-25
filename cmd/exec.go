@@ -449,7 +449,7 @@ func setupPythonEnv(dir string, m *manifest.Manifest, interpreter string) error 
 	}
 
 	// Build requirements list from dependencies
-	var reqs []string
+	reqs := make([]string, 0, len(m.Dependencies.Runtime))
 	for _, dep := range m.Dependencies.Runtime {
 		reqs = append(reqs, dep.Package+dep.Version)
 	}
