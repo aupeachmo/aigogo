@@ -923,7 +923,7 @@ EXEC_ERR="$WORK/exec-err"
 mkdir -p "$EXEC_ERR"
 pushd "$EXEC_ERR" >/dev/null
 
-run_test_fail_grep "aigg exec no args -> usage" "usage:" \
+run_test_fail_grep "aigg exec no args -> usage" "[Uu]sage:" \
     "$AIGOGO" exec
 
 run_test_fail_grep "aigg exec unknown agent -> error" "aigogo.lock" \
