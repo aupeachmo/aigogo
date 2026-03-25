@@ -23,9 +23,11 @@ func execCmd() *Command {
 		Description: "Execute an agent's script",
 		Run: func(args []string) error {
 			if len(args) < 1 {
-				return fmt.Errorf("usage: aigg exec <agent_name> [args...]\n\n" +
-					"Run an agent's entrypoint script.\n" +
-					"The agent must be in aigogo.lock and have a \"scripts\" field in its manifest.")
+				fmt.Println("Usage: aigg exec <agent_name> [args...]")
+				fmt.Println()
+				fmt.Println("Run an agent's entrypoint script.")
+				fmt.Println("The agent must be in aigogo.lock and have a \"scripts\" field in its manifest.")
+				return fmt.Errorf("agent name is required")
 			}
 
 			agentName := args[0]
