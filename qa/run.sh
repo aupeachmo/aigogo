@@ -415,6 +415,12 @@ BUILD_CONSUMER="$WORK/consumer-build"
 create_python_project "$BUILD_CONSUMER"
 pushd "$BUILD_CONSUMER" >/dev/null
 "$AIGOGO" init >>"$LOGFILE" 2>&1
+python3 -c "
+import json
+with open('aigogo.json') as f: m = json.load(f)
+m['name'] = 'consumer-pkg'
+with open('aigogo.json', 'w') as f: json.dump(m, f, indent=2)
+" 2>>"$LOGFILE" || true
 "$AIGOGO" add file utils.py >>"$LOGFILE" 2>&1
 "$AIGOGO" build consumer-pkg:1.0.0 --force >>"$LOGFILE" 2>&1
 popd >/dev/null
@@ -889,6 +895,7 @@ pushd "$EXEC_BUILD" >/dev/null
 python3 -c "
 import json
 with open('aigogo.json') as f: m = json.load(f)
+m['name'] = 'exec-test-agent'
 m['scripts'] = {'exec-test-agent': 'run.py'}
 with open('aigogo.json', 'w') as f: json.dump(m, f, indent=2)
 " 2>>"$LOGFILE" || true
