@@ -11,11 +11,13 @@ This document describes everything implemented for `aigg exec` and `aigg clean`,
 | File | Purpose |
 |------|---------|
 | `cmd/exec.go` | The `exec` command: package resolution, interpreter discovery, dependency env setup, script execution |
+| `cmd/exec_unix.go` | Unix implementation of `replaceProcess` using `syscall.Exec` |
+| `cmd/exec_windows.go` | Windows stub that returns a clear unsupported error |
 | `cmd/clean.go` | The `clean` command: disk usage summary, `--envs`/`--cache`/`--store`/`--all` flags |
 | `cmd/exec_test.go` | Unit tests for version parsing, version constraint checking, env path, setEnv helper |
 | `cmd/clean_test.go` | Unit tests for dirStats and cleanDirectory |
-| `docs/exec-quickstart.md` | User-facing quickstart guide |
-| `docs/exec-implementation.md` | This file |
+| `docs/EXEC-QUICKSTART.md` | User-facing quickstart guide |
+| `docs/EXEC-IMPLEMENTATION.md` | This file |
 
 ## Files Modified
 
@@ -116,6 +118,18 @@ When a venv exists, the venv's Python is used (which has access to installed sit
 ```
 NODE_PATH=<store>/files:<env>/node_modules node <store>/files/<script> [args...]
 ```
+
+### Platform Support
+
+`aigg exec` uses `syscall.Exec` (Unix process replacement) which is not available on Windows. The implementation uses build tags (`exec_unix.go` and `exec_windows.go`) to provide a clear error message on Windows:
+
+```
+Error: aigg exec is not supported on Windows
+This command uses Unix process replacement (exec) which is not available on Windows.
+Run your agent directly: python <script> or node <script>
+```
+
+The interpreter search paths (`bin/python`, `bin/pip`) and venv layout are also Unix-specific. Supporting Windows would require both a different process execution strategy and platform-specific path handling.
 
 ### Clean Command
 

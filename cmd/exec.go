@@ -6,15 +6,16 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"regexp"
 	"strconv"
 	"strings"
-	"syscall"
+	"regexp"
 
 	"github.com/aupeachmo/aigogo/pkg/lockfile"
 	"github.com/aupeachmo/aigogo/pkg/manifest"
 	"github.com/aupeachmo/aigogo/pkg/store"
 )
+
+var versionSegmentRe = regexp.MustCompile(`^(\d+)`)
 
 func execCmd() *Command {
 	return &Command{
@@ -43,7 +44,19 @@ func runExec(agentName string, args []string) error {
 			"Run 'aigg add <source>' to add the agent first", err)
 	}
 
+	// Try the name as-is, then normalized (my-agent → my_agent) to match
+	// how the lock file stores Python package names
 	pkg, exists := lock.Get(agentName)
+	lookupName := agentName
+	if !exists {
+		normalized := lockfile.NormalizeName(agentName)
+		if normalized != agentName {
+			pkg, exists = lock.Get(normalized)
+			if exists {
+				lookupName = normalized
+			}
+		}
+	}
 	if !exists {
 		return fmt.Errorf("agent %q not found in aigogo.lock\n"+
 			"To add it, run: aigg add <registry>/%s:<tag> && aigg install", agentName, agentName)
@@ -77,10 +90,12 @@ func runExec(agentName string, args []string) error {
 			"The package author must add a \"scripts\" field to aigogo.json", agentName)
 	}
 
-	// Find the script to run: prefer matching agent name, fallback to first
+	// Find the script to run: try agent name, normalized name, then fallback to single script
 	scriptFile, ok := m.Scripts[agentName]
+	if !ok && lookupName != agentName {
+		scriptFile, ok = m.Scripts[lookupName]
+	}
 	if !ok {
-		// Try the first (or only) script
 		if len(m.Scripts) == 1 {
 			for _, v := range m.Scripts {
 				scriptFile = v
@@ -252,8 +267,7 @@ func parseVersion(v string) []int {
 	result := make([]int, 0, len(segments))
 	for _, s := range segments {
 		// Strip any pre-release suffix (e.g., "5rc1")
-		re := regexp.MustCompile(`^(\d+)`)
-		match := re.FindString(s)
+		match := versionSegmentRe.FindString(s)
 		if match == "" {
 			break
 		}
@@ -558,15 +572,15 @@ func executeScript(interpreter, language, scriptPath, filesDir, envDir string, a
 		cmdArgs = append([]string{scriptPath}, args...)
 	}
 
-	// Use syscall.Exec to replace the process (like exec in bash)
-	// This ensures signals, exit codes, and stdio are properly forwarded
+	// Resolve the interpreter to an absolute path
 	binary, err := exec.LookPath(interpreter)
 	if err != nil {
 		return fmt.Errorf("interpreter not found: %s", interpreter)
 	}
 
+	// Replace this process with the interpreter (Unix) or return an error (Windows)
 	execArgs := append([]string{binary}, cmdArgs...)
-	return syscall.Exec(binary, execArgs, env)
+	return replaceProcess(binary, execArgs, env)
 }
 
 // setEnv sets an environment variable in the env slice

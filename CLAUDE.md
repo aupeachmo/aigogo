@@ -188,8 +188,8 @@ When modifying `.go` files (especially `cmd/`), check and update:
 - `README.md` - Command reference tables and usage examples.
 - `CLAUDE.md` - Architecture section if commands/packages change.
 - `MACHINES.md` - If `ai` metadata, examples, or agent discovery capabilities change. Review the "Current Limitations" section and update it if any limitations are resolved or new ones are introduced.
-- `docs/exec-quickstart.md` - If exec command behavior, interpreter resolution, or dependency isolation changes.
-- `docs/exec-implementation.md` - If implementation details of exec/clean change.
+- `docs/EXEC-QUICKSTART.md` - If exec command behavior, interpreter resolution, or dependency isolation changes.
+- `docs/EXEC-IMPLEMENTATION.md` - If implementation details of exec/clean change.
 - `examples/README.md` - If examples or `show-deps` formats change.
 - `.claude/commands/aigogo.md` - Claude Code skill. Must document every command, subcommand, flag, and workflow. Update when commands, flags, AI metadata schema, or known limitations change.
 - `LANGUAGES.md` - If language support changes.

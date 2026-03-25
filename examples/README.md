@@ -211,7 +211,7 @@ Packages with a `scripts` field in `aigogo.json` can be executed directly:
 aigg exec my-agent [args...]
 ```
 
-On first run, `aigg exec` creates an isolated environment and installs runtime dependencies automatically. See `docs/exec-quickstart.md` for details.
+On first run, `aigg exec` creates an isolated environment and installs runtime dependencies automatically. See `docs/EXEC-QUICKSTART.md` for details.
 
 ## Dependencies
 
