@@ -113,6 +113,8 @@ Specifically:
 
 Once you have a package locally, the `ai` field is fully usable. An agent can read `aigogo.json` from the store (`~/.aigogo/store/sha256/<hash>/aigogo.json`), inspect `summary`, `capabilities`, and `usage`, and decide whether and how to use the package. The evaluation and integration steps in "How Agents Use This" above work — it's the initial discovery step that is missing.
 
+Packages with a `scripts` field can also be executed directly via `aigg exec <agent_name>`, which handles interpreter resolution, dependency isolation, and argument forwarding. See `docs/exec-quickstart.md` for details.
+
 ### What would close the gap
 
 A discovery layer would need to aggregate `ai` fields from published packages into a searchable index. Possible approaches include:

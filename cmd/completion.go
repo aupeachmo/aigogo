@@ -38,7 +38,7 @@ _aigg_completions() {
     _init_completion || return
 
     # Main commands
-    local commands="init add install uninstall rm validate scan build push pull login logout list show-deps remove remove-all delete search version completion"
+    local commands="init add install uninstall exec clean rm validate scan build push pull login logout list show-deps remove remove-all delete search version completion"
 
     # Subcommands for add/rm
     local add_subcommands="file dep dev"
@@ -53,6 +53,7 @@ _aigg_completions() {
     local add_dev_flags="--from-pyproject"
     local show_deps_flags="--format"
     local show_deps_formats="text pyproject pep621 poetry requirements pip npm package-json yarn"
+    local clean_flags="--envs --cache --store --all"
     local login_flags="-u -p --dockerhub"
 
     # Get cached images for completion
@@ -77,6 +78,17 @@ _aigg_completions() {
                     ;;
                 completion)
                     COMPREPLY=($(compgen -W "bash zsh fish" -- "$cur"))
+                    ;;
+                exec)
+                    # Complete with package names from aigogo.lock
+                    local lock_packages=""
+                    if [ -f "aigogo.lock" ]; then
+                        lock_packages=$(python3 -c "import json; f=open('aigogo.lock'); d=json.load(f); print(' '.join(d.get('packages',{}).keys()))" 2>/dev/null || echo "")
+                    fi
+                    COMPREPLY=($(compgen -W "$lock_packages" -- "$cur"))
+                    ;;
+                clean)
+                    COMPREPLY=($(compgen -W "$clean_flags" -- "$cur"))
                     ;;
                 remove)
                     # Complete with cached image names
@@ -143,6 +155,11 @@ _aigg_completions() {
                             ;;
                     esac
                     ;;
+                clean)
+                    if [[ $cur == -* ]]; then
+                        COMPREPLY=($(compgen -W "$clean_flags" -- "$cur"))
+                    fi
+                    ;;
                 build)
                     if [[ $cur == -* ]]; then
                         COMPREPLY=($(compgen -W "$build_flags" -- "$cur"))
@@ -198,6 +215,8 @@ _aigg() {
         'add:Add packages, files or dependencies'
         'install:Install packages from aigogo.lock'
         'uninstall:Remove installed packages and import configuration'
+        'exec:Execute an agent script'
+        'clean:Show disk usage or clean cached data'
         'rm:Remove files or dependencies'
         'validate:Validate the manifest'
         'scan:Scan for dependencies'
@@ -245,6 +264,17 @@ _aigg() {
             ;;
         *)
             case $words[2] in
+                exec)
+                    # Complete with package names from aigogo.lock
+                    local -a lock_packages
+                    if [[ -f "aigogo.lock" ]]; then
+                        lock_packages=(${(f)"$(python3 -c "import json; f=open('aigogo.lock'); d=json.load(f); print('\n'.join(d.get('packages',{}).keys()))" 2>/dev/null)"})
+                    fi
+                    _values 'agent' $lock_packages
+                    ;;
+                clean)
+                    _arguments '--envs[Remove exec environments]' '--cache[Remove build/pull cache]' '--store[Remove package store]' '--all[Remove everything]'
+                    ;;
                 add)
                     if [[ $words[3] == "" ]] || [[ ${#words[@]} -eq 3 ]]; then
                         _describe 'subcommand' add_subcommands
@@ -306,6 +336,8 @@ complete -c aigg -n "__fish_use_subcommand" -a "init" -d "Initialize a new aigog
 complete -c aigg -n "__fish_use_subcommand" -a "add" -d "Add packages, files or dependencies"
 complete -c aigg -n "__fish_use_subcommand" -a "install" -d "Install packages from aigogo.lock"
 complete -c aigg -n "__fish_use_subcommand" -a "uninstall" -d "Remove installed packages and import configuration"
+complete -c aigg -n "__fish_use_subcommand" -a "exec" -d "Execute an agent script"
+complete -c aigg -n "__fish_use_subcommand" -a "clean" -d "Show disk usage or clean cached data"
 complete -c aigg -n "__fish_use_subcommand" -a "rm" -d "Remove files or dependencies"
 complete -c aigg -n "__fish_use_subcommand" -a "validate" -d "Validate the manifest"
 complete -c aigg -n "__fish_use_subcommand" -a "scan" -d "Scan for dependencies"
@@ -346,6 +378,21 @@ end
 complete -c aigg -n "__fish_seen_subcommand_from remove" -a "(__aigg_cached_images)" -d "Cached package"
 complete -c aigg -n "__fish_seen_subcommand_from build" -a "(__aigg_cached_images)" -d "Package reference"
 complete -c aigg -n "__fish_seen_subcommand_from push" -a "(__aigg_cached_images)" -d "Package reference"
+
+# exec — complete with package names from aigogo.lock
+function __aigg_lock_packages
+    if test -f "aigogo.lock"
+        python3 -c "import json; f=open('aigogo.lock'); d=json.load(f); print('\n'.join(d.get('packages',{}).keys()))" 2>/dev/null
+    end
+end
+
+complete -c aigg -n "__fish_seen_subcommand_from exec" -a "(__aigg_lock_packages)" -d "Agent"
+
+# clean flags
+complete -c aigg -n "__fish_seen_subcommand_from clean" -l "envs" -d "Remove exec environments"
+complete -c aigg -n "__fish_seen_subcommand_from clean" -l "cache" -d "Remove build/pull cache"
+complete -c aigg -n "__fish_seen_subcommand_from clean" -l "store" -d "Remove package store"
+complete -c aigg -n "__fish_seen_subcommand_from clean" -l "all" -d "Remove everything"
 
 # Flags
 complete -c aigg -n "__fish_seen_subcommand_from build" -l "force" -d "Force rebuild"

@@ -285,6 +285,7 @@ aigg build [name:tag]            # build locally
 aigg add <registry/name:tag>     # pull and add to lock file
 aigg add <name:tag>              # add from local cache
 aigg install                     # create import symlinks from lock file
+aigg exec <agent> [args...]      # run an agent's entrypoint script
 aigg uninstall                   # remove imports and path config
 
 # Registry
@@ -298,6 +299,7 @@ aigg delete <ref>                # delete from registry
 aigg list                        # show cached packages
 aigg remove <name:tag>           # delete from local cache
 aigg remove-all                  # clear entire cache
+aigg clean [--envs|--cache|--store|--all]  # show disk usage or clean cached data
 aigg show-deps <path> [--format] # show deps (text/pyproject/poetry/requirements/npm/yarn)
 aigg version                     # show version info
 aigg completion <shell>          # generate shell completions (bash/zsh/fish)

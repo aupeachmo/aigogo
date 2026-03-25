@@ -69,6 +69,26 @@ mkdir /tmp/qa-aigg && cd /tmp/qa-aigg
 - [ ] `aigg uninstall` — preserves `aigogo.lock`
 - [ ] `aigg uninstall` — prints nothing-to-uninstall when `.aigogo/` absent
 
+## Exec Command
+
+- [ ] `aigg exec <agent>` — runs the agent's entrypoint script
+- [ ] `aigg exec <agent> arg1 arg2` — forwards arguments
+- [ ] `ENV_VAR=1 aigg exec <agent>` — forwards environment variables
+- [ ] `aigg exec <agent>` — installs deps on first run (if agent has dependencies)
+- [ ] `aigg exec <agent>` — skips dep install on subsequent runs
+- [ ] `aigg exec <agent>` — validates interpreter version
+- [ ] `aigg exec <unknown>` — error with add/install hint
+- [ ] `aigg exec` (no args) — prints usage
+- [ ] `aigg exec <agent-no-scripts>` — error: no scripts defined
+
+## Clean Command
+
+- [ ] `aigg clean` (no flags) — shows disk usage summary
+- [ ] `aigg clean --envs` — removes exec environments
+- [ ] `aigg clean --cache` — removes build/pull cache
+- [ ] `aigg clean --store` — removes content-addressable store
+- [ ] `aigg clean --all` — removes envs, cache, and store
+
 ## show-deps Formats
 
 - [ ] `aigg show-deps <path>` — text output (default)
@@ -124,6 +144,9 @@ mkdir /tmp/qa-aigg && cd /tmp/qa-aigg
 - [ ] `aigg push` without `--from` → error
 - [ ] `aigg show-deps <path> --format invalid` → error listing valid formats
 - [ ] `aigg uninstall` outside any project → error
+- [ ] `aigg exec` with no args → usage error
+- [ ] `aigg exec <unknown>` with no lock file → error
+- [ ] `aigg exec <agent-no-scripts>` → error: no scripts defined
 
 ## Automated Test Harness
 

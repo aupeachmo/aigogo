@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/aupeachmo/aigogo/pkg/imports"
+	"github.com/aupeachmo/aigogo/pkg/lockfile"
 )
 
 func uninstallCmd() *Command {
@@ -50,6 +51,33 @@ func runUninstall() error {
 			fmt.Printf("⚠ Warning: failed to remove Node.js register script: %v\n", err)
 		} else {
 			fmt.Println("✓ Removed Node.js register script")
+		}
+	}
+
+	// Remove exec environments for packages in the lock file
+	lockPath := filepath.Join(projectDir, lockfile.LockFileName)
+	if _, err := os.Stat(lockPath); err == nil {
+		lock, err := lockfile.Load(lockPath)
+		if err == nil {
+			removedEnvs := 0
+			var totalEnvSize int64
+			for _, pkg := range lock.Packages {
+				hash := pkg.GetIntegrityHash()
+				dir, err := envPath(hash)
+				if err != nil {
+					continue
+				}
+				size, _ := dirStats(dir)
+				if size > 0 {
+					if err := os.RemoveAll(dir); err == nil {
+						removedEnvs++
+						totalEnvSize += size
+					}
+				}
+			}
+			if removedEnvs > 0 {
+				fmt.Printf("✓ Removed %d exec environment(s) (%s)\n", removedEnvs, formatSize(totalEnvSize))
+			}
 		}
 	}
 

@@ -2,16 +2,17 @@ package manifest
 
 // Manifest represents the aigogo.json configuration (v2)
 type Manifest struct {
-	Schema       string        `json:"$schema,omitempty"`
-	Name         string        `json:"name"`
-	Version      string        `json:"version"`
-	Description  string        `json:"description,omitempty"`
-	Author       string        `json:"author,omitempty"`
-	Language     Language      `json:"language"`
-	Dependencies *Dependencies `json:"dependencies,omitempty"`
-	Files        FileSpec      `json:"files"`
-	Metadata     Metadata      `json:"metadata,omitempty"`
-	AI           *AISpec       `json:"ai,omitempty"`
+	Schema       string            `json:"$schema,omitempty"`
+	Name         string            `json:"name"`
+	Version      string            `json:"version"`
+	Description  string            `json:"description,omitempty"`
+	Author       string            `json:"author,omitempty"`
+	Language     Language          `json:"language"`
+	Dependencies *Dependencies     `json:"dependencies,omitempty"`
+	Files        FileSpec          `json:"files"`
+	Scripts      map[string]string `json:"scripts,omitempty"`
+	Metadata     Metadata          `json:"metadata,omitempty"`
+	AI           *AISpec           `json:"ai,omitempty"`
 }
 
 // Language specifies the programming language and version requirements

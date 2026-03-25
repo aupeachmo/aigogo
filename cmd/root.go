@@ -35,6 +35,8 @@ func Execute() error {
 		"remove-all": removeAllCmd(),
 		"delete":     deleteCmd(),
 		"uninstall":  uninstallCmd(),
+		"exec":       execCmd(),
+		"clean":      cleanCmd(),
 		"search":     searchCmd(),
 		"version":    versionCmd(),
 		"completion": completionCmd(),
@@ -103,7 +105,7 @@ func printUsage(commands map[string]*Command) {
 	fmt.Println("Commands:")
 
 	// Define order for better UX
-	order := []string{"init", "add", "install", "uninstall", "rm", "validate", "scan", "build", "push", "pull", "list", "show-deps", "remove", "remove-all", "delete", "login", "logout", "search", "version", "completion"}
+	order := []string{"init", "add", "install", "uninstall", "exec", "clean", "rm", "validate", "scan", "build", "push", "pull", "list", "show-deps", "remove", "remove-all", "delete", "login", "logout", "search", "version", "completion"}
 
 	for _, name := range order {
 		if cmd, ok := commands[name]; ok {

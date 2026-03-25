@@ -51,13 +51,15 @@ This matches the CI lint job (`.github/workflows/test.yml` — `golangci/golangc
 - `main.go` - Entry point with version injection via ldflags (`-X main.Version`)
 
 ### CLI Commands (`cmd/`)
-20 commands built without external CLI framework. Key files:
+22 commands built without external CLI framework. Key files:
 - `root.go` - Command routing and argument parsing
 - `add.go` - Add packages to lock file, or files/dependencies to manifest
 - `install.go` - Install packages from aigogo.lock (creates symlinks)
 - `uninstall.go` - Remove installed packages, .pth file, register.js, and .aigogo/ directory
 - `build.go` - Local build with auto-versioning
 - `push.go` - Push to registry (requires `--from` flag for local builds)
+- `exec.go` - Execute agent scripts (npx-like workflow with dependency isolation)
+- `clean.go` - Disk usage summary and cleanup of envs/cache/store
 
 ### Core Packages (`pkg/`)
 
@@ -113,6 +115,8 @@ This matches the CI lint job (`.github/workflows/test.yml` — `golangci/golangc
 7. **Auto-Versioning**: `aigg build` without args increments patch version
 8. **`.aigogoignore` Support**: Gitignore-compatible file exclusion
 9. **AI Metadata**: Optional `ai` field in aigogo.json for agent discovery (see MACHINES.md)
+11. **Exec Scripts**: `scripts` field in aigogo.json maps command names to entrypoint files for `aigg exec`
+12. **Dependency Isolation**: `aigg exec` creates per-package envs at `~/.aigogo/envs/<hash>/` (venv for Python, node_modules for JS)
 10. **Isolated Dependency Groups**: Dependencies output by `show-deps` and the generator use aigogo-specific groups rather than mixing into standard sections. Python uses `[project.optional-dependencies] aigogo = [...]` (PEP 621) or `[tool.poetry.group.aigogo.dependencies]` (Poetry). JavaScript uses standard `dependencies`/`devDependencies` (for npm/yarn compatibility) plus an `"aigogo"` metadata key listing managed package names. This lets consumers clearly identify aigogo-managed deps and cleanly remove them. The generated pyproject.toml in built packages uses the same pattern — deps are in optional groups because aigogo packages are installed via symlinks, not pip; the pyproject.toml is for reference only.
 
 ### AI Agent Integration
@@ -126,13 +130,17 @@ This matches the CI lint job (`.github/workflows/test.yml` — `golangci/golangc
 
 ```
 ~/.aigogo/
-├── store/sha256/           # Content-addressable storage (new)
+├── store/sha256/           # Content-addressable storage
 │   └── ab/abc123.../       # Package by hash
 │       ├── files/          # Package files (read-only)
 │       └── aigogo.json     # Package manifest
-├── cache/                  # Legacy build/pull cache
+├── cache/                  # Build/pull cache
 │   ├── <name>_<version>/   # Local builds
 │   └── images/             # Pulled images
+├── envs/                   # Exec dependency environments (lazy, per-hash)
+│   └── <hash>/             # One env per package version
+│       ├── .venv/          # Python: isolated virtualenv
+│       └── node_modules/   # Node: npm-installed deps
 └── auth.json               # Registry credentials
 
 project/
@@ -180,6 +188,8 @@ When modifying `.go` files (especially `cmd/`), check and update:
 - `README.md` - Command reference tables and usage examples.
 - `CLAUDE.md` - Architecture section if commands/packages change.
 - `MACHINES.md` - If `ai` metadata, examples, or agent discovery capabilities change. Review the "Current Limitations" section and update it if any limitations are resolved or new ones are introduced.
+- `docs/exec-quickstart.md` - If exec command behavior, interpreter resolution, or dependency isolation changes.
+- `docs/exec-implementation.md` - If implementation details of exec/clean change.
 - `examples/README.md` - If examples or `show-deps` formats change.
 - `.claude/commands/aigogo.md` - Claude Code skill. Must document every command, subcommand, flag, and workflow. Update when commands, flags, AI metadata schema, or known limitations change.
 - `LANGUAGES.md` - If language support changes.

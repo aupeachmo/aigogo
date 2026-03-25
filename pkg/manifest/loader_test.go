@@ -246,6 +246,36 @@ func TestValidate(t *testing.T) {
 			},
 			wantErr: true,
 		},
+		{
+			name: "valid scripts",
+			m: &Manifest{
+				Name:     "test",
+				Version:  "1.0.0",
+				Language: Language{Name: "python"},
+				Scripts:  map[string]string{"my-agent": "run.py"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "script with empty name",
+			m: &Manifest{
+				Name:     "test",
+				Version:  "1.0.0",
+				Language: Language{Name: "python"},
+				Scripts:  map[string]string{"": "run.py"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "script with empty file",
+			m: &Manifest{
+				Name:     "test",
+				Version:  "1.0.0",
+				Language: Language{Name: "python"},
+				Scripts:  map[string]string{"my-agent": ""},
+			},
+			wantErr: true,
+		},
 	}
 
 	for _, tt := range tests {

@@ -866,6 +866,111 @@ fi
 echo ""
 
 ###############################################################################
+#  SECTION: Exec Command
+###############################################################################
+echo "${BOLD}=== Exec Command ===${RESET}"
+
+# Build a Python agent with scripts
+EXEC_BUILD="$WORK/exec-build"
+create_python_project "$EXEC_BUILD"
+cat > "$EXEC_BUILD/run.py" <<'PYEOF'
+import sys
+print("hello from exec")
+if len(sys.argv) > 1:
+    print("args:", " ".join(sys.argv[1:]))
+PYEOF
+
+pushd "$EXEC_BUILD" >/dev/null
+"$AIGOGO" init >>"$LOGFILE" 2>&1
+"$AIGOGO" add file utils.py >>"$LOGFILE" 2>&1
+"$AIGOGO" add file run.py >>"$LOGFILE" 2>&1
+
+# Add scripts field to manifest
+python3 -c "
+import json
+with open('aigogo.json') as f: m = json.load(f)
+m['scripts'] = {'exec-test-agent': 'run.py'}
+with open('aigogo.json', 'w') as f: json.dump(m, f, indent=2)
+" 2>>"$LOGFILE" || true
+
+"$AIGOGO" build exec-test-agent:1.0.0 --force >>"$LOGFILE" 2>&1
+popd >/dev/null
+
+EXEC_DIR="$WORK/exec-consumer"
+mkdir -p "$EXEC_DIR"
+pushd "$EXEC_DIR" >/dev/null
+
+"$AIGOGO" add exec-test-agent:1.0.0 >>"$LOGFILE" 2>&1
+"$AIGOGO" install >>"$LOGFILE" 2>&1
+
+run_test_grep "aigg exec <agent>" "hello from exec" \
+    "$AIGOGO" exec exec-test-agent
+
+run_test_grep "aigg exec <agent> with args" "args: foo bar" \
+    "$AIGOGO" exec exec-test-agent foo bar
+
+popd >/dev/null
+
+# Error cases
+EXEC_ERR="$WORK/exec-err"
+mkdir -p "$EXEC_ERR"
+pushd "$EXEC_ERR" >/dev/null
+
+run_test_fail_grep "aigg exec no args -> usage" "usage:" \
+    "$AIGOGO" exec
+
+run_test_fail_grep "aigg exec unknown agent -> error" "aigogo.lock" \
+    "$AIGOGO" exec nonexistent-agent
+
+popd >/dev/null
+
+# Agent without scripts field
+EXEC_NO_SCRIPTS="$WORK/exec-no-scripts"
+mkdir -p "$EXEC_NO_SCRIPTS"
+pushd "$EXEC_NO_SCRIPTS" >/dev/null
+
+# Reuse consumer-pkg (built earlier, has no scripts)
+"$AIGOGO" add consumer-pkg:1.0.0 >>"$LOGFILE" 2>&1
+"$AIGOGO" install >>"$LOGFILE" 2>&1
+
+run_test_fail_grep "aigg exec agent without scripts -> error" "no scripts defined" \
+    "$AIGOGO" exec consumer-pkg
+
+popd >/dev/null
+
+echo ""
+
+###############################################################################
+#  SECTION: Clean Command
+###############################################################################
+echo "${BOLD}=== Clean Command ===${RESET}"
+
+# Show disk usage (no flags)
+run_test_grep "aigg clean (disk usage)" "aigogo disk usage" \
+    "$AIGOGO" clean
+
+# Create an env dir to test cleanup
+mkdir -p "$HOME/.aigogo/envs/test-cleanup-hash"
+echo "test" > "$HOME/.aigogo/envs/test-cleanup-hash/marker"
+
+run_test_grep "aigg clean --envs" "Removed exec environments" \
+    "$AIGOGO" clean --envs
+
+# Verify envs dir was removed
+clean_envs_check() {
+    if [ -d "$HOME/.aigogo/envs/test-cleanup-hash" ]; then
+        echo "env dir still exists after clean --envs" >>"$LOGFILE"
+        return 1
+    fi
+    return 0
+}
+
+run_test "aigg clean --envs removes directory" \
+    clean_envs_check
+
+echo ""
+
+###############################################################################
 #  SECTION: show-deps Formats
 ###############################################################################
 echo "${BOLD}=== show-deps Formats ===${RESET}"

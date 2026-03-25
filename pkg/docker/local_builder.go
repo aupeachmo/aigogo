@@ -100,6 +100,20 @@ func (b *LocalBuilder) Build(imageRef string, m *manifest.Manifest, force bool) 
 		return fmt.Errorf("no files to package")
 	}
 
+	// Validate scripts reference files that are being packaged
+	if len(m.Scripts) > 0 {
+		fileSet := make(map[string]bool, len(filesToCopy))
+		for _, f := range filesToCopy {
+			fileSet[f] = true
+		}
+		for name, scriptFile := range m.Scripts {
+			if !fileSet[scriptFile] {
+				return fmt.Errorf("script %q references file %q which is not in the package files\n"+
+					"Add it with: aigg add file %s", name, scriptFile, scriptFile)
+			}
+		}
+	}
+
 	// Always include aigogo.json if it exists
 	if _, err := os.Stat("aigogo.json"); err == nil {
 		hasManifest := false

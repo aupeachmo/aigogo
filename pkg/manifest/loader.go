@@ -64,6 +64,18 @@ func Validate(m *Manifest) error {
 		return fmt.Errorf("language.version is required when dependencies are specified")
 	}
 
+	// Validate scripts
+	if m.Scripts != nil {
+		for name, file := range m.Scripts {
+			if name == "" {
+				return fmt.Errorf("script name cannot be empty")
+			}
+			if file == "" {
+				return fmt.Errorf("script file path cannot be empty for %s", name)
+			}
+		}
+	}
+
 	// Validate dependencies
 	if m.Dependencies != nil {
 		for _, dep := range m.Dependencies.Runtime {

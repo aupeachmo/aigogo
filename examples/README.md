@@ -203,9 +203,19 @@ aigg add dep --from-pyproject
 
 This is useful when packaging existing code that already has a `pyproject.toml` -- aigg reads the dependency list and adds them to `aigogo.json` automatically.
 
+## Running Agents
+
+Packages with a `scripts` field in `aigogo.json` can be executed directly:
+
+```bash
+aigg exec my-agent [args...]
+```
+
+On first run, `aigg exec` creates an isolated environment and installs runtime dependencies automatically. See `docs/exec-quickstart.md` for details.
+
 ## Dependencies
 
-aigg manages **AI agents**, not environments. `aigg install` pulls the source files and creates import symlinks, but it does not run `pip install` or `npm install`. Dependencies declared in `aigogo.json` are metadata that tells the consumer what their environment needs.
+aigg manages **AI agents**, not environments. `aigg install` pulls the source files and creates import symlinks, but it does not run `pip install` or `npm install`. Dependencies declared in `aigogo.json` are metadata that tells the consumer what their environment needs. However, `aigg exec` handles dependency installation automatically in an isolated per-package environment.
 
 For packages with dependencies, the consumer installs them separately using their preferred package manager. The `show-deps` command outputs dependencies in various formats to make this easy.
 

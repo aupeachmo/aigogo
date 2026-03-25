@@ -57,12 +57,29 @@ Ask the user what they want to do if not clear from context.
 4. Login to registry: `aigg login <registry>`
 5. Push: `aigg push <registry>/<name>:<tag> --from <name>:<tag>`
 
+## Workflow: Execute an Agent
+
+Run an agent's entrypoint script directly (npx-like):
+
+```bash
+aigg exec <agent_name> [args...]
+ENV_VAR=value aigg exec <agent_name> arg1 arg2
+```
+
+Prerequisites:
+1. The agent must be in `aigogo.lock` (run `aigg add` + `aigg install` first)
+2. The agent's `aigogo.json` must have a `scripts` field mapping command names to files
+3. A compatible interpreter (Python/Node) must be available
+
+On first run, `aigg exec` installs runtime dependencies into an isolated environment at `~/.aigogo/envs/<hash>/`. Subsequent runs skip installation.
+
 ## Workflow: Manage Packages
 
 - **List cached packages**: `aigg list`
 - **Remove from local cache**: `aigg remove <name:tag>`
 - **Clear entire cache**: `aigg remove-all`
-- **Uninstall from project**: `aigg uninstall` (removes .aigogo/ directory, .pth file, register.js)
+- **Clean cached data**: `aigg clean [--envs|--cache|--store|--all]`
+- **Uninstall from project**: `aigg uninstall` (removes .aigogo/ directory, .pth file, register.js, exec envs)
 - **Pull without installing**: `aigg pull <registry/name:tag>`
 - **Delete from registry**: `aigg delete <registry/name:tag>`
 - **Show dependencies**: `aigg show-deps <path> [--format text|pyproject|poetry|requirements|npm|yarn]`
@@ -90,6 +107,23 @@ When creating or updating a package, check if the `aigogo.json` has an `ai` fiel
 - **inputs/outputs**: Optional but helpful for agents to evaluate fit without reading source
 
 **Important limitation**: The `ai` field ships with the package but there is no discovery or search infrastructure. `aigg search` is a stub. An agent cannot query a registry for packages by capability. The `ai` field is only useful once a package is already locally available (in the store or cache). See [MACHINES.md](../../MACHINES.md#current-limitations) for details.
+
+## Scripts (Exec Entrypoints)
+
+When creating a package that should be executable via `aigg exec`, add a `scripts` field:
+
+```json
+{
+  "scripts": {
+    "my-agent": "run.py"
+  }
+}
+```
+
+- Keys are command names (typically matching the package name)
+- Values are file paths that must be in `files.include`
+- The script file should have `if __name__ == "__main__"` (Python) or be directly runnable by Node (JS)
+- `aigg build` validates that script files exist in the package
 
 ## Important Rules
 

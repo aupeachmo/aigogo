@@ -125,3 +125,4 @@ func validateManifest(m *manifest.Manifest) error {
 	// For now, just basic validation is done in manifest.Load
 	return nil
 }
+
