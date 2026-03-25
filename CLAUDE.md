@@ -59,6 +59,8 @@ This matches the CI lint job (`.github/workflows/test.yml` — `golangci/golangc
 - `build.go` - Local build with auto-versioning
 - `push.go` - Push to registry (requires `--from` flag for local builds)
 - `exec.go` - Execute agent scripts (npx-like workflow with dependency isolation)
+- `exec_unix.go` - Unix implementation of process replacement via syscall.Exec
+- `exec_windows.go` - Windows stub returning unsupported error
 - `clean.go` - Disk usage summary and cleanup of envs/cache/store
 
 ### Core Packages (`pkg/`)

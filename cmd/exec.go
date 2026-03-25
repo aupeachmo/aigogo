@@ -6,9 +6,9 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
-	"regexp"
 
 	"github.com/aupeachmo/aigogo/pkg/lockfile"
 	"github.com/aupeachmo/aigogo/pkg/manifest"
