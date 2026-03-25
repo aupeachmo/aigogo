@@ -63,6 +63,9 @@ func runUninstall() error {
 			var totalEnvSize int64
 			for _, pkg := range lock.Packages {
 				hash := pkg.GetIntegrityHash()
+				if hash == "" {
+					continue
+				}
 				dir, err := envPath(hash)
 				if err != nil {
 					continue

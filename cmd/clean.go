@@ -73,16 +73,15 @@ func showDiskUsage() error {
 	baseDir := filepath.Join(home, ".aigogo")
 
 	type dirInfo struct {
-		name    string
-		path    string
-		flag    string
-		desc    string
+		name string
+		path string
+		desc string
 	}
 
 	dirs := []dirInfo{
-		{"Exec environments", filepath.Join(baseDir, "envs"), "--envs", "aigg clean --envs"},
-		{"Build/pull cache", filepath.Join(baseDir, "cache"), "--cache", "aigg clean --cache"},
-		{"Package store", filepath.Join(baseDir, "store"), "--store", "aigg clean --store"},
+		{"Exec environments", filepath.Join(baseDir, "envs"), "aigg clean --envs"},
+		{"Build/pull cache", filepath.Join(baseDir, "cache"), "aigg clean --cache"},
+		{"Package store", filepath.Join(baseDir, "store"), "aigg clean --store"},
 	}
 
 	fmt.Println("aigogo disk usage:")
